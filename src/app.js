@@ -9,6 +9,7 @@ function readSaved(){try{const value=JSON.parse(localStorage.getItem(storageKey)
 function save(){try{if(ids.length)localStorage.setItem(storageKey,JSON.stringify(ids));else localStorage.removeItem(storageKey);}catch{/* Browsers may disable storage; the current comparison still works. */}}
 function syncComparison(){
   $$('.compare-count').forEach(el=>el.textContent=ids.length);
+  const headerCompare=$('.header-compare');if(headerCompare)headerCompare.setAttribute('aria-label',`Сравнить выбранные товары: ${ids.length} из 3`);
   $$('[data-compare]').forEach(button=>{const selected=ids.includes(button.dataset.compare);button.setAttribute('aria-pressed',String(selected));const product=products.find(p=>String(p.id)===button.dataset.compare);button.setAttribute('aria-label',`${selected?'Убрать из':'Добавить в'} сравнение: ${product?.name||'товар'}`);const label=button.querySelector('span');if(label)label.textContent=selected?'На полке':'Сравнить';});
   $('.compare-tray').hidden=!ids.length;
   $('.tray-summary').textContent=ids.length===1?'Добавьте ещё один товар':`${ids.length} товара из 3`;
@@ -38,7 +39,7 @@ function interactions(){
  const menu=$('.menu-toggle'),navigation=$('#mobile-menu');
  const closeMenu=()=>{menu.setAttribute('aria-expanded','false');menu.setAttribute('aria-label','Открыть меню');navigation.hidden=true;};
  menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')!=='true';menu.setAttribute('aria-expanded',String(open));menu.setAttribute('aria-label',open?'Закрыть меню':'Открыть меню');navigation.hidden=!open;});
- document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!navigation.hidden){closeMenu();menu.focus();}});window.addEventListener('resize',()=>{if(innerWidth>800)closeMenu();});
+ document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!navigation.hidden){closeMenu();menu.focus();}});window.addEventListener('resize',()=>{if(innerWidth>=1200)closeMenu();});
  document.addEventListener('click',event=>{
   const showcase=event.target.closest('[data-showcase-view]');if(showcase){const image=$('#showcase-image'),isCut=showcase.dataset.showcaseView==='cut';image.src=isCut?image.dataset.cut:image.dataset.pack;image.alt=isCut?'Слоистая яблочная пастила — фотография вида продукции':'Упаковка белёвской пастилы';image.classList.remove('loading-photo');void image.offsetWidth;image.classList.add('loading-photo');$$('[data-showcase-view]').forEach(button=>{const active=button===showcase;button.setAttribute('aria-pressed',String(active));button.classList.toggle('active',active);});}
   const gallery=event.target.closest('[data-detail-image]');if(gallery){const image=$('#detail-image');image.src=gallery.dataset.detailImage;image.alt=gallery.dataset.alt;$$('[data-detail-image]').forEach(button=>{const active=button===gallery;button.setAttribute('aria-pressed',String(active));button.classList.toggle('active',active);});}

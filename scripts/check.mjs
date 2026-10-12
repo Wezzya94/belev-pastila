@@ -210,7 +210,7 @@ for (const [name, originals] of [['products', products], ['stores', stores]]) {
     check(Array.isArray(published) && published.every(item => originals.some(original => original.id === item.id)), `docs/data/${name}.json: неизвестные записи`);
   } catch (error) { issues.push(`docs/data/${name}.json: отсутствует или не читается (${error.code || error.name})`); }
 }
-for (const relative of ['src/app.js', 'src/domain.mjs', 'src/theme.js', 'src/experience.js', 'scripts/build.mjs', 'scripts/serve.mjs']) {
+for (const relative of ['src/app.js', 'src/domain.mjs', 'src/header.js', 'src/experience.js', 'scripts/build.mjs', 'scripts/serve.mjs']) {
   const target = path.join(root, relative);
   if (!await regularFile(target, root, relative)) continue;
   const result = spawnSync(process.execPath, ['--check', target], { encoding: 'utf8', windowsHide: true });

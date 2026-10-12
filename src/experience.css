@@ -1,6 +1,10 @@
 /* All page content is visible by default. Motion begins only inside the module. */
 :root {
-  --pastila-ease: cubic-bezier(.22, .8, .25, 1);
+  --pastila-ease: cubic-bezier(.19, 1, .22, 1);
+  --pastila-native-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='38' viewBox='0 0 32 38'%3E%3Cpath d='M3 3v27l7-7 6 12 6-3-6-12 11-1Z' fill='%231f5439' stroke='white' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, default;
+  --pastila-native-active: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='38' viewBox='0 0 32 38'%3E%3Cpath d='M3 3v27l7-7 6 12 6-3-6-12 11-1Z' fill='%23572530' stroke='white' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, pointer;
+  --pastila-native-choice: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='46' height='38' viewBox='0 0 46 38'%3E%3Cpath d='M3 3v27l7-7 6 12 6-3-6-12 11-1Z' fill='%23572530' stroke='white' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpath d='m34 13 4-4 4 4m-8 10 4 4 4-4' fill='none' stroke='%23572530' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, pointer;
+  --pastila-native-text: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='36' viewBox='0 0 28 36'%3E%3Cpath d='M14 4v28M9 4h10M9 32h10' fill='none' stroke='white' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M14 4v28M9 4h10M9 32h10' fill='none' stroke='%23572530' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 14 18, text;
 }
 
 .pastila-loader {
@@ -10,7 +14,7 @@
   display: grid;
   place-items: center;
   padding: 24px;
-  background: var(--paper, #f8f7f1);
+  background: var(--paper, #fff);
   color: var(--ink, #382e29);
   pointer-events: none;
   transition: opacity 220ms ease, visibility 220ms;
@@ -85,17 +89,23 @@
   color: var(--green);
 }
 .pastila-cursor-particle, .pastila-cursor-dot { position: absolute; top: 0; left: 0; pointer-events: none; }
-.pastila-cursor-dot { width: 28px; height: 30px; }
-.pastila-cursor-dot svg, .pastila-cursor-particle svg { width: 100%; height: 100%; overflow: visible; fill: currentColor; stroke: var(--paper); stroke-width: 1.1; }
-.pastila-cursor-dot svg { filter: drop-shadow(0 1px 0 var(--paper)); transition: transform 160ms var(--pastila-ease); }
+.pastila-cursor-dot { width: 32px; height: 38px; }
+.pastila-cursor-dot svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 2px 2px #382e2928); }
+.pastila-cursor-arrow { fill: currentColor; stroke: white; stroke-width: 1.5; stroke-linejoin: round; transform-origin: 3px 3px; transition: transform 240ms var(--pastila-ease), color 240ms ease, opacity 140ms ease; }
+.pastila-cursor-arrow-detail { fill: none; stroke: white; stroke-width: .8; opacity: .45; }
+.pastila-cursor-dot .pastila-cursor-ibeam { width: 28px; height: 36px; transform: translate(-11px, -15px); fill: none; stroke: var(--wine); stroke-width: 2; stroke-linecap: round; opacity: 0; transition: opacity 140ms ease; }
+.pastila-cursor-text-outline { stroke: white; stroke-width: 5; }
+.pastila-cursor-dot .pastila-cursor-choice { left: 29px; top: 5px; width: 16px; height: 25px; fill: none; stroke: var(--wine); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; opacity: 0; transition: opacity 160ms ease; }
+.pastila-cursor-particle svg { width: 100%; height: 100%; overflow: visible; fill: currentColor; stroke: white; stroke-width: 1; }
 .pastila-cursor-leaf { fill: none; stroke: currentColor; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
-.pastila-cursor-particle { width: 18px; height: 20px; opacity: 0; }
+.pastila-cursor-particle { width: 16px; height: 18px; opacity: 0; }
 .pastila-cursor-particle svg { stroke-width: .7; }
 .pastila-cursor.is-visible { opacity: 1; }
-.pastila-cursor.is-interactive .pastila-cursor-dot svg { transform: rotate(-5deg) scale(1.1); }
-.pastila-cursor.is-pressed .pastila-cursor-dot svg { transform: scale(.9); }
-html[data-theme=dark] .pastila-cursor { color: var(--rose, var(--ink)); }
-html[data-theme=dark] .pastila-loader-layer { background: var(--rose, var(--ink)); }
+.pastila-cursor.is-interactive .pastila-cursor-arrow { color: var(--wine); transform: scale(1.17); }
+.pastila-cursor.is-text .pastila-cursor-arrow { opacity: 0; }
+.pastila-cursor.is-text .pastila-cursor-ibeam { opacity: 1; }
+.pastila-cursor.is-choice .pastila-cursor-dot { visibility: hidden; }
+.pastila-cursor.is-pressed .pastila-cursor-arrow { transform: scale(.94); }
 
 .pastila-has-ornament { position: relative; isolation: isolate; }
 .pastila-ornament {
@@ -122,23 +132,24 @@ html[data-theme=dark] .pastila-loader-layer { background: var(--rose, var(--ink)
 .pastila-ornament-address svg { transform: rotate(-12deg); }
 
 /* Quiet material feedback supports the stronger entrance sequences. */
-.product-image, .detail-main-image, .stm-grid img {
-  transition: border-color 200ms ease, box-shadow 240ms ease;
+.product-image, .detail-main-image, .stm-grid img, .feature-photo, .partner-photo {
+  transition: border-color 300ms ease, box-shadow 400ms ease;
 }
-.button { transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease, box-shadow 220ms ease, transform 180ms var(--pastila-ease); }
-.text-link .icon, .store-actions .icon { transition: transform 180ms var(--pastila-ease); }
-.filter-form input, .filter-form select, .quick-city select { transition: border-color 160ms ease, box-shadow 180ms ease; caret-color: var(--wine); }
+.product-image img, .feature-photo img, .partner-photo img { transition: transform 700ms var(--pastila-ease); }
+.button { transition: background-color 240ms ease, color 240ms ease, border-color 240ms ease, box-shadow 360ms ease, transform 320ms var(--pastila-ease); }
+.text-link .icon, .store-actions .icon { transition: transform 320ms var(--pastila-ease); }
+.filter-form input, .filter-form select, .quick-city select { transition: border-color 240ms ease, box-shadow 300ms ease; caret-color: var(--wine); }
 .filter-form input:focus, .filter-form select:focus, .quick-city select:focus { border-color: var(--green); box-shadow: 0 0 0 2px var(--surface-soft, var(--cream)); }
-.stm-group summary .icon { transition: transform 220ms var(--pastila-ease); }
+.stm-group summary .icon { transition: transform 360ms var(--pastila-ease); }
 main :is(h1, h2, h3, p, .product-kind, .store-city, .detail-tags span), .site-footer :is(h2, p, span), label, summary {
-  transition: color 180ms ease, transform 180ms var(--pastila-ease), text-decoration-color 180ms ease;
+  transition: color 360ms ease, text-decoration-color 400ms ease;
 }
 a:not(.button):not(.product-image):not(.brand-link):not(.footer-brand) {
-  transition: color 180ms ease, text-decoration-color 180ms ease, opacity 180ms ease;
+  transition: color 280ms ease, text-decoration-color 360ms ease;
   text-decoration-color: transparent;
 }
 .icon-button, .compare-toggle, .gallery-thumbs button, .photo-switch button, .filter-reset, summary, input[type="checkbox"], input[type="radio"] {
-  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease, transform 180ms var(--pastila-ease), box-shadow 200ms ease;
+  transition: color 260ms ease, background-color 280ms ease, border-color 280ms ease, transform 320ms var(--pastila-ease), box-shadow 360ms ease;
 }
 
 @media (pointer: fine) and (hover: hover) {
@@ -148,26 +159,28 @@ a:not(.button):not(.product-image):not(.brand-link):not(.footer-brand) {
   .gallery-thumbs button:hover { border-color: var(--green); box-shadow: var(--shadow-soft); transform: translateY(-1px); }
   a:not(.button):not(.product-image):not(.brand-link):not(.footer-brand):hover { text-decoration-line: underline; text-decoration-color: currentColor; text-underline-offset: .23em; }
   .icon-button:not(:disabled):hover { background: var(--surface-soft, var(--cream)); transform: translateY(-1px); }
-  .compare-toggle:not(:disabled):hover, .filter-reset:hover, summary:hover { color: var(--rose, var(--wine)); }
-  .photo-switch button:not(.active):hover { background: var(--surface-soft, var(--cream)); color: var(--rose, var(--wine)); }
+  .compare-toggle:not(:disabled):hover, .filter-reset:hover, summary:hover { color: var(--wine); }
+  .photo-switch button:not(.active):hover { background: var(--surface-soft, var(--cream)); color: var(--wine); }
   .filter-form select:hover, .filter-form input:hover, .quick-city select:hover { border-color: var(--green); }
-  main :is(h1, h2, h3, p, .product-kind, .store-city, .detail-tags span):hover, .site-footer :is(h2, p, span):hover, label:hover { color: var(--rose, var(--wine)); }
-  main :is(h2, h3, p):hover, .site-footer :is(p, span):hover { transform: translateX(1px); }
-  .hero :is(h1, p):hover, .partner-teaser :is(h2, p):hover, .partner-opening :is(h1, p):hover { color: var(--cream); }
-  .hero h1:hover, .partner-opening h1:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .12em; }
-  .feature-action:hover h3, .product-card:hover h3, .store-card:hover h2 { color: var(--rose, var(--wine)); }
+  main :is(p, .product-kind, .store-city, .detail-tags span):hover, .site-footer :is(p, span):hover, label:hover { color: var(--wine); }
+  main :is(h1, h2, h3):hover, .site-footer h2:hover { color: var(--green); }
+  .hero h1:hover, .partner-opening h1:hover { color: var(--green); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .12em; text-decoration-color: var(--wine); }
+  .feature-action:hover h3, .product-card:hover h3, .store-card:hover h2 { color: var(--wine); }
+  .feature-action:hover .feature-photo img, .partner-photo:hover img { transform: scale(1.025); }
   .feature-action:hover .text-link { text-decoration-color: currentColor; }
 }
 @media (pointer: fine) and (hover: hover) and (prefers-reduced-motion: no-preference) {
   .pastila-cursor { display: block; }
   html.pastila-cursor-on, html.pastila-cursor-on body, html.pastila-cursor-on body * { cursor: none !important; }
-  html.pastila-cursor-on :is(textarea, [contenteditable]:not([contenteditable="false"]), input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="range"]):not([type="color"])) { cursor: text !important; }
-  html.pastila-cursor-on:has(dialog[open]), html.pastila-cursor-on:has(dialog[open]) body, html.pastila-cursor-on:has(dialog[open]) body * { cursor: auto !important; }
-  html.pastila-cursor-on dialog[open], html.pastila-cursor-on dialog[open] * { cursor: auto !important; }
-  html.pastila-cursor-on dialog[open] :is(a, button, summary, [role="button"]) { cursor: pointer !important; }
-  html.pastila-cursor-on dialog[open] :is(textarea, [contenteditable]:not([contenteditable="false"]), input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="range"]):not([type="color"])) { cursor: text !important; }
+  /* Native select menus and the dialog top layer use the same authored shapes. */
+  select, html.pastila-cursor-on body select { cursor: var(--pastila-native-choice) !important; }
+  html.pastila-cursor-on:has(dialog[open]), html.pastila-cursor-on:has(dialog[open]) body, html.pastila-cursor-on:has(dialog[open]) body * { cursor: var(--pastila-native-arrow) !important; }
+  dialog[open], dialog[open] * { cursor: var(--pastila-native-arrow) !important; }
+  dialog[open] :is(a, button, summary, [role="button"]), html.pastila-cursor-on dialog[open] :is(a, button, summary, [role="button"]) { cursor: var(--pastila-native-active) !important; }
+  dialog[open] :is(h1, h2, h3, p, label, td, th, textarea, [contenteditable]:not([contenteditable="false"]), input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="range"]):not([type="color"])), html.pastila-cursor-on dialog[open] :is(h1, h2, h3, p, label, td, th, textarea, [contenteditable]:not([contenteditable="false"]), input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="range"]):not([type="color"])) { cursor: var(--pastila-native-text) !important; }
+  dialog[open] :is(a, button, summary, [role="button"]) *, html.pastila-cursor-on dialog[open] :is(a, button, summary, [role="button"]) * { cursor: var(--pastila-native-active) !important; }
   html.pastila-cursor-on:has(dialog[open]) .pastila-cursor { opacity: 0; visibility: hidden; }
-  dialog[open]::backdrop { cursor: auto !important; }
+  dialog[open]::backdrop { cursor: var(--pastila-native-arrow) !important; }
 }
 @media (max-width: 600px) {
   .pastila-ornament-orchard { width: 75px; opacity: .08; }
@@ -178,9 +191,10 @@ a:not(.button):not(.product-image):not(.brand-link):not(.footer-brand) {
 @media (prefers-reduced-motion: reduce) {
   .pastila-loader, .pastila-cursor { display: none !important; }
   html.pastila-cursor-on, html.pastila-cursor-on body, html.pastila-cursor-on body * { cursor: auto !important; }
+  :is(a, button, summary, select, [role="button"]) { cursor: pointer !important; }
   :is(textarea, [contenteditable]:not([contenteditable="false"]), input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="range"]):not([type="color"])) { cursor: text !important; }
-  .product-image, .detail-main-image, .stm-grid img, .button, .text-link .icon, .store-actions .icon, .filter-form input, .filter-form select, .quick-city select, .stm-group summary .icon { transition: none !important; }
+  .product-image, .product-image img, .detail-main-image, .stm-grid img, .feature-photo, .feature-photo img, .partner-photo, .partner-photo img, .button, .text-link .icon, .store-actions .icon, .filter-form input, .filter-form select, .quick-city select, .stm-group summary .icon { transition: none !important; }
   .text-link:hover .icon, .store-actions a:hover .icon { transform: none; }
   main :is(h1, h2, h3, p, .product-kind, .store-city, .detail-tags span), .site-footer :is(h2, p, span), label, summary, .icon-button, .compare-toggle, .gallery-thumbs button, .photo-switch button, .filter-reset, input[type="checkbox"], input[type="radio"] { transition: none !important; }
-  main :is(h2, h3, p):hover, .site-footer :is(p, span):hover, .button:hover, .icon-button:not(:disabled):hover, .gallery-thumbs button:hover { transform: none; }
+  main :is(h2, h3, p):hover, .site-footer :is(p, span):hover, .button:hover, .icon-button:not(:disabled):hover, .gallery-thumbs button:hover, .feature-action:hover .feature-photo img, .partner-photo:hover img { transform: none; }
 }

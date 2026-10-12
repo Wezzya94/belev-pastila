@@ -119,7 +119,11 @@ function setupCursor() {
   cursor.className = 'pastila-cursor';
   cursor.setAttribute('aria-hidden', 'true');
   const apple = '<svg viewBox="0 0 30 32"><path d="M15 8C8 2 2 8 4 16c2 7 5 13 9 13 3 0 4-2 6-1 6 2 10-7 10-13 0-8-8-11-14-7Z"/><path class="pastila-cursor-leaf" d="M15 8c0-4 2-7 5-8M15 5C10 5 8 3 8 1c5 0 8 1 8 4"/></svg>';
-  cursor.innerHTML = `${Array.from({length: 8}, () => `<span class="pastila-cursor-particle">${apple}</span>`).join('')}<span class="pastila-cursor-dot">${apple}</span>`;
+  const arrow = '<svg class="pastila-cursor-arrow" viewBox="0 0 32 38"><path d="M3 3v27l7-7 6 12 6-3-6-12 11-1Z"/><path class="pastila-cursor-arrow-detail" d="m7 11 12 9"/></svg>';
+  const text = '<svg class="pastila-cursor-ibeam" viewBox="0 0 28 36"><path class="pastila-cursor-text-outline" d="M14 4v28M9 4h10M9 32h10"/><path d="M14 4v28M9 4h10M9 32h10"/></svg>';
+  const choice = '<svg class="pastila-cursor-choice" viewBox="0 0 16 25"><path d="m4 8 4-4 4 4m-8 9 4 4 4-4"/></svg>';
+  // Fixed, recycled particles keep even a long trail independent of DOM growth.
+  cursor.innerHTML = `${Array.from({length: 24}, () => `<span class="pastila-cursor-particle">${apple}</span>`).join('')}<span class="pastila-cursor-dot">${arrow}${text}${choice}</span>`;
   document.body.append(cursor);
   const dot = cursor.querySelector('.pastila-cursor-dot');
   const particles = select('.pastila-cursor-particle', cursor).map(node => ({node, x: 0, y: 0, born: 0, active: false}));
@@ -132,7 +136,7 @@ function setupCursor() {
 
   const hide = () => {
     visible = false;
-    cursor.classList.remove('is-visible', 'is-pressed');
+    cursor.classList.remove('is-visible', 'is-pressed', 'is-interactive', 'is-text', 'is-choice');
     html.classList.remove('pastila-cursor-on');
     cancelAnimationFrame(frame);
     frame = 0;
@@ -147,6 +151,7 @@ function setupCursor() {
     window.removeEventListener('pointerup', unpress);
     window.removeEventListener('blur', hide);
     window.removeEventListener('keydown', keyboard);
+    document.removeEventListener('pointerover', changeTarget);
     document.removeEventListener('pointerleave', hide);
     cursor.remove();
   };
@@ -157,20 +162,32 @@ function setupCursor() {
       let active = false;
       for (const particle of particles) {
         if (!particle.active) continue;
-        const age = Math.min(1, Math.max(0, (time - particle.born) / 340));
-        particle.node.style.opacity = String(.25 * (1 - age) * (1 - age));
-        particle.node.style.transform = `translate(${particle.x - 9}px, ${particle.y - 10 + age * 5}px) scale(${1 - age * .35})`;
+        const age = Math.min(1, Math.max(0, (time - particle.born) / 1150));
+        particle.node.style.opacity = String(.7 * Math.pow(1 - age, 1.4));
+        particle.node.style.transform = `translate(${particle.x - 8}px, ${particle.y - 9 + age * 4}px) rotate(${particle.tilt || 0}deg) scale(${1 - age * .38})`;
         if (age === 1) particle.active = false;
         else active = true;
       }
       if (active) frame = requestAnimationFrame(tick);
     } catch { destroy(); }
   };
-  const textField = target => target?.closest('textarea, select, [contenteditable]:not([contenteditable="false"]), input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="range"]):not([type="color"])');
+  const textField = target => target?.closest('textarea, [contenteditable]:not([contenteditable="false"]), input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="range"]):not([type="color"])');
+  const updateTarget = target => {
+    const interactive = !!target?.closest('a, button, summary, select, [role="button"], input[type="checkbox"], input[type="radio"], input[type="range"], input[type="color"]');
+    const text = !!textField(target) || (!interactive && !!target?.closest('h1, h2, h3, p, label, .product-kind, .store-city, .detail-tags, .showcase-caption, .story-word, .article-copy, .product-facts, .plain-article'));
+    cursor.classList.toggle('is-interactive', interactive && !text);
+    cursor.classList.toggle('is-text', text);
+    cursor.classList.toggle('is-choice', !!target?.closest('select'));
+  };
+  const changeTarget = event => {
+    if (!visible || event.pointerType === 'touch') return;
+    if (document.querySelector('dialog[open]')) { hide(); return; }
+    updateTarget(event.target);
+  };
   const move = event => {
     if (dead || event.pointerType === 'touch') return;
     try {
-      if (!cursor.isConnected || document.visibilityState === 'hidden' || document.querySelector('dialog[open]') || textField(event.target)) { hide(); return; }
+      if (!cursor.isConnected || document.visibilityState === 'hidden' || document.querySelector('dialog[open]')) { hide(); return; }
       // Never suppress the native cursor if the accompanying stylesheet failed.
       if (getComputedStyle(cursor).position !== 'fixed' || !dot.getBoundingClientRect().width) { hide(); return; }
       x = event.clientX;
@@ -179,23 +196,22 @@ function setupCursor() {
       if (!visible) { trailX = x; trailY = y; }
       const dx = x - trailX, dy = y - trailY;
       const distance = Math.hypot(dx, dy);
-      if (distance > 180) particles.forEach(particle => { particle.active = false; particle.node.style.opacity = '0'; });
-      if (distance >= 14 && time - lastEmission >= 20) {
-        const length = Math.min(distance, 55);
-        const count = Math.min(3, Math.ceil(length / 20));
-        for (let step = 1; step <= count; step += 1) {
-          const particle = particles[poolIndex++ % particles.length];
-          particle.x = x - dx / distance * length * step / count;
-          particle.y = y - dy / distance * length * step / count;
-          particle.born = time - step * 12;
-          particle.active = true;
-        }
+      if (distance > 420) particles.forEach(particle => { particle.active = false; particle.node.style.opacity = '0'; });
+      if (distance >= 18 && time - lastEmission >= 48) {
+        const particle = particles[poolIndex++ % particles.length];
+        const behind = Math.min(distance, 22);
+        particle.x = x - dx / distance * behind;
+        particle.y = y - dy / distance * behind;
+        particle.born = time;
+        particle.tilt = (poolIndex % 3 - 1) * 9;
+        particle.active = true;
         trailX = x;
         trailY = y;
         lastEmission = time;
       }
-      dot.style.transform = `translate(${x - 14}px, ${y - 15}px)`;
-      cursor.classList.toggle('is-interactive', !!event.target.closest('a, button, summary, [role="button"], input[type="checkbox"], input[type="radio"]'));
+      // The arrow's tip stays at the true pointer coordinates, without lag.
+      dot.style.transform = `translate(${x - 3}px, ${y - 3}px)`;
+      updateTarget(event.target);
       visible = true;
       cursor.classList.add('is-visible');
       html.classList.add('pastila-cursor-on');
@@ -210,6 +226,7 @@ function setupCursor() {
   window.addEventListener('pointerup', unpress, {passive: true});
   window.addEventListener('blur', hide);
   window.addEventListener('keydown', keyboard);
+  document.addEventListener('pointerover', changeTarget, {passive: true});
   document.addEventListener('pointerleave', hide);
   stopCursor = destroy;
 }
@@ -225,7 +242,7 @@ function setupReveals() {
   let lastScroll = window.scrollY;
   let lastScrollTime = performance.now();
   const initialScroll = window.scrollY > 24;
-  const curve = 'cubic-bezier(.22, .8, .25, 1)';
+  const curve = 'cubic-bezier(.19, 1, .22, 1)';
   const visible = element => {
     if (element.closest('[hidden]')) return false;
     const closed = element.closest('details:not([open])');
@@ -242,17 +259,17 @@ function setupReveals() {
   const framesFor = (mode, short) => {
     if (short) return [{opacity: .8, transform: 'translateY(4px)'}, {opacity: 1, transform: 'translateY(0)'}];
     const styles = {
-      title: [{clipPath: 'inset(0 0 92% 0)', transform: 'translateY(10px)'}, {clipPath: 'inset(0 0 0% 0)', transform: 'translateY(0)'}],
-      line: [{clipPath: 'inset(0 100% 0 0)'}, {clipPath: 'inset(0 0% 0 0)'}],
-      layer: [{opacity: .72, transform: 'translateY(18px) scale(.96)'}, {opacity: 1, transform: 'translateY(0) scale(1)'}],
-      opening: [{clipPath: 'inset(7% 13% 7% 13%)', opacity: .7}, {clipPath: 'inset(0% 0% 0% 0%)', opacity: 1}],
-      stamp: [{opacity: .5, transform: 'rotate(-3deg) scale(.94)'}, {opacity: 1, transform: 'rotate(0deg) scale(1)'}],
-      left: [{opacity: .68, transform: 'translateX(-20px)'}, {opacity: 1, transform: 'translateX(0)'}],
-      right: [{opacity: .68, transform: 'translateX(20px)'}, {opacity: 1, transform: 'translateX(0)'}],
-      ribbon: [{clipPath: 'inset(0 70% 0 0)', opacity: .72}, {clipPath: 'inset(0 0% 0 0)', opacity: 1}],
-      fold: [{clipPath: 'inset(0 0 60% 0)', transform: 'translateY(-5px)'}, {clipPath: 'inset(0 0 0% 0)', transform: 'translateY(0)'}],
-      copy: [{opacity: .55}, {opacity: 1}],
-      card: [{opacity: .65, transform: 'translateY(16px)'}, {opacity: 1, transform: 'translateY(0)'}]
+      title: [{opacity: .58, transform: 'translateY(24px)'}, {opacity: 1, transform: 'translateY(0)'}],
+      line: [{opacity: .64, transform: 'translateX(-18px)'}, {opacity: 1, transform: 'translateX(0)'}],
+      layer: [{opacity: .75, transform: 'translateY(26px) scale(.97)'}, {opacity: 1, transform: 'translateY(0) scale(1)'}],
+      opening: [{clipPath: 'inset(5% 8% 5% 8%)', opacity: .75}, {clipPath: 'inset(0% 0% 0% 0%)', opacity: 1}],
+      stamp: [{opacity: .65, transform: 'rotate(-2deg) scale(.97)'}, {opacity: 1, transform: 'rotate(0deg) scale(1)'}],
+      left: [{opacity: .7, transform: 'translateX(-24px)'}, {opacity: 1, transform: 'translateX(0)'}],
+      right: [{opacity: .7, transform: 'translateX(24px)'}, {opacity: 1, transform: 'translateX(0)'}],
+      ribbon: [{opacity: .74, transform: 'translateX(-14px)'}, {opacity: 1, transform: 'translateX(0)'}],
+      fold: [{opacity: .72, transform: 'translateY(-10px)'}, {opacity: 1, transform: 'translateY(0)'}],
+      copy: [{opacity: .68}, {opacity: 1}],
+      card: [{opacity: .72, transform: 'translateY(22px)'}, {opacity: 1, transform: 'translateY(0)'}]
     };
     return styles[mode] || styles.copy;
   };
@@ -260,7 +277,9 @@ function setupReveals() {
     if (stopped || motionPreference.matches || !visible(element) || document.visibilityState === 'hidden') return;
     cancel(element);
     try {
-      const duration = short ? 220 : mode === 'stamp' || mode === 'opening' || mode === 'title' ? 700 : mode === 'card' ? 420 : 540;
+      const durations = {title: 1320, line: 1200, layer: 1400, opening: 1350, stamp: 1260, left: 1100, right: 1100, ribbon: 1200, fold: 1050, copy: 1000, card: 980};
+      // The authored entrances take their time; filtered results stay responsive.
+      const duration = short ? 280 : durations[mode] || 1000;
       const animation = element.animate(framesFor(mode, short), {duration, delay: short ? 0 : delay, easing: curve, fill: 'none'});
       running.set(element, animation);
       const clear = () => {
@@ -285,7 +304,7 @@ function setupReveals() {
       const group = element.closest('.product-grid, .store-grid, .stm-grid, .gallery-thumbs, .feature-actions');
       const index = group ? batches.get(group) || 0 : 0;
       if (group) batches.set(group, index + 1);
-      play(element, mode, Math.min(index * 55, 220), quick.has(element));
+      play(element, mode, Math.min(index * 85, 340), quick.has(element));
     }
   }, {threshold: .08, rootMargin: '0px 0px -14px 0px'});
   const register = (element, mode) => {
@@ -298,12 +317,12 @@ function setupReveals() {
   };
   const specs = [
     ['.hero-heading h1, .page-heading h1, .detail-copy h1, .manufactory-opening h1, .partner-opening h1', 'title'],
-    ['.hero-photo img', 'layer'],
+    ['.hero-photo img, .story-visual img', 'layer'],
     ['.hero-heading p, .page-heading p, .hero-bottom, .detail-copy > .product-kind, .manufactory-opening p, .partner-opening p', 'copy'],
     ['.collection-section .section-heading h2, .related-products .section-heading h2, .inside-copy h2, .story-copy h2, .product-facts h2, .stm-section .section-heading h2, .feature-intro-heading h2', 'line'],
     ['.category-links, .detail-tags, .partner-teaser h2, .partner-opening .button', 'ribbon'],
     ['.product-card', 'card'],
-    ['.inside-photo img, .detail-main-image, .manufactory-opening > img', 'opening'],
+    ['.inside-photo img, .detail-main-image, .manufactory-opening > img, .feature-photo img, .partner-photo img', 'opening'],
     ['.inside-copy p, .inside-copy .photo-switch, .inside-copy .text-link, .showcase-caption, .story-copy p, .story-copy .text-link, .product-facts p, .product-facts dl, .upcoming-note, .stm-section > p, .plain-article p', 'copy'],
     ['.story-word, .footer-brand img, .contact-primary h2', 'stamp'],
     ['.store-teaser > div, .article-title h2, .heritage-section .wrap > h2, .contact-primary > a, .contact-primary > p', 'left'],
