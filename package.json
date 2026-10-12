@@ -1,0 +1,14 @@
+{
+  "name": "belev-pastila",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Белёвская мануфактура: каталог, сравнение вкусов и поиск магазинов",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/serve.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "lint": "node scripts/check.mjs"
+  }
+}

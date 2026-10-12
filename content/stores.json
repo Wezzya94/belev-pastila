@@ -1,0 +1,189 @@
+[
+  {
+    "id": "belev-brand-1",
+    "name": "Фирменный магазин",
+    "city": "Белёв",
+    "address": "г. Белёв, улица Карла Маркса, 87",
+    "url": null,
+    "phone": null,
+    "sourceUrl": "https://pastila1881.com/partner",
+    "productIds": [],
+    "availabilityKnown": false
+  },
+  {
+    "id": "belev-brand-2",
+    "name": "Фирменный магазин",
+    "city": "Белёв",
+    "address": "г. Белёв, улица Советская, 21",
+    "url": null,
+    "phone": null,
+    "sourceUrl": "https://pastila1881.com/partner",
+    "productIds": [],
+    "availabilityKnown": false
+  },
+  {
+    "id": "geo-5-9",
+    "name": "Перекрёсток — ТЦ \"Атлас\", ЖК Дубки",
+    "city": "ВНИИСОК",
+    "address": "МО, Одинцовский р-н, п. ВНИИСОК",
+    "url": "https://www.perekrestok.ru/",
+    "phone": null,
+    "sourceUrl": "https://pastila1881.com/geo/5",
+    "productIds": [],
+    "availabilityKnown": false
+  },
+  {
+    "id": "moscow-gum",
+    "name": "ГУМ",
+    "city": "Москва",
+    "address": "Красная площадь, дом 3",
+    "url": null,
+    "phone": null,
+    "sourceUrl": "https://pastila1881.com/partner?page=3",
+    "productIds": [],
+    "availabilityKnown": false
+  },
+  {
+    "id": "geo-5-1",
+    "name": "Перекрёсток — Алмазный",
+    "city": "Москва",
+    "address": "г.Москва, Ленинградский пр, д. 80, стр.17",
+    "url": "https://www.perekrestok.ru/",
+    "phone": null,
+    "sourceUrl": "https://pastila1881.com/geo/5",
+    "productIds": [],
+    "availabilityKnown": false
+  },
+  {
+    "id": "geo-5-2",
+    "name": "Перекрёсток — Дубнинская - Петровский",
+    "city": "Москва",
+    "address": "г. Москва, ул. Дубнинская, 30",
+    "url": "https://www.perekrestok.ru/",
+    "phone": null,
+    "sourceUrl": "https://pastila1881.com/geo/5",
+    "productIds": [],
+    "availabilityKnown": false
+  },
+  {
+    "id": "geo-5-3",
+    "name": "Перекрёсток — Москва - Сити",
+    "city": "Москва",
+    "address": "г.Москва, Пресненская наб. д.2",
+    "url": "https://www.perekrestok.ru/",
+    "phone": null,
+    "sourceUrl": "https://pastila1881.com/geo/5",
+    "productIds": [],
+    "availabilityKnown": false
+  },
+  {
+    "id": "geo-5-5",
+    "name": "Перекрёсток — Новый Арбат",
+    "city": "Москва",
+    "address": "г.Москва, Новый арбат, д. 15 (Москвичка)",
+    "url": "https://www.perekrestok.ru/",
+    "phone": null,
+    "sourceUrl": "https://pastila1881.com/geo/5",
+    "productIds": [],
+    "availabilityKnown": false
+  },
+  {
+    "id": "geo-5-6",
+    "name": "Перекрёсток — РИО -Юго-Западная",
+    "city": "Москва",
+    "address": "г.Москва, пр-кт Вернандского 86а",
+    "url": "https://www.perekrestok.ru/",
+    "phone": null,
+    "sourceUrl": "https://pastila1881.com/geo/5",
+    "productIds": [],
+    "availabilityKnown": false
+  },
+  {
+    "id": "geo-5-7",
+    "name": "Перекрёсток — Славянка",
+    "city": "Москва",
+    "address": "Москва, Кутузовский проспект дом 57 вл.3",
+    "url": "https://www.perekrestok.ru/",
+    "phone": null,
+    "sourceUrl": "https://pastila1881.com/geo/5",
+    "productIds": [],
+    "availabilityKnown": false
+  },
+  {
+    "id": "geo-5-8",
+    "name": "Перекрёсток — Смоленский пассаж",
+    "city": "Москва",
+    "address": "г.Москва, Смоленская площадь, 3",
+    "url": "https://www.perekrestok.ru/",
+    "phone": null,
+    "sourceUrl": "https://pastila1881.com/geo/5",
+    "productIds": [],
+    "availabilityKnown": false
+  },
+  {
+    "id": "geo-5-10",
+    "name": "Перекрёсток — Фестиваль",
+    "city": "Москва",
+    "address": "г.Москва, Мичуринский пр-кт, ул. Олимпийская деревня, д.3 корп.1",
+    "url": "https://www.perekrestok.ru/",
+    "phone": null,
+    "sourceUrl": "https://pastila1881.com/geo/5",
+    "productIds": [],
+    "availabilityKnown": false
+  },
+  {
+    "id": "geo-5-11",
+    "name": "Перекрёсток — ФилиГрад",
+    "city": "Москва",
+    "address": "г. Москва , Береговой проезд д 5",
+    "url": "https://www.perekrestok.ru/",
+    "phone": null,
+    "sourceUrl": "https://pastila1881.com/geo/5",
+    "productIds": [],
+    "availabilityKnown": false
+  },
+  {
+    "id": "moscow-region-globus",
+    "name": "Гипер Глобус",
+    "city": "Московская область",
+    "address": "Новорижское шоссе, 22-й км, владение 1, строение 1",
+    "url": "https://www.globus.ru/",
+    "phone": null,
+    "sourceUrl": "https://pastila1881.com/partner?page=3",
+    "productIds": [],
+    "availabilityKnown": false
+  },
+  {
+    "id": "geo-5-4",
+    "name": "Перекрёсток — Мытищи Плаза",
+    "city": "Мытищи",
+    "address": "МО, г. Мытищи, Шараповский проезд, вл.2",
+    "url": "https://www.perekrestok.ru/",
+    "phone": null,
+    "sourceUrl": "https://pastila1881.com/geo/5",
+    "productIds": [],
+    "availabilityKnown": false
+  },
+  {
+    "id": "geo-11-1",
+    "name": "Перекрёсток — Галерея Астор",
+    "city": "Ростов-на-Дону",
+    "address": "г.Ростов-на-Дону ,пр. Будённовский,49",
+    "url": "https://www.perekrestok.ru/",
+    "phone": null,
+    "sourceUrl": "https://pastila1881.com/geo/11",
+    "productIds": [],
+    "availabilityKnown": false
+  },
+  {
+    "id": "geo-7-1",
+    "name": "Перекрёсток — Поляна-Молл",
+    "city": "Сочи",
+    "address": "Сочи, Адлерский р-н, северный склон хребта Аибга, ориентировочная высота +540, СТК Горная карусель",
+    "url": "https://www.perekrestok.ru/",
+    "phone": null,
+    "sourceUrl": "https://pastila1881.com/geo/7",
+    "productIds": [],
+    "availabilityKnown": false
+  }
+]

@@ -1,0 +1,6 @@
+dist/
+node_modules/
+.impeccable/live/
+.impeccable/mocks/
+*.log
+.playwright-cli/

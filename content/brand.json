@@ -1,0 +1,193 @@
+{
+  "brandName": "Белёвская пастильная мануфактура",
+  "officialName": "ООО «Белёвская кондитерская компания»",
+  "companyRole": "Официальный представитель бренда «Белёвская пастильная мануфактура»",
+  "telephone": "+7 (985) 770-87-87",
+  "email": "pastila1881@yandex.ru",
+  "address": "301531, Россия, Тульская область, г. Белёв, ул. Рабочая, д. 134",
+  "officeAddress": "123007, г. Москва, 2-й Хорошёвский проезд, д. 7",
+  "hours": "Понедельник–пятница, 9:00–19:00",
+  "sourceUrl": "https://pastila1881.com/contacts",
+  "checkedAt": "2026-10-12",
+  "publishedStory": [
+    {
+      "title": "Традиция Белёва",
+      "text": "Историю белёвской пастилы бренд связывает с 1881 годом. Эта дата относится к традиции и рецептуре, которой посвящён бренд.",
+      "sourceUrl": "https://pastila1881.com/"
+    },
+    {
+      "title": "Яблоки и ручная работа",
+      "text": "На официальном сайте мануфактура рассказывает о ручном приготовлении пастилы из антоновских яблок и работе по традиционной технологии.",
+      "sourceUrl": "https://pastila1881.com/about"
+    },
+    {
+      "title": "Рецепты на основе яблок",
+      "text": "Каталог объединяет пастилу, смокву, меренгу, зефир, мармелад и сухарики. Вкусы, добавки и состав отличаются у отдельных изделий.",
+      "sourceUrl": "https://pastila1881.com/catalog"
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "Белёвская пастила",
+      "sourceUrl": "https://pastila1881.com/catalog/1"
+    },
+    {
+      "id": "2",
+      "name": "Белёвская пастила без добавления сахара",
+      "sourceUrl": "https://pastila1881.com/catalog/2"
+    },
+    {
+      "id": "3",
+      "name": "Белёвская пастила с ягодами",
+      "sourceUrl": "https://pastila1881.com/catalog/3"
+    },
+    {
+      "id": "29",
+      "name": "Яблочная меренга",
+      "sourceUrl": "https://pastila1881.com/catalog/29"
+    },
+    {
+      "id": "4",
+      "name": "Белёвский мармелад",
+      "sourceUrl": "https://pastila1881.com/catalog/4"
+    },
+    {
+      "id": "5",
+      "name": "Белёвский зефир",
+      "sourceUrl": "https://pastila1881.com/catalog/5"
+    },
+    {
+      "id": "23",
+      "name": "Белёвские сухарики",
+      "sourceUrl": "https://pastila1881.com/catalog/23"
+    },
+    {
+      "id": "24",
+      "name": "Белёвская смоква",
+      "sourceUrl": "https://pastila1881.com/catalog/24"
+    },
+    {
+      "id": "10",
+      "name": "Продукция СТМ",
+      "sourceUrl": "https://pastila1881.com/catalog/10"
+    },
+    {
+      "id": "27",
+      "name": "Белёвские пастилки",
+      "sourceUrl": "https://pastila1881.com/catalog/27"
+    },
+    {
+      "id": "25",
+      "name": "Скоро в продаже!",
+      "sourceUrl": "https://pastila1881.com/catalog/25"
+    }
+  ],
+  "stmShowcase": [
+    {
+      "name": "Пастила — Азбука вкуса",
+      "sourceUrl": "https://pastila1881.com/catalog/14",
+      "images": [
+        {
+          "url": "https://pastila1881.com/files/project_5389/Produkciya_TS/004.png",
+          "kind": "unknown",
+          "alt": "Упаковка продукции СТМ — Пастила — Азбука вкуса"
+        },
+        {
+          "url": "https://pastila1881.com/files/project_5389/good/2.png",
+          "kind": "unknown",
+          "alt": "Упаковка продукции СТМ — Пастила — Азбука вкуса"
+        },
+        {
+          "url": "https://pastila1881.com/files/project_5389/Produkciya_TS/006.png",
+          "kind": "unknown",
+          "alt": "Упаковка продукции СТМ — Пастила — Азбука вкуса"
+        },
+        {
+          "url": "https://pastila1881.com/files/project_5389/Produkciya_TS/015.png",
+          "kind": "unknown",
+          "alt": "Упаковка продукции СТМ — Пастила — Азбука вкуса"
+        },
+        {
+          "url": "https://pastila1881.com/files/project_5389/Produkciya_TS/016.png",
+          "kind": "unknown",
+          "alt": "Упаковка продукции СТМ — Пастила — Азбука вкуса"
+        },
+        {
+          "url": "https://pastila1881.com/files/project_5389/Produkciya_TS/017.png",
+          "kind": "unknown",
+          "alt": "Упаковка продукции СТМ — Пастила — Азбука вкуса"
+        },
+        {
+          "url": "https://pastila1881.com/files/project_5389/Produkciya_TS/018-3.png",
+          "kind": "unknown",
+          "alt": "Упаковка продукции СТМ — Пастила — Азбука вкуса"
+        }
+      ]
+    },
+    {
+      "name": "Пастила — Перекрёсток",
+      "sourceUrl": "https://pastila1881.com/catalog/15",
+      "images": [
+        {
+          "url": "https://pastila1881.com/files/project_5389/Produkciya_TS/perekrestok/007-1.png",
+          "kind": "unknown",
+          "alt": "Упаковка продукции СТМ — Пастила — Перекрёсток"
+        },
+        {
+          "url": "https://pastila1881.com/files/project_5389/Produkciya_TS/perekrestok/008-1.png",
+          "kind": "unknown",
+          "alt": "Упаковка продукции СТМ — Пастила — Перекрёсток"
+        },
+        {
+          "url": "https://pastila1881.com/files/project_5389/Produkciya_TS/perekrestok/009-1.png",
+          "kind": "unknown",
+          "alt": "Упаковка продукции СТМ — Пастила — Перекрёсток"
+        }
+      ]
+    },
+    {
+      "name": "Пастила — ГУМ",
+      "sourceUrl": "https://pastila1881.com/catalog/16",
+      "images": [
+        {
+          "url": "https://pastila1881.com/files/project_5389/Produkciya_TS/GUM/010-11.png",
+          "kind": "unknown",
+          "alt": "Упаковка продукции СТМ — Пастила — ГУМ"
+        },
+        {
+          "url": "https://pastila1881.com/files/project_5389/Produkciya_TS/GUM/011-11.png",
+          "kind": "unknown",
+          "alt": "Упаковка продукции СТМ — Пастила — ГУМ"
+        },
+        {
+          "url": "https://pastila1881.com/files/project_5389/Produkciya_TS/GUM/012-11.png",
+          "kind": "unknown",
+          "alt": "Упаковка продукции СТМ — Пастила — ГУМ"
+        },
+        {
+          "url": "https://pastila1881.com/files/project_5389/Produkciya_TS/GUM/013-11.png",
+          "kind": "unknown",
+          "alt": "Упаковка продукции СТМ — Пастила — ГУМ"
+        },
+        {
+          "url": "https://pastila1881.com/files/project_5389/Produkciya_TS/GUM/014-11.png",
+          "kind": "unknown",
+          "alt": "Упаковка продукции СТМ — Пастила — ГУМ"
+        }
+      ]
+    }
+  ],
+  "europeShop": {
+    "name": "Интернет-магазин в Европе",
+    "url": "https://pastila.eu/",
+    "sourceUrl": "https://pastila1881.com/"
+  },
+  "socialLinks": [
+    {
+      "name": "ВКонтакте",
+      "url": "https://vk.com/belevskaya__pastila",
+      "sourceUrl": "https://pastila1881.com/"
+    }
+  ]
+}
