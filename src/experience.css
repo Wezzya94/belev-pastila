@@ -1,0 +1,186 @@
+/* All page content is visible by default. Motion begins only inside the module. */
+:root {
+  --pastila-ease: cubic-bezier(.22, .8, .25, 1);
+}
+
+.pastila-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: var(--paper, #f8f7f1);
+  color: var(--ink, #382e29);
+  pointer-events: none;
+  transition: opacity 220ms ease, visibility 220ms;
+}
+.pastila-loader.is-leaving { opacity: 0; visibility: hidden; }
+.pastila-loader-body { width: min(100%, 340px); text-align: center; }
+.pastila-loader-symbol { position: relative; width: 160px; height: 170px; margin: 0 auto 28px; }
+.pastila-loader-apple { width: 100%; height: 100%; color: var(--green); }
+.pastila-loader-apple path { stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.pastila-apple-outline, .pastila-apple-stem { stroke-dasharray: 1; stroke-dashoffset: 1; animation: pastila-draw 720ms var(--pastila-ease) forwards; }
+.pastila-apple-stem { animation-duration: 440ms; animation-delay: 180ms; }
+.pastila-apple-leaf { opacity: 0; transform-origin: 80px 28px; animation: pastila-leaf 500ms 270ms var(--pastila-ease) forwards; }
+.pastila-apple-details { opacity: 0; animation: pastila-soft-appear 360ms 850ms ease forwards; }
+.pastila-loader-apple .pastila-apple-seed { fill: currentColor; stroke: none; opacity: .75; }
+.pastila-loader-layer {
+  --layer-enter: -110px;
+  --layer-tilt: -4deg;
+  position: absolute;
+  left: 34px;
+  top: 81px;
+  width: 94px;
+  height: 12px;
+  border-radius: 40% 10% 30% 8%;
+  background: var(--wine);
+  opacity: 0;
+  animation: pastila-assemble 580ms 450ms var(--pastila-ease) forwards;
+}
+.pastila-loader-layer:nth-of-type(2) {
+  --layer-enter: 110px;
+  --layer-tilt: 3deg;
+  top: 100px;
+  left: 36px;
+  width: 90px;
+  height: 11px;
+  background: color-mix(in srgb, var(--wine), var(--paper) 20%);
+  animation-delay: 750ms;
+}
+.pastila-loader-layer:nth-of-type(3) {
+  --layer-enter: -90px;
+  --layer-tilt: -2deg;
+  top: 119px;
+  left: 45px;
+  width: 74px;
+  height: 10px;
+  background: color-mix(in srgb, var(--wine), var(--paper) 38%);
+  animation-delay: 1050ms;
+}
+.pastila-loader-grain { position: absolute; width: 6px; height: 2px; border-radius: 50%; background: var(--paper); opacity: 0; animation: pastila-soft-appear 200ms 1120ms ease forwards; }
+.pastila-loader-grain-one { top: 86px; left: 53px; transform: rotate(-12deg); }
+.pastila-loader-grain-two { top: 105px; left: 96px; transform: rotate(16deg); animation-delay: 1330ms; }
+.pastila-loader-grain-three { top: 123px; left: 69px; animation-delay: 1550ms; }
+.pastila-loader-title { font: 500 36px/1.05 var(--serif, Georgia, serif); letter-spacing: -.035em; margin: 0; opacity: 0; animation: pastila-brand-name 420ms 830ms var(--pastila-ease) forwards; }
+.pastila-loader-caption { margin: 20px 0 0; font: 400 12px/1.5 var(--sans, sans-serif); letter-spacing: .1em; color: var(--muted); opacity: 0; animation: pastila-soft-appear 350ms 1220ms ease forwards; }
+.pastila-loader-rule { display: block; width: 58px; height: 1px; margin: 22px auto 0; background: var(--green); transform: scaleX(0); animation: pastila-intro-rule 400ms 1370ms var(--pastila-ease) forwards; }
+@keyframes pastila-draw { to { stroke-dashoffset: 0; } }
+@keyframes pastila-leaf { from { opacity: 0; transform: rotate(-12deg); } to { opacity: 1; transform: rotate(0deg); } }
+@keyframes pastila-soft-appear { to { opacity: 1; } }
+@keyframes pastila-assemble { from { opacity: 0; transform: translateX(var(--layer-enter)) rotate(var(--layer-tilt)); } to { opacity: 1; transform: translateX(0) rotate(0deg); } }
+@keyframes pastila-brand-name { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pastila-intro-rule { to { transform: scaleX(1); } }
+
+.pastila-cursor {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  color: var(--green);
+}
+.pastila-cursor-particle, .pastila-cursor-dot { position: absolute; top: 0; left: 0; pointer-events: none; }
+.pastila-cursor-dot { width: 28px; height: 30px; }
+.pastila-cursor-dot svg, .pastila-cursor-particle svg { width: 100%; height: 100%; overflow: visible; fill: currentColor; stroke: var(--paper); stroke-width: 1.1; }
+.pastila-cursor-dot svg { filter: drop-shadow(0 1px 0 var(--paper)); transition: transform 160ms var(--pastila-ease); }
+.pastila-cursor-leaf { fill: none; stroke: currentColor; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+.pastila-cursor-particle { width: 18px; height: 20px; opacity: 0; }
+.pastila-cursor-particle svg { stroke-width: .7; }
+.pastila-cursor.is-visible { opacity: 1; }
+.pastila-cursor.is-interactive .pastila-cursor-dot svg { transform: rotate(-5deg) scale(1.1); }
+.pastila-cursor.is-pressed .pastila-cursor-dot svg { transform: scale(.9); }
+html[data-theme=dark] .pastila-cursor { color: var(--rose, var(--ink)); }
+html[data-theme=dark] .pastila-loader-layer { background: var(--rose, var(--ink)); }
+
+.pastila-has-ornament { position: relative; isolation: isolate; }
+.pastila-ornament {
+  position: absolute;
+  right: 0;
+  top: 7px;
+  z-index: -1;
+  width: min(26%, 280px);
+  color: var(--green);
+  opacity: .1;
+  overflow: hidden;
+  overflow: clip;
+  pointer-events: none;
+  user-select: none;
+}
+.pastila-ornament svg { display: block; width: 100%; height: auto; }
+.pastila-ornament path { stroke: currentColor; stroke-width: .7; stroke-linecap: round; }
+.pastila-ornament-orchard { top: 20px; right: 0; width: min(17%, 145px); }
+.pastila-ornament-orchard svg { transform: rotate(9deg); }
+.pastila-ornament-imprint { right: 1%; top: 16%; width: min(41%, 350px); color: var(--wine); opacity: .08; }
+.pastila-ornament-imprint svg { transform: rotate(-8deg); }
+.pastila-ornament-ribbon { top: auto; bottom: 8px; width: min(36%, 380px); color: inherit; opacity: .16; }
+.pastila-ornament-address { top: auto; bottom: 0; width: min(42%, 350px); opacity: .12; }
+.pastila-ornament-address svg { transform: rotate(-12deg); }
+
+/* Quiet material feedback supports the stronger entrance sequences. */
+.product-image, .detail-main-image, .stm-grid img {
+  transition: border-color 200ms ease, box-shadow 240ms ease;
+}
+.button { transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease, box-shadow 220ms ease, transform 180ms var(--pastila-ease); }
+.text-link .icon, .store-actions .icon { transition: transform 180ms var(--pastila-ease); }
+.filter-form input, .filter-form select, .quick-city select { transition: border-color 160ms ease, box-shadow 180ms ease; caret-color: var(--wine); }
+.filter-form input:focus, .filter-form select:focus, .quick-city select:focus { border-color: var(--green); box-shadow: 0 0 0 2px var(--surface-soft, var(--cream)); }
+.stm-group summary .icon { transition: transform 220ms var(--pastila-ease); }
+main :is(h1, h2, h3, p, .product-kind, .store-city, .detail-tags span), .site-footer :is(h2, p, span), label, summary {
+  transition: color 180ms ease, transform 180ms var(--pastila-ease), text-decoration-color 180ms ease;
+}
+a:not(.button):not(.product-image):not(.brand-link):not(.footer-brand) {
+  transition: color 180ms ease, text-decoration-color 180ms ease, opacity 180ms ease;
+  text-decoration-color: transparent;
+}
+.icon-button, .compare-toggle, .gallery-thumbs button, .photo-switch button, .filter-reset, summary, input[type="checkbox"], input[type="radio"] {
+  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease, transform 180ms var(--pastila-ease), box-shadow 200ms ease;
+}
+
+@media (pointer: fine) and (hover: hover) {
+  .product-image:hover { border-color: var(--green); box-shadow: var(--shadow-hover, 0 8px 25px #382e2910); }
+  .button:hover { box-shadow: var(--shadow-soft, 0 5px 16px #382e2912); transform: translateY(-1px); }
+  .text-link:hover .icon, .store-actions a:hover .icon { transform: translateX(3px); }
+  .gallery-thumbs button:hover { border-color: var(--green); box-shadow: var(--shadow-soft); transform: translateY(-1px); }
+  a:not(.button):not(.product-image):not(.brand-link):not(.footer-brand):hover { text-decoration-line: underline; text-decoration-color: currentColor; text-underline-offset: .23em; }
+  .icon-button:not(:disabled):hover { background: var(--surface-soft, var(--cream)); transform: translateY(-1px); }
+  .compare-toggle:not(:disabled):hover, .filter-reset:hover, summary:hover { color: var(--rose, var(--wine)); }
+  .photo-switch button:not(.active):hover { background: var(--surface-soft, var(--cream)); color: var(--rose, var(--wine)); }
+  .filter-form select:hover, .filter-form input:hover, .quick-city select:hover { border-color: var(--green); }
+  main :is(h1, h2, h3, p, .product-kind, .store-city, .detail-tags span):hover, .site-footer :is(h2, p, span):hover, label:hover { color: var(--rose, var(--wine)); }
+  main :is(h2, h3, p):hover, .site-footer :is(p, span):hover { transform: translateX(1px); }
+  .hero :is(h1, p):hover, .partner-teaser :is(h2, p):hover, .partner-opening :is(h1, p):hover { color: var(--cream); }
+  .hero h1:hover, .partner-opening h1:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .12em; }
+  .feature-action:hover h3, .product-card:hover h3, .store-card:hover h2 { color: var(--rose, var(--wine)); }
+  .feature-action:hover .text-link { text-decoration-color: currentColor; }
+}
+@media (pointer: fine) and (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .pastila-cursor { display: block; }
+  html.pastila-cursor-on, html.pastila-cursor-on body, html.pastila-cursor-on body * { cursor: none !important; }
+  html.pastila-cursor-on :is(textarea, [contenteditable]:not([contenteditable="false"]), input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="range"]):not([type="color"])) { cursor: text !important; }
+  html.pastila-cursor-on:has(dialog[open]), html.pastila-cursor-on:has(dialog[open]) body, html.pastila-cursor-on:has(dialog[open]) body * { cursor: auto !important; }
+  html.pastila-cursor-on dialog[open], html.pastila-cursor-on dialog[open] * { cursor: auto !important; }
+  html.pastila-cursor-on dialog[open] :is(a, button, summary, [role="button"]) { cursor: pointer !important; }
+  html.pastila-cursor-on dialog[open] :is(textarea, [contenteditable]:not([contenteditable="false"]), input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="range"]):not([type="color"])) { cursor: text !important; }
+  html.pastila-cursor-on:has(dialog[open]) .pastila-cursor { opacity: 0; visibility: hidden; }
+  dialog[open]::backdrop { cursor: auto !important; }
+}
+@media (max-width: 600px) {
+  .pastila-ornament-orchard { width: 75px; opacity: .08; }
+  .pastila-ornament-imprint { top: 16px; right: 0; width: 150px; }
+  .pastila-ornament-ribbon { width: 180px; opacity: .1; }
+  .pastila-ornament-address { width: 150px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pastila-loader, .pastila-cursor { display: none !important; }
+  html.pastila-cursor-on, html.pastila-cursor-on body, html.pastila-cursor-on body * { cursor: auto !important; }
+  :is(textarea, [contenteditable]:not([contenteditable="false"]), input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="range"]):not([type="color"])) { cursor: text !important; }
+  .product-image, .detail-main-image, .stm-grid img, .button, .text-link .icon, .store-actions .icon, .filter-form input, .filter-form select, .quick-city select, .stm-group summary .icon { transition: none !important; }
+  .text-link:hover .icon, .store-actions a:hover .icon { transform: none; }
+  main :is(h1, h2, h3, p, .product-kind, .store-city, .detail-tags span), .site-footer :is(h2, p, span), label, summary, .icon-button, .compare-toggle, .gallery-thumbs button, .photo-switch button, .filter-reset, input[type="checkbox"], input[type="radio"] { transition: none !important; }
+  main :is(h2, h3, p):hover, .site-footer :is(p, span):hover, .button:hover, .icon-button:not(:disabled):hover, .gallery-thumbs button:hover { transform: none; }
+}
