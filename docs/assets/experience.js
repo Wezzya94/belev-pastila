@@ -1,3 +1,4 @@
+import {confectionBody} from './illustrations.mjs';
 import {ornamentalSVG} from './ornaments.mjs';
 /* Optional motion layer. The page is complete and visible without this module. */
 const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -8,6 +9,7 @@ const select = (selector, scope = document) => [...scope.querySelectorAll(select
 let releaseLoader = () => {};
 let stopCursor = () => {};
 let stopReveals = () => {};
+let stopOrnaments = () => {};
 
 function nativeFallback() {
   html.classList.remove('pastila-cursor-on');
@@ -21,6 +23,7 @@ function releaseExperience() {
   nativeFallback();
   stopCursor();
   stopReveals();
+  stopOrnaments();
 }
 
 function listenToMedia(query, listener) {
@@ -28,22 +31,31 @@ function listenToMedia(query, listener) {
   else query.addListener?.(listener);
 }
 
+function shouldShowLoader() {
+  const navigation=performance.getEntriesByType('navigation')[0];
+  if(navigation?.type==='reload')return true;
+  if(navigation?.type==='back_forward')return false;
+  if(!document.referrer)return true;
+  try {
+    const previous=new URL(document.referrer),base=new URL(document.body.dataset.base||'./',location.href);
+    if(previous.origin!==location.origin||!previous.pathname.startsWith(base.pathname))return true;
+    const section=url=>{const key=url.pathname.slice(base.pathname.length).split('/')[0];return key==='products'?'catalog':key;};
+    return section(previous)!==section(new URL(location.href));
+  } catch {return true;}
+}
+
 function prepareLoader() {
-  if (motionPreference.matches || document.visibilityState === 'hidden') return Promise.resolve();
+  if (!shouldShowLoader() || motionPreference.matches || document.visibilityState === 'hidden') return Promise.resolve();
   const overlay = document.createElement('div');
   overlay.className = 'pastila-loader';
   overlay.setAttribute('role', 'status');
   overlay.setAttribute('aria-live', 'polite');
   overlay.setAttribute('aria-label', 'Белёвская мануфактура. Слой за слоем.');
   overlay.innerHTML = `<div class="pastila-loader-body">
-    <div class="engraved-loader-symbol" aria-hidden="true">
-      ${ornamentalSVG('laurel','loader-laurel')}
-      <svg class="loader-confection" viewBox="0 0 180 170" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-        <path pathLength="1" d="M39 114Q90 131 141 114L134 124Q90 140 46 124ZM64 132l-5 9h62l-5-9M47 88l74-5 13 12-74 8-13-7ZM47 99l74-5 13 12-74 8-13-7M59 103v11m75-19v11"/>
-        <path class="loader-top-layer" pathLength="1" d="m47 68 74-6 13 12-74 9-13-8ZM47 75l13 8 74-9v11l-74 9-13-8ZM60 83v11"/>
-        <path class="loader-fruit" pathLength="1" d="M90 43C68 27 58 46 66 59M90 43C110 28 125 43 118 59M90 43q-2-18 10-25M91 32Q73 33 75 20Q90 18 91 32"/>
-      </svg>
-      ${ornamentalSVG('rosette','loader-rosette')}
+    <div class="painted-loader-symbol" aria-hidden="true">
+      ${ornamentalSVG('corner','loader-corner loader-corner-left')}
+      ${ornamentalSVG('corner','loader-corner loader-corner-right')}
+      <svg class="loader-scene" viewBox="0 0 300 245" fill="none" aria-hidden="true">${confectionBody('loader-cake').replaceAll('<path ', '<path pathLength="1" ')}</svg>
     </div>
     <p class="pastila-loader-title" aria-hidden="true">Белёвская<br>мануфактура</p>
     <p class="pastila-loader-caption" aria-hidden="true">Слой за слоем</p>
@@ -83,8 +95,8 @@ function prepareLoader() {
     const onInteraction = () => release(true);
     // A timed brand introduction, independent of the network and browser cache.
     // Install the escape route before scheduling the two-second composition.
-    const failsafe = setTimeout(() => release(true), 2450);
-    const introTimer = setTimeout(() => release(), 2000);
+    const failsafe = setTimeout(() => release(true), 2700);
+    const introTimer = setTimeout(() => release(), 2300);
     releaseLoader = release;
     interactions.forEach(type => window.addEventListener(type, onInteraction, {capture: true, passive: true}));
     window.addEventListener('scroll', onInteraction, {passive: true, once: true});
@@ -209,7 +221,7 @@ function setupReveals() {
     ['.inside-copy,.inside-photo,.story-copy,.story-visual,.store-teaser>div,.quick-city,.partner-composition,.partner-teaser h2,.partner-teaser p,.partner-steps,.partner-teaser .button','side'],
     ['.taste-shortcuts,.category-links,.filter-form,.catalog-status,.store-results-heading,.detail-tags,.detail-actions,.detail-main-image,.product-facts,.article-title,.article-copy,.heritage-story,.heritage-section .wrap>h2,.contact-primary,.contact-address,.contact-band,.business-row,.stm-group summary,.plain-article h2,.plain-article p,.footer-main>* ,.footer-bottom','copy']
   ];
-  specs.forEach(([selector,mode])=>select(selector).forEach(element=>{if(states.has(element))return;states.set(element,{mode,inside:null});observer.observe(element);}));
+  specs.forEach(([selector,mode])=>select(selector).forEach(element=>{if(states.has(element)||element.matches('.section-ornaments'))return;states.set(element,{mode,inside:null});observer.observe(element);}));
   // Arm the opening pose before releasing the synchronous first-paint guard.
   for(const [element,state] of states){
     const bounds=element.getBoundingClientRect();
@@ -223,9 +235,37 @@ function setupReveals() {
   stopReveals=()=>{stopped=true;observer.disconnect();for(const element of running.keys())cancel(element);document.removeEventListener('focusin',onFocus);document.removeEventListener('input',onFilter,true);document.removeEventListener('reset',onFilter,true);document.removeEventListener('toggle',onToggle,true);};
 }
 
-function revealHeroLines(){
- const lines=document.querySelector('.hero-linework');if(!lines||motionPreference.matches)return;
- document.querySelectorAll('.hero-linework path,.hero-engraving path').forEach((path,index)=>path.animate([{strokeDashoffset:1,opacity:0},{strokeDashoffset:0,opacity:1}],{duration:3200,delay:Math.min(index*130,1000),easing:'cubic-bezier(.2,.65,.2,1)',fill:'backwards'}));
+function setupOrnaments(){
+ stopOrnaments();
+ if(motionPreference.matches)return;
+ const states=new Map();
+ const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
+   const state=states.get(entry.target);if(!state||state.inside===entry.isIntersecting)return;
+   play(entry.target,entry.isIntersecting);
+ }),{rootMargin:'-20px 0px -20px 0px',threshold:0});
+ const play=(element,enter)=>{
+   const state=states.get(element);if(!state)return;
+   const opacity=getComputedStyle(element).opacity;
+   state.animations.forEach(a=>a.cancel());state.animations=[];state.inside=enter;
+   element.dataset.ornamentState=enter?'drawing':'exit';
+   const envelope=element.animate([{opacity},{opacity:enter?state.opacity:0}],{duration:enter?1600:650,easing:'ease',fill:'both'});
+   state.animations.push(envelope);
+   state.paths.forEach((path,i)=>{
+     const fill=state.fills[i];
+     state.animations.push(path.animate(enter?[{strokeDashoffset:1,fillOpacity:0},{strokeDashoffset:0,fillOpacity:fill}]:[{strokeDashoffset:getComputedStyle(path).strokeDashoffset,fillOpacity:fill},{strokeDashoffset:1,fillOpacity:0}],{duration:enter?2100:700,delay:enter?Math.min(i*60,240):0,easing:'cubic-bezier(.22,.65,.25,1)',fill:'both'}));
+   });
+   envelope.finished.then(()=>{if(state.inside===enter&&enter)element.dataset.ornamentState='visible';},()=>{});
+ };
+ document.querySelectorAll('.scroll-ornament,.hero-linework,.hero-engraving,.unbox-contours,.partner-orbits').forEach(element=>{
+   const style=getComputedStyle(element),opacity=parseFloat(style.getPropertyValue('--ornament-opacity'))||parseFloat(style.opacity)||.5;
+   const paths=[...element.querySelectorAll('path,circle,ellipse')];
+   const fills=paths.map(path=>getComputedStyle(path).fillOpacity);
+   paths.forEach(path=>{path.setAttribute('pathLength','1');path.style.strokeDasharray='1';});
+   states.set(element,{inside:null,paths,fills,opacity,animations:[]});element.style.opacity='0';
+   const rect=element.getBoundingClientRect();play(element,rect.bottom>20&&rect.top<innerHeight-20);
+   observer.observe(element);
+ });
+ stopOrnaments=()=>{observer.disconnect();for(const [element,state]of states){state.animations.forEach(a=>a.cancel());element.style.removeProperty('opacity');state.paths.forEach(path=>path.style.removeProperty('stroke-dasharray'));delete element.dataset.ornamentState;}};
 }
 
 async function boot() {
@@ -237,7 +277,7 @@ async function boot() {
     const photo=document.querySelector('.hero-photo img');
     // Decode while the intro runs; cached and uncached visits use the same order.
     await Promise.all([prepareLoader(),photo?Promise.race([photo.decode().catch(()=>{}),new Promise(resolve=>setTimeout(resolve,4400))]):Promise.resolve()]);
-    if (document.visibilityState !== 'hidden'&&!window.heroFallback) { setupReveals(); revealHeroLines(); }
+    if (document.visibilityState !== 'hidden'&&!window.heroFallback) { setupOrnaments(); setupReveals(); }
   } catch { releaseExperience(); stopCursor(); }
 }
 
@@ -245,18 +285,19 @@ listenToMedia(finePointer, setupCursor);
 listenToMedia(motionPreference, () => {
   releaseExperience();
   setupCursor();
-  if (!motionPreference.matches && document.visibilityState !== 'hidden') setupReveals();
+  if (!motionPreference.matches && document.visibilityState !== 'hidden') { setupOrnaments(); setupReveals(); }
 });
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'hidden') releaseExperience();
   else if (html.dataset.pastilaExperience && !motionPreference.matches) {
     setupCursor();
+    setupOrnaments();
     setupReveals();
   }
 });
 window.addEventListener('pagehide', () => { releaseExperience(); stopCursor(); });
 window.addEventListener('pageshow', event => {
-  if (event.persisted) { setupCursor(); setupReveals(); }
+  if (event.persisted) { setupCursor(); setupOrnaments(); setupReveals(); }
 });
 window.addEventListener('error', () => { releaseExperience(); stopCursor(); });
 window.addEventListener('unhandledrejection', () => { releaseExperience(); stopCursor(); });

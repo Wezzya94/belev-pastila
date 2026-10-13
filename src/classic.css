@@ -94,3 +94,86 @@ main{background-image:url('./decoration/engraving-paper.svg')}
  .pastila-loader{background-image:url('./decoration/engraving-paper-mobile.svg')}
 }
 @media(prefers-reduced-motion:reduce){.engraved-loader-symbol path,.loader-rosette,.loader-ribbon{animation:none;stroke-dashoffset:0;opacity:1}}
+
+/* Real SVG scenery can trace again on every visit to a section. */
+main{background:#fff;overflow-x:clip}
+[data-ornament-section]{position:relative;isolation:isolate}
+.section-ornaments{position:absolute;top:0;bottom:0;left:50%;width:100vw;transform:translateX(-50%);overflow:hidden;pointer-events:none;z-index:-1}
+.scroll-ornament{pointer-events:none;--ornament-opacity:.26;opacity:var(--ornament-opacity);color:var(--gold)}
+.section-flourish{position:absolute;width:76px;height:145px}
+.flourish-1{left:5px;top:8%;color:var(--orchard-green)}
+.flourish-2{right:5px;bottom:12%;color:var(--orchard-red);transform:scaleX(-1)}
+.flourish-3{width:112px;height:38px;left:calc(50% - 56px);bottom:8px;--ornament-opacity:.32}
+.hero .heritage-scroll{--ornament-opacity:.52}
+.hero-engraving{--ornament-opacity:.46}
+.hero-heading:before,.inside-copy:before,.story-visual:before,.page-heading:after,.article-title:before,.manufactory-opening:after,.partner-opening>.wrap:after,.feature-intro-heading:after{display:none!important}
+.hero-heading-ornament{display:block;width:210px;height:42px;margin:0 auto 16px;--ornament-opacity:.8}
+.inline-ornament{display:block;width:110px;height:42px;margin-bottom:18px;--ornament-opacity:.7}
+.page-ornament{display:block;width:150px;height:38px;margin-bottom:16px;--ornament-opacity:.7}
+.site-footer{background:#f5f6f0}
+.footer-ornament{position:absolute;top:20px;left:calc(50% - 90px);width:180px;height:45px;--ornament-opacity:.75}
+.contact-primary{background-image:none}
+.site-header .mobile-menu{background-image:none;padding-bottom:24px}
+.partner-composition:after{display:none}
+.unbox-contours :is(path,ellipse),.partner-orbits :is(path,ellipse){animation:none!important}
+
+/* Painted surfaces retain their own pigments, rather than inheriting a line colour. */
+.feature-symbol svg{stroke-width:1}
+.feature-symbol .tool-engraved-frame{color:var(--gold);opacity:1}
+.feature-action:is([data-motion-state="enter"],[data-motion-state="visible"]) .feature-symbol path{animation:none}
+.feature-action:is([data-motion-state="enter"],[data-motion-state="visible"]) :is(.painted-miniature,.tool-map,.tool-scale){animation:painted-arrival 1.6s ease both}
+.feature-action:is([data-motion-state="enter"],[data-motion-state="visible"]) .tool-engraved-frame path{animation:painted-frame 1.8s ease both}
+.feature-symbol .tool-compare-left,.feature-symbol .tool-compare-right{fill-opacity:1}
+.feature-symbol .painted-miniature{transition:filter .8s ease}
+.feature-action:is(:hover,:focus-within) .painted-miniature{filter:drop-shadow(0 6px 4px #62482928)}
+@keyframes painted-arrival{from{opacity:0}to{opacity:1}}
+@keyframes painted-frame{from{stroke-dasharray:1;stroke-dashoffset:1;fill-opacity:0}to{stroke-dasharray:1;stroke-dashoffset:0;fill-opacity:1}}
+
+/* Lift both the actual cut-out photograph and its surrounding card. */
+.product-card{position:relative;border-radius:6px;transition:box-shadow .7s ease,background-color .7s ease}
+.product-card:is(:hover,:focus-within){background:#fff;box-shadow:0 22px 48px -16px #44311f38,0 5px 14px -7px #243d2929}
+.product-card:is(:hover,:focus-within) .product-image img{filter:drop-shadow(0 16px 12px #583d2c38);transform:translateY(-9px) scale(1.045)}
+.product-card .product-image img{transition:filter .75s ease,transform .75s var(--pastila-ease)}
+.product-card-copy{padding-inline:12px;padding-bottom:12px}
+.product-image:is(:hover,:focus-visible){box-shadow:none}
+.store-card,.quick-city{transition:box-shadow .7s ease,border-color .7s ease,background-color .7s ease}
+.store-card:is(:hover,:focus-within),.quick-city:is(:hover,:focus-within){box-shadow:0 20px 42px -16px #37523b40,0 5px 15px -8px #9b774a40;border-color:#b9aa84;background-color:#fffef9}
+.compare-item-image{transition:filter .6s ease}
+.compare-table a:hover .compare-item-image{filter:drop-shadow(0 10px 8px #583d2c33)}
+
+/* A legible painted still life: the plate settles first, followed by cake and fruit. */
+.pastila-loader{background:#fff}
+.pastila-loader-body{width:min(100%,400px)}
+.painted-loader-symbol{position:relative;width:340px;height:275px;margin:0 auto 18px;max-width:100%}
+.loader-scene{display:block;width:100%;height:100%;overflow:visible}
+.loader-corner{position:absolute;width:64px;height:64px;top:10px;color:#b39760;opacity:.65}
+.loader-corner-left{left:-6px}.loader-corner-right{right:-6px;transform:scaleX(-1)}
+.loader-corner path{stroke-dasharray:1;stroke-dashoffset:1;animation:pastila-draw 1.7s ease forwards}
+.loader-scene>g{transform-box:fill-box;transform-origin:center;opacity:0;animation:painted-settle 1.05s var(--pastila-ease) forwards}
+.loader-scene .paint-plate{animation-delay:0s}.loader-scene .paint-fruit{animation-delay:.32s}.loader-scene .paint-back{animation-delay:.2s}.loader-scene .paint-cake{animation-delay:.48s}.loader-scene .paint-berries{animation-delay:.7s}
+.loader-scene path{stroke-dasharray:1;stroke-dashoffset:1;animation:painted-frame 1.7s .1s ease forwards}
+.pastila-loader-title{font-size:36px;animation-delay:.35s}
+.pastila-loader-caption{margin-top:12px;animation-delay:.65s}
+.loader-ribbon{margin-top:8px;animation-delay:.8s}
+.pastila-loader-rule{margin-top:6px}
+.pastila-loading .pastila-cursor{opacity:0}
+@keyframes painted-settle{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:760px){
+ .section-flourish{width:62px;height:106px}
+ .flourish-1{left:-38px}.flourish-2{right:-38px}
+ .flourish-3{width:76px;height:29px;left:calc(50% - 38px);bottom:2px;--ornament-opacity:.22}
+ .hero .heritage-scroll{--ornament-opacity:.32}
+ .hero-engraving{--ornament-opacity:.36}
+ .hero-heading-ornament{width:160px;height:32px;margin-bottom:13px}
+ .inline-ornament{width:86px;height:34px;margin-bottom:12px}
+ .page-ornament{width:130px;height:33px}
+ .product-card-copy{padding-inline:4px}
+ .painted-loader-symbol{width:270px;height:220px;margin-bottom:14px}
+ .loader-corner{width:48px;height:48px;top:6px}.loader-corner-left{left:0}.loader-corner-right{right:0}
+ .pastila-loader-title{font-size:31px}
+}
+@media(prefers-reduced-motion:reduce){
+ .feature-action .feature-symbol *,.loader-scene>g,.loader-scene path,.loader-corner path{animation:none!important;opacity:1;stroke-dashoffset:0}
+ .product-card,.product-card .product-image img,.store-card,.quick-city{transition:none}
+ .product-card:is(:hover,:focus-within) .product-image img{transform:none}
+}
