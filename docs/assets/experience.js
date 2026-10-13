@@ -1,5 +1,4 @@
-import {confectionBody} from './illustrations.mjs';
-import {ornamentalSVG} from './ornaments.mjs';
+import {heritageSVG} from './heritage.mjs';
 /* Optional motion layer. The page is complete and visible without this module. */
 const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 const finePointer = window.matchMedia('(pointer: fine) and (hover: hover)');
@@ -52,14 +51,13 @@ function prepareLoader() {
   overlay.setAttribute('aria-live', 'polite');
   overlay.setAttribute('aria-label', 'Белёвская мануфактура. Слой за слоем.');
   overlay.innerHTML = `<div class="pastila-loader-body">
-    <div class="painted-loader-symbol" aria-hidden="true">
-      ${ornamentalSVG('corner','loader-corner loader-corner-left')}
-      ${ornamentalSVG('corner','loader-corner loader-corner-right')}
-      <svg class="loader-scene" viewBox="0 0 300 245" fill="none" aria-hidden="true">${confectionBody('loader-cake').replaceAll('<path ', '<path pathLength="1" ')}</svg>
+    <div class="engraved-loader-art" aria-hidden="true">
+      ${heritageSVG('buckle','loader-intaglio-frame')}
+      <img src="${document.body.dataset.base||'./'}assets/editorial/heritage/pastila — engraving — 2026-10-13 — review.webp" width="1100" height="825" alt="" decoding="async"/>
     </div>
     <p class="pastila-loader-title" aria-hidden="true">Белёвская<br>мануфактура</p>
     <p class="pastila-loader-caption" aria-hidden="true">Слой за слоем</p>
-    ${ornamentalSVG("ribbon","loader-ribbon")}<span class="pastila-loader-rule" aria-hidden="true"></span>
+    ${heritageSVG("flourish","loader-ribbon")}<span class="pastila-loader-rule" aria-hidden="true"></span>
   </div>`;
   document.body.append(overlay);
   html.classList.add('pastila-loading');
@@ -99,7 +97,7 @@ function prepareLoader() {
     const introTimer = setTimeout(() => release(), 2300);
     releaseLoader = release;
     interactions.forEach(type => window.addEventListener(type, onInteraction, {capture: true, passive: true}));
-    window.addEventListener('scroll', onInteraction, {passive: true, once: true});
+    // Browser scroll restoration must not dismiss an introductory print.
   });
 }
 
@@ -217,9 +215,9 @@ function setupReveals() {
   const specs=[
     ['.hero-photo','plate'],
     ['.hero-heading, .hero-bottom, .page-heading, .detail-copy h1, .manufactory-opening h1, .partner-opening h1, .section-heading, .feature-intro-heading','title'],
-    ['.product-card,.store-card,.feature-action,.stm-grid>img,.gallery-thumbs>button','image'],
+    ['.product-card,.store-card,.stm-grid>img,.gallery-thumbs>button','image'],
     ['.inside-copy,.inside-photo,.story-copy,.story-visual,.store-teaser>div,.quick-city,.partner-composition,.partner-teaser h2,.partner-teaser p,.partner-steps,.partner-teaser .button','side'],
-    ['.taste-shortcuts,.category-links,.filter-form,.catalog-status,.store-results-heading,.detail-tags,.detail-actions,.detail-main-image,.product-facts,.article-title,.article-copy,.heritage-story,.heritage-section .wrap>h2,.contact-primary,.contact-address,.contact-band,.business-row,.stm-group summary,.plain-article h2,.plain-article p,.footer-main>* ,.footer-bottom','copy']
+    ['.feature-action h3,.feature-action>p,.feature-action>.button,.taste-shortcuts,.category-links,.filter-form,.catalog-status,.store-results-heading,.detail-tags,.detail-actions,.detail-main-image,.product-facts,.article-title,.article-copy,.heritage-story,.heritage-section .wrap>h2,.contact-primary,.contact-address,.contact-band,.business-row,.stm-group summary,.plain-article h2,.plain-article p,.footer-main>* ,.footer-bottom','copy']
   ];
   specs.forEach(([selector,mode])=>select(selector).forEach(element=>{if(states.has(element)||element.matches('.section-ornaments'))return;states.set(element,{mode,inside:null});observer.observe(element);}));
   // Arm the opening pose before releasing the synchronous first-paint guard.

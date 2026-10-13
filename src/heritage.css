@@ -1,0 +1,119 @@
+/* Confectionery wrapper typography and ornamental furniture, without botanical scenery. */
+:root{--engraving-ink:#9b783e;--engraving-rule:#aa885145}
+main{background:#fff}
+[data-ornament-section]{isolation:isolate}
+.section-ornaments{z-index:-1;overflow:hidden}
+.heritage-edge{position:absolute;width:clamp(135px,14vw,210px);height:240px;--ornament-opacity:.34;color:var(--engraving-ink)}
+.edge-left{left:-48px;top:15%;transform:rotate(-9deg)}
+.edge-right{right:-48px;bottom:16%;transform:scaleX(-1) rotate(-9deg)}
+.heritage-watermark{position:absolute;width:clamp(210px,22vw,330px);height:270px;left:3%;bottom:8%;--ornament-opacity:.105;color:var(--wine);transform:rotate(-16deg)}
+.heritage-divider{position:absolute;width:190px;height:58px;left:calc(50% - 95px);bottom:0;--ornament-opacity:.6;color:var(--engraving-ink)}
+[data-ornament-section]:nth-of-type(even) .heritage-watermark{left:auto;right:3%;top:5%;bottom:auto;transform:rotate(13deg);color:var(--green)}
+[data-ornament-section]:nth-of-type(3n) .edge-left{top:4%;transform:rotate(9deg)}
+[data-ornament-section]:nth-of-type(3n) .edge-right{bottom:5%;transform:scaleX(-1) rotate(9deg)}
+.hero .heritage-scroll{width:clamp(155px,20vw,280px);aspect-ratio:240/210;top:165px;--ornament-opacity:.62;stroke-width:.85}
+.hero .heritage-left{left:2%}.hero .heritage-right{right:2%}
+.hero-crown{height:66px;top:0;width:180px;left:calc(50% - 90px)}
+.hero-fan-left,.hero-fan-right{top:510px;height:74px;width:112px}
+.hero-heading-ornament{height:52px;width:165px;margin-bottom:10px}
+.inline-ornament{width:115px;height:64px}
+.page-ornament{width:160px;height:60px;margin-bottom:13px}
+.page-heading{padding-bottom:66px}
+.section-heading,.feature-intro-heading,.store-results-heading{border-bottom:3px double var(--engraving-rule)}
+.feature-intro,.collection-section,.story-teaser,.store-teaser,.related-products,.article-section,.business-row,.contact-band,.catalog-section,.stores-section,.plain-article,.stm-section{padding-bottom:80px}
+.inside-section,.partner-teaser,.heritage-section,.contacts-grid,.product-detail{padding-bottom:70px}
+.collection-section .category-links{margin-bottom:36px}
+.feature-actions{gap:40px;padding-top:35px}
+/* The three illustrations stay completely still, including hover and repeat scrolling. */
+.feature-action{opacity:1;transform:none;filter:none}
+.feature-symbol{position:relative;display:flex;align-items:center;justify-content:center;height:260px;margin:0 0 27px;isolation:isolate}
+.feature-symbol img{display:block;width:88%;height:88%;object-fit:contain;mix-blend-mode:multiply;position:relative;z-index:1}
+.feature-symbol .miniature-frame{position:absolute;inset:0;width:100%;height:100%;color:#a2783d;opacity:.4;stroke-width:.6;z-index:0}
+.feature-symbol,.feature-symbol *,.feature-action:is(:hover,:focus-within) .feature-symbol,.feature-action:is(:hover,:focus-within) .feature-symbol *{animation:none!important;transition:none!important}
+.feature-symbol,.feature-symbol>img,.feature-symbol>svg{transform:none!important}
+.feature-symbol g[transform]{transform:translateX(240px) scaleX(-1)!important}
+.feature-action:before{display:none!important}
+.feature-action h3{font-size:clamp(27px,2.4vw,34px)}
+.feature-action p{font-size:15px}
+/* Fine double rules and engraved corners belong to the photographs, not the copy. */
+.product-image,.detail-main-image,.inside-photo,.partner-composition,.story-visual{position:relative;isolation:isolate}
+.product-image:after,.detail-main-image:after,.unbox-stage:after,.partner-composition:after{content:"";display:block;position:absolute;inset:8px;pointer-events:none;z-index:2;opacity:.42;background:url('./decoration/heritage-photo-frame.svg') center/100% 100% no-repeat}
+.product-card:nth-child(even) .product-image:after{transform:rotate(180deg);opacity:.3}
+.product-card:hover .product-image:after{opacity:.8;transition:opacity .6s}
+.detail-main-image:after{inset:3px;opacity:.65}
+.unbox-stage:after{inset:14px;opacity:.55}
+.partner-composition:after{inset:4px;width:auto;height:auto;opacity:.65}
+.product-image img{padding:0;width:96%;height:96%}
+.detail-main-image img{padding:16px}
+.gallery-thumbs button{border:3px double #aa885160;border-radius:0}
+.stm-grid>img{border:5px double #aa885150;padding:13px;background:#fff}
+.story-visual{padding:48px 35px;text-align:center;background:#fff}
+.story-visual:after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:url('./editorial/heritage/cartouche — ornament — 2026-10-13 — review.webp') center/100% 100% no-repeat;opacity:.62}
+.story-visual .inline-ornament{margin-inline:auto}
+.story-visual img{width:88%;margin-inline:auto}
+.story-word{font-size:clamp(40px,4.2vw,62px)}
+/* Button framing is inset so hit areas and text do not shrink. */
+.button{position:relative;isolation:isolate;border-radius:1px;outline:none!important;padding-inline:27px}
+.button:after{content:"";position:absolute;inset:5px;border:1px solid currentColor;opacity:.3;pointer-events:none;border-radius:0;clip-path:polygon(0 0,30% 0,30% 1px,70% 1px,70% 0,100% 0,100% 100%,70% 100%,70% calc(100% - 1px),30% calc(100% - 1px),30% 100%,0 100%)}
+.button:hover:after{opacity:.6}
+.button-outline{background:#fffefa}
+.quick-city{border:3px double #aa885144;border-radius:0}
+.store-card{padding:30px 24px 26px;border-radius:0;border-top:3px double #aa885166;background:#fffefb}
+.store-card:after{content:"";position:absolute;top:9px;right:9px;width:55px;height:55px;background:url('./decoration/heritage-corner.svg') center/contain no-repeat;transform:rotate(90deg);opacity:.48;pointer-events:none}
+.store-city{padding-right:30px}
+.store-actions{border-top:1px solid #aa88512b;padding-top:14px;margin-top:18px}
+.filter-form{padding:24px;border-block:3px double #aa885155;background:#fdfcf9}
+.taste-shortcuts a,.detail-tags span{border:1px solid #aa88514a;border-radius:1px;background:#fffefa}
+.product-facts,.heritage-story,.contact-address{border-block:3px double #aa88513b;padding-block:25px}
+.contact-primary{position:relative;padding:35px;border:3px double #aa885144;background:#fffefa}
+.contact-primary:after{content:"";position:absolute;right:12px;bottom:12px;width:65px;height:65px;background:url('./decoration/heritage-corner.svg') center/contain no-repeat;transform:rotate(180deg);opacity:.45;pointer-events:none}
+.footer-ornament{height:52px;width:185px;left:calc(50% - 92.5px)}
+.site-footer{background:#f5f4ec;border-top:4px double #aa88517a;padding-top:94px}
+.site-footer .footer-main{border-inline:1px solid #aa885130;padding-inline:20px}
+.footer-bottom{border-top:3px double #aa885145}
+/* A print revealing on paper. The artwork itself no longer assembles as toy blocks. */
+.engraved-loader-art{position:relative;width:360px;height:260px;max-width:100%;margin:0 auto 20px;isolation:isolate}
+.engraved-loader-art img{width:85%;height:85%;position:absolute;inset:7.5%;object-fit:contain;mix-blend-mode:multiply;animation:engraving-impression 1.8s ease-out both}
+.loader-intaglio-frame{position:absolute;inset:0;width:100%;height:100%;color:#a2783d;opacity:.7}
+.loader-intaglio-frame path{stroke-dasharray:1;stroke-dashoffset:1;animation:pastila-draw 1.9s ease forwards}
+.pastila-loader{grid-template-columns:minmax(0,1fr)}
+.pastila-loader-body{width:min(440px,100%);max-width:100%;min-width:0}
+.pastila-loader-title{font-weight:400;font-size:36px;letter-spacing:-.015em}
+.loader-ribbon{width:170px;height:65px;display:block;margin:8px auto 0}
+@keyframes engraving-impression{from{opacity:0;clip-path:inset(0 0 100% 0)}to{opacity:1;clip-path:inset(0)}}
+@media(min-width:1600px){.heritage-edge{width:240px;height:300px;--ornament-opacity:.42}.edge-left{left:1%}.edge-right{right:1%}.heritage-watermark{width:390px;height:330px}.hero .heritage-scroll{top:140px;width:320px}}
+@media(max-width:1000px){.feature-actions{gap:23px}.feature-symbol{height:210px}.feature-action h3{font-size:27px}.heritage-edge{width:150px;left:-85px}.edge-right{left:auto;right:-85px}.story-visual{padding:38px 25px}.button{padding-inline:20px}}
+@media(max-width:760px){
+ .heritage-edge{width:135px;height:175px;--ornament-opacity:.24}.edge-left{left:-93px;top:5%}.edge-right{left:auto;right:-93px;bottom:12%}
+ .heritage-watermark{width:170px;height:160px;left:-55px;--ornament-opacity:.055}
+ [data-ornament-section]:nth-of-type(even) .heritage-watermark{right:-55px}
+ .heritage-divider{width:120px;height:42px;left:calc(50% - 60px);bottom:4px;--ornament-opacity:.5}
+ .hero .heritage-scroll{top:135px;width:120px;--ornament-opacity:.44}.hero .heritage-left{left:-48px}.hero .heritage-right{right:-48px}
+ .hero-crown{width:130px;height:47px;left:calc(50% - 65px)}.hero-fan-left,.hero-fan-right{top:290px;width:62px;height:44px}
+ .hero-fan-left{left:2%}.hero-fan-right{right:2%}.hero-heading-ornament{height:42px}
+ .page-heading{padding-bottom:62px}
+ .feature-intro,.collection-section,.story-teaser,.store-teaser,.related-products,.article-section,.business-row,.contact-band,.catalog-section,.stores-section,.plain-article,.stm-section,.inside-section,.partner-teaser,.heritage-section,.contacts-grid,.product-detail{padding-bottom:65px}
+ .feature-actions{gap:0}
+ .feature-action,.feature-action:first-child,.feature-action:last-child{display:flex;flex-direction:column;align-items:stretch;padding:30px 0 32px;gap:0}
+ .feature-symbol{height:230px;width:100%;margin:0 0 22px;align-self:center}
+ .feature-symbol img{width:86%;height:90%}
+ .feature-symbol .miniature-frame{width:100%;height:100%}
+ .feature-action h3{font-size:31px;margin-bottom:10px}.feature-action p{font-size:15px;margin:0 0 20px}.feature-action>.button{width:fit-content;font-size:13px;padding-inline:22px}
+ .feature-action+.feature-action{border-top:3px double #aa88513d}
+ .product-image:after{inset:4px;opacity:.3}.product-image img{padding:0}
+ .detail-main-image img{padding:12px}.detail-main-image:after{inset:2px}
+ .store-card{padding:27px 20px 23px}.filter-form{padding:18px 14px}
+ .story-visual{padding:50px 28px}.story-word{font-size:42px}
+ .contact-primary{padding:25px 18px}.contact-email{font-size:17px;overflow-wrap:anywhere}
+ .site-footer .footer-main{padding-inline:14px}.site-footer{padding-top:82px}
+ .engraved-loader-art{width:290px;height:215px;margin-bottom:14px}.pastila-loader-title{font-size:31px}
+ .stm-grid>img{padding:8px;border-width:3px}
+}
+@media(prefers-reduced-motion:reduce){.engraved-loader-art img,.loader-intaglio-frame path{animation:none!important;opacity:1;clip-path:none;stroke-dashoffset:0}}
+
+@media(max-width:430px){
+ .contact-phone{font-size:clamp(22px,6.8vw,28px);white-space:nowrap}
+ #catalog-filters{grid-template-columns:1fr}
+ #catalog-filters>div{grid-column:1/-1}
+ #catalog-filters .filter-reset{justify-self:start}
+}
