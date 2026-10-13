@@ -101,7 +101,7 @@ function setupCursor() {
   if(typeof cursor.showPopover==='function'){cursor.setAttribute('popover','manual');cursor.showPopover();}
   const dot=cursor.querySelector('.pastila-cursor-dot'),ink=cursor.querySelector('.pastila-cursor-trail path');
   if(getComputedStyle(cursor).position!=='fixed'||!dot.getBoundingClientRect().width){cursor.remove();return;}
-  const lifetime=1250;let points=[],frame=0,visible=false,dead=false,pending=null,lastTarget=null,lastTime=0;
+  const lifetime=680;let points=[],frame=0,visible=false,dead=false,pending=null,lastTarget=null,lastTime=0;
   const hide=()=>{visible=false;cursor.classList.remove('is-visible','is-pressed');html.classList.remove('pastila-cursor-on');cancelAnimationFrame(frame);frame=0;points=[];pending=null;ink.setAttribute('d','');};
   const targetMode=target=>{
     if(target===lastTarget)return;lastTarget=target;
@@ -115,7 +115,18 @@ function setupCursor() {
       const {x,y}=pending,prev=points.at(-1);pending=null;
       if(prev&&Math.hypot(x-prev.x,y-prev.y)>650)points=[];
       if(!points.length||Math.hypot(x-points.at(-1).x,y-points.at(-1).y)>1){points.push({x,y,time});lastTime=time;}
-      if(points.length>90)points.splice(0,points.length-90);
+      if(points.length>48)points.splice(0,points.length-48);
+    }
+    // Keep the drawn tail short even during a quick sweep; clip its oldest segment.
+    let length=0;
+    for(let i=points.length-1;i>0;i--){
+      const a=points[i],b=points[i-1],segment=Math.hypot(a.x-b.x,a.y-b.y);
+      if(length+segment>170){
+        const ratio=(170-length)/segment;
+        points.splice(0,i,{x:a.x+(b.x-a.x)*ratio,y:a.y+(b.y-a.y)*ratio,time:a.time+(b.time-a.time)*ratio});
+        break;
+      }
+      length+=segment;
     }
     // Retain one point across the age boundary and interpolate it for a smooth tail.
     while(points.length>2&&time-points[1].time>lifetime)points.shift();
@@ -125,7 +136,7 @@ function setupCursor() {
       let d=`M${first.x.toFixed(1)} ${first.y.toFixed(1)}`;
       for(let i=1;i<points.length-1;i++){const a=points[i],b=points[i+1];d+=`Q${a.x.toFixed(1)} ${a.y.toFixed(1)} ${((a.x+b.x)/2).toFixed(1)} ${((a.y+b.y)/2).toFixed(1)}`;}
       const end=points.at(-1);d+=`L${end.x.toFixed(1)} ${end.y.toFixed(1)}`;ink.setAttribute('d',d);
-      ink.style.opacity=String(.55*Math.min(1,(lifetime-(time-lastTime))/500));frame=requestAnimationFrame(draw);
+      ink.style.opacity=String(.55*Math.min(1,(lifetime-(time-lastTime))/360));frame=requestAnimationFrame(draw);
     }else{ink.setAttribute('d','');if(time-lastTime>=lifetime)points=[];}
   };
   const move=event=>{

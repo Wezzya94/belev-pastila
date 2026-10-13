@@ -1,0 +1,35 @@
+/* Quiet confectionery engraving: white paper, connected scrolls, small gold rules. */
+main{background:#fff url('./decoration/classic-paper.svg') center top/100% auto repeat-y}
+.hero{background:#fff;padding-top:38px}
+.hero .heritage-scroll{inset:auto;top:75px;width:clamp(120px,18vw,250px);height:auto;aspect-ratio:260/410;stroke:currentColor;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round;color:var(--gold);opacity:.52;mask-image:none}
+.hero .heritage-left{left:3%}
+.hero .heritage-right{right:3%;transform:scaleX(-1)}
+.hero-heading:before{content:"";display:block;width:180px;height:36px;margin:0 auto 16px;background:url('./decoration/classic-fleuron.svg') center/contain no-repeat;opacity:.8}
+.hero h1{font-weight:500;letter-spacing:-.025em}
+.hero h1 span{font-style:italic;font-weight:400;font-size:.67em;margin-top:10px}
+.hero-photo{margin-bottom:6px}
+.button{border-radius:2px}
+.hero-bottom>.button,.partner-teaser .button,.partner-opening .button{outline:1px solid #ffffff66;outline-offset:-5px}
+.site-header{border-bottom:1px solid #a2783d30}
+.site-header .mobile-menu{background:#fcfcf9 url('./decoration/classic-fleuron.svg') center bottom 12px/140px auto no-repeat;padding-bottom:54px}
+.section-heading{border-bottom-color:#a2783d40}
+.inside-layout{border-block-color:#a2783d38}
+.partner-teaser{border-top-color:#a2783d38}
+.story-word{font-style:italic;font-weight:400}
+.story-visual:before{content:"";display:block;width:140px;height:30px;margin-bottom:22px;background:url('./decoration/classic-fleuron.svg') left center/contain no-repeat;opacity:.65}
+.unbox-contours,.partner-orbits{stroke:var(--gold);opacity:.22}
+.unbox-contours ellipse:nth-child(2),.partner-orbits ellipse:nth-child(2){opacity:.3}
+.site-footer{background:#f5f6f0 url('./decoration/classic-fleuron.svg') center top 25px/170px 34px no-repeat;border-top:3px double #a2783d66;padding-top:86px;box-shadow:none}
+.site-footer:before{display:none}
+.footer-bottom{border-top-color:#a2783d40}
+@media(min-width:1600px){.hero .heritage-scroll{top:110px;width:270px}.hero .heritage-left{left:7%}.hero .heritage-right{right:7%}}
+@media(max-width:760px){
+ main{background-image:url('./decoration/classic-paper-mobile.svg')}
+ .hero{padding-top:28px}
+ .hero .heritage-scroll{top:60px;width:105px;opacity:.32}
+ .hero .heritage-left{left:-40px}.hero .heritage-right{right:-40px}
+ .hero-heading:before{width:140px;height:28px;margin-bottom:13px}
+ .hero h1{font-weight:500}.hero h1 span{font-size:.72em}
+ .story-visual:before{width:120px;margin-bottom:16px}
+}
+@media(prefers-reduced-motion:reduce){.heritage-scroll path{animation:none!important}}
