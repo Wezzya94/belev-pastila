@@ -15,6 +15,8 @@ function nativeFallback() {
 
 function releaseExperience() {
   releaseLoader(true);
+  html.classList.remove('hero-pending');
+  clearTimeout(window.heroSafety);
   nativeFallback();
   stopCursor();
   stopReveals();
@@ -150,14 +152,14 @@ function setupReveals() {
   if(motionPreference.matches||!window.IntersectionObserver||!Element.prototype.animate)return;
   const states=new Map(),running=new Map();let stopped=false;
   const final={opacity:1,transform:'none',filter:'none'};
-  const hiddenFor=(mode,above=false)=>({opacity:0,transform:mode==='plate'?`translateY(${above?-35:64}px) scale(.88) rotate(-3deg)`:mode==='side'?`translateX(${above?18:-24}px)`:mode==='image'?`translateY(${above?-18:24}px) scale(.96)`:`translateY(${above?-18:24}px)`,filter:mode==='plate'?'blur(3px)':'none'});
+  const hiddenFor=(mode,above=false)=>({opacity:0,transform:mode==='plate'?`translateY(${above?-28:48}px) scale(.95)`:mode==='side'?`translateX(${above?18:-24}px)`:mode==='image'?`translateY(${above?-18:24}px) scale(.96)`:`translateY(${above?-18:24}px)`,filter:'none'});
   const cancel=element=>{running.get(element)?.cancel();running.delete(element);};
   const transition=(element,enter,above,initial=false)=>{
     const state=states.get(element);if(!state||stopped)return;
     const current=getComputedStyle(element);const from={opacity:current.opacity,transform:current.transform,filter:current.filter};
     cancel(element);state.inside=enter;element.dataset.motionState=enter?'enter':'exit';
     const start=initial&&enter?hiddenFor(state.mode,above):from;
-    const animation=element.animate([start,enter?final:hiddenFor(state.mode,above)],{duration:initial&&!enter?1:enter?(state.mode==='plate'?1900:1150):620,easing:'cubic-bezier(.2,.75,.2,1)',fill:'both'});
+    const animation=element.animate([start,enter?final:hiddenFor(state.mode,above)],{duration:initial&&!enter?1:enter?(state.mode==='plate'?2800:(!finePointer.matches?1450:1250)):800,easing:state.mode==='plate'?'cubic-bezier(.22,.5,.25,1)':'cubic-bezier(.2,.75,.2,1)',fill:'both'});
     running.set(element,animation);
     animation.finished.then(()=>{if(running.get(element)!==animation)return;if(enter){cancel(element);element.dataset.motionState='visible';}},()=>{});
   };
@@ -175,10 +177,16 @@ function setupReveals() {
     ['.hero-photo','plate'],
     ['.hero-heading, .hero-bottom, .page-heading, .detail-copy h1, .manufactory-opening h1, .partner-opening h1, .section-heading, .feature-intro-heading','title'],
     ['.product-card,.store-card,.feature-action,.stm-grid>img,.gallery-thumbs>button','image'],
-    ['.inside-copy,.inside-photo,.story-copy,.story-visual,.store-teaser>div,.quick-city,.partner-photo,.partner-teaser h2,.partner-teaser p,.partner-teaser .button','side'],
+    ['.inside-copy,.inside-photo,.story-copy,.story-visual,.store-teaser>div,.quick-city,.partner-composition,.partner-teaser h2,.partner-teaser p,.partner-steps,.partner-teaser .button','side'],
     ['.taste-shortcuts,.category-links,.filter-form,.catalog-status,.store-results-heading,.detail-tags,.detail-actions,.detail-main-image,.product-facts,.article-title,.article-copy,.heritage-story,.heritage-section .wrap>h2,.contact-primary,.contact-address,.contact-band,.business-row,.stm-group summary,.plain-article h2,.plain-article p,.footer-main>* ,.footer-bottom','copy']
   ];
   specs.forEach(([selector,mode])=>select(selector).forEach(element=>{if(states.has(element))return;states.set(element,{mode,inside:null});observer.observe(element);}));
+  // Arm the opening pose before releasing the synchronous first-paint guard.
+  for(const [element,state] of states){
+    const bounds=element.getBoundingClientRect();
+    transition(element,bounds.bottom>48&&bounds.top<innerHeight-28,bounds.bottom<innerHeight/2,true);
+  }
+  html.classList.remove('hero-pending');clearTimeout(window.heroSafety);
   const onFocus=event=>{for(const [element,state] of states){if(element.contains(event.target)){cancel(element);state.inside=true;element.dataset.motionState='visible';}}};
   const onFilter=event=>{if(!event.target.closest?.('#catalog-filters,#store-filters'))return;for(const [element,state]of states){if(element.matches('.product-card,.store-card')){cancel(element);state.inside=null;observer.unobserve(element);observer.observe(element);}}};
   const onToggle=event=>{if(!event.target.matches?.('.stm-group'))return;event.target.querySelectorAll('.stm-grid>img').forEach(element=>{cancel(element);states.get(element).inside=null;observer.unobserve(element);observer.observe(element);});};
@@ -188,7 +196,7 @@ function setupReveals() {
 
 function revealHeroLines(){
  const lines=document.querySelector('.hero-linework');if(!lines||motionPreference.matches)return;
- lines.querySelectorAll('path').forEach((path,index)=>path.animate([{strokeDashoffset:1,opacity:0},{strokeDashoffset:0,opacity:1}],{duration:2400,delay:index*110,easing:'cubic-bezier(.2,.65,.2,1)',fill:'backwards'}));
+ document.querySelectorAll('.hero-linework path,.hero-botanical path').forEach((path,index)=>path.animate([{strokeDashoffset:1,opacity:0},{strokeDashoffset:0,opacity:1}],{duration:3200,delay:Math.min(index*130,1000),easing:'cubic-bezier(.2,.65,.2,1)',fill:'backwards'}));
 }
 
 async function boot() {
@@ -196,8 +204,11 @@ async function boot() {
   html.dataset.pastilaExperience = 'ready';
   try {
     setupCursor();
-    await prepareLoader();
-    if (document.visibilityState !== 'hidden') { setupReveals(); revealHeroLines(); }
+    if(window.heroFallback)return;
+    const photo=document.querySelector('.hero-photo img');
+    // Decode while the intro runs; cached and uncached visits use the same order.
+    await Promise.all([prepareLoader(),photo?Promise.race([photo.decode().catch(()=>{}),new Promise(resolve=>setTimeout(resolve,4400))]):Promise.resolve()]);
+    if (document.visibilityState !== 'hidden'&&!window.heroFallback) { setupReveals(); revealHeroLines(); }
   } catch { releaseExperience(); stopCursor(); }
 }
 

@@ -1,0 +1,121 @@
+/* A light orchard: detailed linework and deliberately paced, reversible motion. */
+.hero-botanical{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;stroke-width:1.35;opacity:.43;z-index:0;mask-image:linear-gradient(#000 86%,transparent)}
+.hero-botanical path{stroke-dasharray:1;stroke-dashoffset:0}
+.hero-pollen{opacity:.48}
+.hero-photo{transform-origin:50% 50%}
+.hero-photo img{transform:none!important}
+.feature-symbol{height:192px;margin-bottom:25px}
+.feature-symbol svg{width:210px;height:192px;stroke-width:1.45}
+.tool-orbit{opacity:.22;stroke:var(--orchard-green)}
+.tool-orbit,.tool-compare-left,.tool-compare-right,.tool-accent,.tool-map{transform-origin:center;transform-box:fill-box;transition:transform 1.25s var(--pastila-ease),opacity 1s ease,stroke 1s ease}
+.tool-texture,.tool-accent{stroke:var(--wine)}
+.tool-route{stroke:var(--orchard-green);stroke-dasharray:4 5}
+.feature-symbol-layers .tool-top{fill:#fff9ef;fill-opacity:.75}
+.feature-symbol-layers .tool-middle{fill:#f3ede5;fill-opacity:.5}
+.feature-symbol-layers .tool-bottom{fill:#eef3e9;fill-opacity:.6}
+.feature-action:is(:hover,:focus-within) .tool-top{transform:translateY(-17px)}
+.feature-action:is(:hover,:focus-within) .tool-bottom{transform:translateY(12px)}
+.feature-action:is(:hover,:focus-within) .tool-orbit{transform:scale(1.08);opacity:.55}
+.feature-action:is(:hover,:focus-within) .tool-compare-left{transform:translate(-5px,-6px)}
+.feature-action:is(:hover,:focus-within) .tool-compare-right{transform:translate(5px,5px)}
+.feature-action:is(:hover,:focus-within) .tool-pin{transform:translateY(-14px)}
+.feature-action:is(:hover,:focus-within) .tool-accent{transform:scale(1.18);stroke:var(--orchard-green)}
+.feature-action:before{background:radial-gradient(ellipse at 25% 35%,#6e985547,transparent 62%),radial-gradient(ellipse at 70% 60%,#8e2c3830,transparent 64%)!important}
+.product-image{background:transparent;box-shadow:none;overflow:hidden}
+.product-image img{position:relative;z-index:1;mix-blend-mode:normal;background:transparent;filter:drop-shadow(0 10px 10px #472b1c10)}
+.product-image:before{z-index:0;inset:0;opacity:.18;background:radial-gradient(ellipse at 28% 58%,#6e985569,transparent 60%),radial-gradient(ellipse at 74% 38%,#8e2c384c,transparent 62%);filter:blur(15px)}
+.product-card:is(:hover,:focus-within) .product-image:before{opacity:1;transform:translateY(-5px) scale(1.09)}
+.product-card:is(:hover,:focus-within) .product-image img{transform:translateY(-7px) scale(1.04)}
+.image-open{z-index:2}
+/* The real sleeve departs, the cut settles into place, annotations trace last. */
+.unbox-stage{height:480px;background:radial-gradient(ellipse at 35% 55%,#f1f5ed80,transparent 60%),radial-gradient(ellipse at 70% 40%,#f8eeec90,transparent 65%);box-shadow:none;overflow:hidden;border-radius:0}
+.unbox-contours{position:absolute;inset:0;width:100%;height:100%;stroke:var(--orchard-green);stroke-width:.85;opacity:.34;pointer-events:none;transform:scale(calc(1 + var(--progress)*.04));transition:opacity 1s}
+.unbox-contours ellipse:nth-child(2){stroke:var(--wine);opacity:.45}
+.inside-photo .unbox-stage img{padding:28px 40px;object-fit:contain}
+.unbox-stage .unbox-pack{background:transparent;clip-path:none;opacity:calc(1 - var(--progress));transform:translateX(calc(var(--progress)*-24%)) scale(calc(1 - var(--progress)*.1));filter:drop-shadow(0 16px 14px #47332210)}
+.unbox-stage .unbox-cut{opacity:clamp(0,calc((var(--progress) - .1)*1.15),1);transform:translateY(calc((1 - var(--progress))*28px)) scale(calc(.86 + var(--progress)*.14));filter:drop-shadow(0 12px 12px #47332212)}
+.unbox-notes{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:clamp(0,calc((var(--progress) - .55)*2.3),1);transform:translateY(calc((1 - var(--progress))*18px));color:var(--green);font-size:12px}
+.unbox-note{position:absolute;display:flex;flex-direction:column}
+.unbox-note svg{width:100px;height:48px;stroke:var(--orchard-green);stroke-width:1;fill:none}
+.unbox-note svg circle{fill:var(--wine);stroke:none}
+.unbox-note svg path{stroke-dasharray:1;stroke-dashoffset:clamp(0,calc((1 - var(--progress))*2.5),1)}
+.note-texture{top:16px;left:6%}
+.note-layers{bottom:20px;right:6%;align-items:flex-end}
+.unbox-divider{opacity:calc(.85 - var(--progress)*.4);background:linear-gradient(transparent,#6e985555,transparent)}
+.unbox-divider>span{width:48px;height:48px;border:1px solid #d5dfcf;box-shadow:0 6px 18px #1f54391a}
+.unbox-stage:is(:hover,:focus-within) .unbox-divider>span{box-shadow:0 6px 24px #1f543931;background:#f5f8f1}
+.unbox-instruction{font-size:12px}
+/* Partnership is a short path from the assortment to a conversation. */
+.partner-teaser .wrap{grid-template-rows:auto auto auto auto;gap:19px 56px}
+.partner-composition{grid-column:1;grid-row:1/span 4;position:relative;isolation:isolate;width:100%;height:400px}
+.partner-composition:before{content:"";position:absolute;inset:15% 8%;z-index:-1;background:radial-gradient(ellipse at 40% 60%,#6e985540,transparent 65%),radial-gradient(ellipse at 70% 35%,#8e2c3830,transparent 65%);filter:blur(20px);opacity:.32;transform:scale(.9);transition:opacity 1.2s,transform 1.8s var(--pastila-ease)}
+.partner-composition .partner-photo{position:absolute;inset:0;width:100%;height:100%;padding:38px 32px;object-fit:contain;transition:transform 1.6s var(--pastila-ease);filter:drop-shadow(0 15px 15px #43251b12)}
+.partner-orbits{position:absolute;inset:0;width:100%;height:100%;stroke:var(--orchard-green);stroke-width:1;opacity:.4;pointer-events:none}
+.partner-orbits ellipse:nth-child(2){stroke:var(--wine);opacity:.65}
+.partner-label{position:absolute;z-index:2;color:var(--green);font-size:12px;background:#ffffffeb;padding:7px 10px;transition:transform 1.3s var(--pastila-ease),color .7s}
+.label-shop{top:9%;left:7%}.label-brand{bottom:8%;right:5%}
+.partner-composition:hover:before{opacity:1;transform:scale(1.12)}
+.partner-composition:hover .partner-photo{transform:translateY(-12px) scale(1.035)}
+.partner-composition:hover .label-shop{transform:translate(-6px,-5px);color:var(--wine)}
+.partner-composition:hover .label-brand{transform:translate(6px,5px);color:var(--wine)}
+.partner-steps{grid-column:2;display:grid;gap:0;margin:0 0 12px}
+.partner-steps a{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:44px;padding:8px 0;border-bottom:1px solid #dce4d5;color:var(--green);font-size:14px;transition:color .5s,transform .6s}
+.partner-steps .icon{width:18px;height:18px;transition:transform .7s var(--pastila-ease)}
+.partner-steps a:is(:hover,:focus-visible){color:var(--wine);transform:translateX(4px)}
+.partner-steps a:is(:hover,:focus-visible) .icon{transform:translateX(5px)}
+/* The menu overlays the document; opening it never shifts the photographed hero. */
+.burger-lines{position:relative;width:22px;height:20px;display:block}
+.burger-lines span{position:absolute;left:0;width:22px;height:1.5px;background:currentColor;top:5px;transition:transform .65s var(--pastila-ease),top .65s var(--pastila-ease)}
+.burger-lines span+span{top:14px}
+[aria-expanded="true"] .burger-lines span{top:10px;transform:rotate(45deg)}
+[aria-expanded="true"] .burger-lines span+span{transform:rotate(-45deg)}
+.site-header .mobile-menu{position:absolute;top:100%;left:0;right:0;box-shadow:0 18px 24px -22px #1f54394d;transform-origin:50% 0;background:#fafcf8 url('./decoration/orchard-landscape-mobile.svg') center/100% auto}
+@keyframes atelier-draw{from{stroke-dasharray:1;stroke-dashoffset:1;opacity:.1}to{stroke-dasharray:1;stroke-dashoffset:0;opacity:1}}
+@keyframes tool-unfold{from{transform:translateY(12px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes touch-layers{0%{transform:translateY(14px)}55%{transform:translateY(-15px)}100%{transform:translateY(0)}}
+@keyframes touch-pin{0%{transform:translateY(16px)}55%{transform:translateY(-14px)}100%{transform:translateY(0)}}
+@keyframes touch-wash{0%{opacity:.1;transform:scale(.75)}55%{opacity:.9;transform:scale(1.06)}100%{opacity:.3;transform:scale(1)}}
+@keyframes detail-arrive{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:no-preference){
+ .feature-action:is([data-motion-state="enter"],[data-motion-state="visible"]) .feature-symbol path{animation:atelier-draw 1.8s .15s both}
+ .feature-action:is([data-motion-state="enter"],[data-motion-state="visible"]) .tool-top{animation:tool-unfold 1.55s .25s both}
+ .feature-action:is([data-motion-state="enter"],[data-motion-state="visible"]) .tool-compare-right{animation:tool-unfold 1.65s .3s both}
+ .feature-action:is([data-motion-state="enter"],[data-motion-state="visible"]) .tool-pin{animation:tool-unfold 1.65s .25s both}
+ .inside-photo:is([data-motion-state="enter"],[data-motion-state="visible"]) .unbox-contours :is(path,ellipse){animation:atelier-draw 2.1s .15s both}
+ .partner-composition:is([data-motion-state="enter"],[data-motion-state="visible"]) .partner-orbits :is(path,ellipse){animation:atelier-draw 2.2s .15s both}
+ .partner-composition:is([data-motion-state="enter"],[data-motion-state="visible"]) .partner-label{animation:detail-arrive 1.5s .25s both}
+ .partner-composition:is([data-motion-state="enter"],[data-motion-state="visible"]) .label-brand{animation-delay:.45s}
+ .partner-steps:is([data-motion-state="enter"],[data-motion-state="visible"]) a{animation:detail-arrive 1.25s .1s both}
+ .partner-steps:is([data-motion-state="enter"],[data-motion-state="visible"]) a:nth-child(2){animation-delay:.23s}
+ .partner-steps:is([data-motion-state="enter"],[data-motion-state="visible"]) a:nth-child(3){animation-delay:.36s}
+}
+@media(max-width:1000px){.feature-symbol{height:164px}.feature-symbol svg{width:174px;height:164px}.unbox-stage{height:360px}.partner-composition{height:330px}.partner-teaser .wrap{column-gap:28px}}
+@media(max-width:760px){
+ .feature-action,.feature-action:first-child,.feature-action:last-child{grid-template-columns:110px minmax(0,1fr);gap:0 20px;padding-block:20px}
+ .feature-symbol{height:135px;margin:0}.feature-symbol svg{width:110px;height:135px}
+ .feature-action h3{font-size:27px;line-height:1.1}.feature-action p{font-size:14px;line-height:1.6;margin-top:15px}.feature-action>.button{font-size:12px;gap:8px;padding-inline:12px;min-height:48px}
+ .partner-composition{height:300px;order:1}.partner-teaser .wrap{gap:20px}.partner-steps{order:3}.partner-teaser .button{order:4}.partner-composition .partner-photo{padding:30px 28px}
+ .unbox-stage{height:340px}.inside-photo .unbox-stage img{padding:40px 8px}.unbox-note{font-size:11px}.note-texture{top:7px;left:5%}.note-layers{bottom:8px;right:4%}.unbox-note svg{width:75px;height:40px}
+ .hero-botanical{width:180%;left:-40%;opacity:.4}.hero-linework{opacity:.34}
+}
+@media(max-width:380px){.feature-action,.feature-action:first-child,.feature-action:last-child{grid-template-columns:84px minmax(0,1fr);column-gap:14px}.feature-symbol svg{width:84px;height:120px}.feature-action h3{font-size:25px}.feature-action>.button{font-size:11px;padding-inline:8px}.unbox-stage{height:295px}.partner-composition{height:270px}.partner-label{font-size:11px}.unbox-instruction{font-size:11px}}
+@media(hover:none) and (prefers-reduced-motion:no-preference){
+ .feature-action:before{opacity:.25}
+ .feature-action:is([data-motion-state="enter"],[data-motion-state="visible"]):before,.product-card:is([data-motion-state="enter"],[data-motion-state="visible"]) .product-image:before,.partner-composition:is([data-motion-state="enter"],[data-motion-state="visible"]):before{animation:touch-wash 1.45s ease-out both}
+ .feature-action:is([data-motion-state="enter"],[data-motion-state="visible"]) .tool-top{animation:touch-layers 1.45s var(--pastila-ease) both}
+ .feature-action:is([data-motion-state="enter"],[data-motion-state="visible"]) .tool-pin{animation:touch-pin 1.45s var(--pastila-ease) both}
+ .product-image:before{opacity:.32}
+ .partner-composition:before{opacity:.4}
+ .feature-action[data-motion-state="exit"] .feature-symbol{transform:scale(.92);transition:transform .8s}
+ .feature-action:is([data-motion-state="enter"],[data-motion-state="visible"]) .feature-symbol,.feature-action[data-motion-state="visible"] .feature-symbol{transform:scale(1);transition:transform 1.4s}
+}
+@media(prefers-reduced-motion:reduce){
+ .hero-botanical,.hero-linework,.hero-photo{opacity:1}
+ .feature-symbol *,.partner-composition *,.partner-composition:before,.partner-steps a,.partner-steps .icon,.product-image img,.burger-lines span{animation:none!important;transition:none!important}
+ .feature-action:is(:hover,:focus-within) .feature-symbol *,.partner-composition:hover .partner-photo,.partner-composition:hover .partner-label,.product-card:is(:hover,:focus-within) .product-image img{transform:none}
+}
+
+/* Keep the texture annotation over the cut, and the orchard branches visible on phones. */
+.note-texture{left:auto;right:11%;align-items:flex-end}
+.note-texture svg{transform:scaleX(-1)}
+@media(max-width:760px){.hero-botanical{width:120%;left:-10%;opacity:.43}.note-texture{left:auto;right:9%}}
