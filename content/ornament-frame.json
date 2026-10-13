@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-13",
+  "mode": "Built-in ImageGen",
+  "usage": "Only the botanical frame in the brand introduction. No generated food, objects or buildings are used in the interface.",
+  "prompt": "Create ONLY an ornamental FRAME, transparent background. Portrait 2:3 aspect ratio. A refined extremely detailed antique Russian confectionery wrapper border circa 1880, copperplate engraved acanthus foliage with gracefully curling connected vines. A COMPLETE RECTANGULAR FRAME with continuous connected left and right stems, restrained curling leaves all attached to those stems, beautiful linked corners and slender top/bottom rules. Fine sepia and muted warm gold ink, delicate olive undertones, flat engraved linework and subtle hatching (not metallic 3D). Exceptionally refined old book print quality. Border decoration limited to outer 9 percent on left/right and outer 6 percent top/bottom. The vast central 82 percent must be absolutely empty transparent negative space for web content. Exact bilateral symmetry. No objects, no food, no apple fruit, no plate, no scales, no storefront, no text, no letter, no emblem, no crown, no human or animal, no disconnected floating ornaments. All botanical details physically connected into the rectangular perimeter. Crisp enough for website loader frame. Whole frame inside canvas with 2 percent transparent margin, no cropping.",
+  "assets": [
+    "assets/editorial/heritage/botanical-frame — ornament — 2026-10-13 — review.png",
+    "assets/editorial/heritage/botanical-frame — ornament — 2026-10-13 — review.webp"
+  ],
+  "svg": "src/borders.mjs: continuous connected stems with separate narrow-screen geometry",
+  "retiredManifest": "content/heritage-art.json"
+}

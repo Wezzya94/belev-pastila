@@ -1,119 +1,112 @@
-/* Confectionery wrapper typography and ornamental furniture, without botanical scenery. */
+/* A printed botanical margin. The content has its own clear, uninterrupted field. */
 :root{--engraving-ink:#9b783e;--engraving-rule:#aa885145}
-main{background:#fff}
-[data-ornament-section]{isolation:isolate}
-.section-ornaments{z-index:-1;overflow:hidden}
-.heritage-edge{position:absolute;width:clamp(135px,14vw,210px);height:240px;--ornament-opacity:.34;color:var(--engraving-ink)}
-.edge-left{left:-48px;top:15%;transform:rotate(-9deg)}
-.edge-right{right:-48px;bottom:16%;transform:scaleX(-1) rotate(-9deg)}
-.heritage-watermark{position:absolute;width:clamp(210px,22vw,330px);height:270px;left:3%;bottom:8%;--ornament-opacity:.105;color:var(--wine);transform:rotate(-16deg)}
-.heritage-divider{position:absolute;width:190px;height:58px;left:calc(50% - 95px);bottom:0;--ornament-opacity:.6;color:var(--engraving-ink)}
-[data-ornament-section]:nth-of-type(even) .heritage-watermark{left:auto;right:3%;top:5%;bottom:auto;transform:rotate(13deg);color:var(--green)}
-[data-ornament-section]:nth-of-type(3n) .edge-left{top:4%;transform:rotate(9deg)}
-[data-ornament-section]:nth-of-type(3n) .edge-right{bottom:5%;transform:scaleX(-1) rotate(9deg)}
-.hero .heritage-scroll{width:clamp(155px,20vw,280px);aspect-ratio:240/210;top:165px;--ornament-opacity:.62;stroke-width:.85}
-.hero .heritage-left{left:2%}.hero .heritage-right{right:2%}
-.hero-crown{height:66px;top:0;width:180px;left:calc(50% - 90px)}
-.hero-fan-left,.hero-fan-right{top:510px;height:74px;width:112px}
-.hero-heading-ornament{height:52px;width:165px;margin-bottom:10px}
-.inline-ornament{width:115px;height:64px}
-.page-ornament{width:160px;height:60px;margin-bottom:13px}
-.page-heading{padding-bottom:66px}
-.section-heading,.feature-intro-heading,.store-results-heading{border-bottom:3px double var(--engraving-rule)}
-.feature-intro,.collection-section,.story-teaser,.store-teaser,.related-products,.article-section,.business-row,.contact-band,.catalog-section,.stores-section,.plain-article,.stm-section{padding-bottom:80px}
-.inside-section,.partner-teaser,.heritage-section,.contacts-grid,.product-detail{padding-bottom:70px}
-.collection-section .category-links{margin-bottom:36px}
-.feature-actions{gap:40px;padding-top:35px}
-/* The three illustrations stay completely still, including hover and repeat scrolling. */
-.feature-action{opacity:1;transform:none;filter:none}
-.feature-symbol{position:relative;display:flex;align-items:center;justify-content:center;height:260px;margin:0 0 27px;isolation:isolate}
-.feature-symbol img{display:block;width:88%;height:88%;object-fit:contain;mix-blend-mode:multiply;position:relative;z-index:1}
-.feature-symbol .miniature-frame{position:absolute;inset:0;width:100%;height:100%;color:#a2783d;opacity:.4;stroke-width:.6;z-index:0}
-.feature-symbol,.feature-symbol *,.feature-action:is(:hover,:focus-within) .feature-symbol,.feature-action:is(:hover,:focus-within) .feature-symbol *{animation:none!important;transition:none!important}
-.feature-symbol,.feature-symbol>img,.feature-symbol>svg{transform:none!important}
-.feature-symbol g[transform]{transform:translateX(240px) scaleX(-1)!important}
+main{position:relative;isolation:isolate;background:#fff;overflow-x:clip}
+.page-borders{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none;--margin-width:clamp(10px,calc((100vw - 1280px)/2),110px)}
+.border-rail{position:absolute;top:0;bottom:0;width:var(--margin-width);overflow:hidden;color:#9d814e}
+.border-rail-left{left:0}.border-rail-right{right:0;transform:scaleX(-1)}
+.botanical-tile{display:block;position:relative;width:min(90px,100%);height:558px;max-width:none;left:max(0px,calc((100% - 90px)/2));opacity:.43;--ornament-opacity:.43;flex-shrink:0;overflow:visible}
+.botanical-tile .mobile-vine{display:none}
+.vine-leaves{color:#738361}.vine-veins{opacity:.6}
+.hero,.inside-section,.partner-teaser,.partner-opening,.heritage-section{background:transparent}
+.hero{padding-top:38px;padding-bottom:68px}
+.hero-photo{margin-bottom:28px}
+.hero h1{font-weight:500;letter-spacing:-.025em}
+.hero h1 span{font-style:italic;font-weight:400;font-size:.7em;margin-top:8px}
+.hero-heading p{margin-top:22px}
+.hero-linework,.hero-engraving,.hero-botanical,.section-ornaments,.inline-ornament,.page-ornament,.footer-ornament{display:none}
+.hero-heading:before,.story-visual:before,.inside-copy:before,.feature-intro-heading:after{display:none}
+.site-header{border-bottom:1px solid #a2783d30}
+.site-header .mobile-menu{background:#fff;padding-bottom:24px}
+.section-heading,.feature-intro-heading,.store-results-heading{border-bottom:1px solid var(--engraving-rule);padding-bottom:25px}
+.feature-intro{padding-block:60px 74px}
+.feature-intro-heading{margin-bottom:0}
+.feature-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;padding-top:34px;border-bottom:1px solid var(--engraving-rule);padding-bottom:36px}
+.feature-action,.feature-action:first-child,.feature-action:last-child{display:flex;flex-direction:column;align-items:flex-start;padding:0 34px;position:relative;min-width:0}
+.feature-action:first-child{padding-left:0}.feature-action:last-child{padding-right:0}
+.feature-action+.feature-action{border-left:1px solid var(--engraving-rule)}
 .feature-action:before{display:none!important}
-.feature-action h3{font-size:clamp(27px,2.4vw,34px)}
-.feature-action p{font-size:15px}
-/* Fine double rules and engraved corners belong to the photographs, not the copy. */
-.product-image,.detail-main-image,.inside-photo,.partner-composition,.story-visual{position:relative;isolation:isolate}
-.product-image:after,.detail-main-image:after,.unbox-stage:after,.partner-composition:after{content:"";display:block;position:absolute;inset:8px;pointer-events:none;z-index:2;opacity:.42;background:url('./decoration/heritage-photo-frame.svg') center/100% 100% no-repeat}
-.product-card:nth-child(even) .product-image:after{transform:rotate(180deg);opacity:.3}
-.product-card:hover .product-image:after{opacity:.8;transition:opacity .6s}
-.detail-main-image:after{inset:3px;opacity:.65}
-.unbox-stage:after{inset:14px;opacity:.55}
-.partner-composition:after{inset:4px;width:auto;height:auto;opacity:.65}
-.product-image img{padding:0;width:96%;height:96%}
-.detail-main-image img{padding:16px}
-.gallery-thumbs button{border:3px double #aa885160;border-radius:0}
-.stm-grid>img{border:5px double #aa885150;padding:13px;background:#fff}
-.story-visual{padding:48px 35px;text-align:center;background:#fff}
-.story-visual:after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:url('./editorial/heritage/cartouche — ornament — 2026-10-13 — review.webp') center/100% 100% no-repeat;opacity:.62}
-.story-visual .inline-ornament{margin-inline:auto}
-.story-visual img{width:88%;margin-inline:auto}
-.story-word{font-size:clamp(40px,4.2vw,62px)}
-/* Button framing is inset so hit areas and text do not shrink. */
-.button{position:relative;isolation:isolate;border-radius:1px;outline:none!important;padding-inline:27px}
-.button:after{content:"";position:absolute;inset:5px;border:1px solid currentColor;opacity:.3;pointer-events:none;border-radius:0;clip-path:polygon(0 0,30% 0,30% 1px,70% 1px,70% 0,100% 0,100% 100%,70% 100%,70% calc(100% - 1px),30% calc(100% - 1px),30% 100%,0 100%)}
-.button:hover:after{opacity:.6}
-.button-outline{background:#fffefa}
-.quick-city{border:3px double #aa885144;border-radius:0}
-.store-card{padding:30px 24px 26px;border-radius:0;border-top:3px double #aa885166;background:#fffefb}
-.store-card:after{content:"";position:absolute;top:9px;right:9px;width:55px;height:55px;background:url('./decoration/heritage-corner.svg') center/contain no-repeat;transform:rotate(90deg);opacity:.48;pointer-events:none}
-.store-city{padding-right:30px}
+.feature-seal{display:grid;place-items:center;width:62px;height:72px;border:1px solid #aa88516b;border-radius:50%;outline:1px solid #aa88512b;outline-offset:5px;margin:8px 0 26px;color:var(--green)}
+.feature-seal .icon{width:29px;height:29px}
+.feature-action h3{font:500 clamp(25px,2.5vw,34px)/1.15 var(--serif);color:var(--green);margin-bottom:16px}
+.feature-action p{font-size:15px;line-height:1.7;margin:0 0 24px;max-width:35ch;flex:1}
+.feature-action .feature-link{color:var(--green);font-size:14px;font-weight:500;margin-top:auto;max-width:100%;gap:12px}
+.feature-link .icon{width:20px;height:20px}
+.collection-section,.story-teaser,.store-teaser,.related-products,.article-section,.business-row,.contact-band,.catalog-section,.stores-section,.plain-article,.stm-section{padding-bottom:80px}
+.inside-section,.partner-teaser,.heritage-section,.contacts-grid,.product-detail{padding-bottom:70px}
+.page-heading{padding-bottom:46px}
+.page-heading p{max-width:60ch}
+.product-card{position:relative;border-radius:3px;transition:box-shadow .65s ease,background-color .65s ease}
+.product-card:is(:hover,:focus-within){background:#fff;box-shadow:0 20px 42px -15px #44311f30,0 5px 14px -7px #243d2920}
+.product-image{border:0;background:transparent}
+.product-image:after,.detail-main-image:after,.inside-photo:after,.unbox-stage:after,.partner-composition:after{display:none}
+.product-image img{width:96%;height:96%;padding:0;transition:filter .7s ease,transform .8s var(--pastila-ease)}
+.product-image:before{opacity:0;filter:blur(24px);inset:14%;background:radial-gradient(ellipse,#c3b58b44,transparent 70%)}
+.product-card:is(:hover,:focus-within) .product-image img{filter:drop-shadow(0 17px 12px #583d2c30);transform:translateY(-6px) scale(1.03)}
+.product-card-copy{padding-inline:10px;padding-bottom:12px}
+.detail-copy,.product-card-copy{min-width:0;max-width:100%}
+.detail-copy h1,.product-card h3{overflow-wrap:anywhere;hyphens:auto}
+.detail-copy p{overflow-wrap:anywhere}
+.product-image:is(:hover,:focus-visible){box-shadow:none}
+.product-card:is(:hover,:focus-within) .product-image:before{opacity:1}
+.story-visual{position:relative;padding:28px 0;text-align:center;background:transparent}
+.story-visual:after{display:none}
+.story-word{font-style:italic;font-weight:400;font-size:clamp(40px,4vw,62px)}
+.story-visual img{width:100%;margin:24px auto 0;object-fit:contain}
+.unbox-contours,.partner-orbits{display:none}
+.unbox-stage{background:#fcfbf8;border-block:1px solid var(--engraving-rule);border-radius:0}
+.partner-composition{border-block:1px solid var(--engraving-rule)}
+.partner-label{background:#fff;font-size:12px;color:var(--green)}
+.button{position:relative;border-radius:2px;isolation:isolate}
+.button:after{display:none}
+.button:focus-visible{outline:3px solid #ad793e;outline-offset:4px}
+.button-outline{background:transparent}
+.store-card{position:relative;padding:28px 24px;border-radius:2px;border-top:1px solid #aa88514a;background:#fdfcf9;transition:box-shadow .65s,background-color .65s}
+.store-card:after{display:none}
+.store-card:is(:hover,:focus-within),.quick-city:is(:hover,:focus-within){box-shadow:0 18px 40px -17px #3d4d3738;background:#fffefa}
+.store-card:before,.quick-city:before{filter:blur(22px);background:radial-gradient(ellipse,#c8b99a26,transparent 70%)}
 .store-actions{border-top:1px solid #aa88512b;padding-top:14px;margin-top:18px}
-.filter-form{padding:24px;border-block:3px double #aa885155;background:#fdfcf9}
-.taste-shortcuts a,.detail-tags span{border:1px solid #aa88514a;border-radius:1px;background:#fffefa}
-.product-facts,.heritage-story,.contact-address{border-block:3px double #aa88513b;padding-block:25px}
-.contact-primary{position:relative;padding:35px;border:3px double #aa885144;background:#fffefa}
-.contact-primary:after{content:"";position:absolute;right:12px;bottom:12px;width:65px;height:65px;background:url('./decoration/heritage-corner.svg') center/contain no-repeat;transform:rotate(180deg);opacity:.45;pointer-events:none}
-.footer-ornament{height:52px;width:185px;left:calc(50% - 92.5px)}
-.site-footer{background:#f5f4ec;border-top:4px double #aa88517a;padding-top:94px}
-.site-footer .footer-main{border-inline:1px solid #aa885130;padding-inline:20px}
-.footer-bottom{border-top:3px double #aa885145}
-/* A print revealing on paper. The artwork itself no longer assembles as toy blocks. */
-.engraved-loader-art{position:relative;width:360px;height:260px;max-width:100%;margin:0 auto 20px;isolation:isolate}
-.engraved-loader-art img{width:85%;height:85%;position:absolute;inset:7.5%;object-fit:contain;mix-blend-mode:multiply;animation:engraving-impression 1.8s ease-out both}
-.loader-intaglio-frame{position:absolute;inset:0;width:100%;height:100%;color:#a2783d;opacity:.7}
-.loader-intaglio-frame path{stroke-dasharray:1;stroke-dashoffset:1;animation:pastila-draw 1.9s ease forwards}
-.pastila-loader{grid-template-columns:minmax(0,1fr)}
-.pastila-loader-body{width:min(440px,100%);max-width:100%;min-width:0}
-.pastila-loader-title{font-weight:400;font-size:36px;letter-spacing:-.015em}
-.loader-ribbon{width:170px;height:65px;display:block;margin:8px auto 0}
-@keyframes engraving-impression{from{opacity:0;clip-path:inset(0 0 100% 0)}to{opacity:1;clip-path:inset(0)}}
-@media(min-width:1600px){.heritage-edge{width:240px;height:300px;--ornament-opacity:.42}.edge-left{left:1%}.edge-right{right:1%}.heritage-watermark{width:390px;height:330px}.hero .heritage-scroll{top:140px;width:320px}}
-@media(max-width:1000px){.feature-actions{gap:23px}.feature-symbol{height:210px}.feature-action h3{font-size:27px}.heritage-edge{width:150px;left:-85px}.edge-right{left:auto;right:-85px}.story-visual{padding:38px 25px}.button{padding-inline:20px}}
+.quick-city{border:1px solid #aa885144;border-radius:2px;transition:box-shadow .65s,background-color .65s}
+.filter-form{padding:24px;border-block:1px solid #aa885155;background:#fdfcf9}
+.taste-shortcuts a,.detail-tags span{border:1px solid #aa88514a;border-radius:2px;background:#fffefa}
+.gallery-thumbs button{border:1px solid #aa88514a;border-radius:2px}
+.stm-grid>img{background:#fff;padding:12px;border:1px solid #aa885133}
+.product-facts,.heritage-story{border-block:1px solid #aa88513b;padding-block:24px}
+.contact-primary{padding:30px;border-block:1px solid #aa885144;background:#fdfcf9}
+.contact-primary:after{display:none}
+.site-footer{background:#f4f5ee;border-top:3px double #a2783d70;padding-top:65px;box-shadow:none}
+.site-footer:before{display:none}.footer-bottom{border-top:1px solid #a2783d40}
+/* The mark is real. The framing never shares the text's layout area. */
+.pastila-loader{background:#fff;grid-template-columns:minmax(0,1fr);padding:28px;transition:opacity .4s ease,visibility .4s}
+.pastila-loader-body{width:min(380px,100%);min-width:0;text-align:center;position:relative}
+.loader-print{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:470px;padding:70px 44px;position:relative;isolation:isolate}
+.loader-print:before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;background:url('./editorial/heritage/botanical-frame — ornament — 2026-10-13 — review.webp') center/100% 100% no-repeat;opacity:.66;animation:frame-print 1.8s ease both}
+.loader-print>*{position:relative;z-index:1}
+.loader-brand-mark{width:92px;height:92px;object-fit:contain;margin:0 0 30px;opacity:0;animation:print-settle 1.2s .05s var(--pastila-ease) forwards}
+.pastila-loader-title{font:400 32px/1.12 var(--serif);color:var(--wine);letter-spacing:-.015em;margin:0;animation:print-settle .9s .35s var(--pastila-ease) both}
+.pastila-loader-caption{font:italic 19px/1.5 var(--serif);color:var(--muted);margin-top:18px;letter-spacing:0;animation:print-settle .9s .65s var(--pastila-ease) both}
+.pastila-loader-rule{width:88px;height:1px;margin:27px auto 0;background:var(--gold);transform-origin:left;animation:pastila-intro-rule 1.5s .25s ease both}
+.pastila-loading .pastila-cursor{opacity:0}
+@keyframes print-settle{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes frame-print{from{opacity:0;clip-path:inset(0 0 100% 0)}to{opacity:.66;clip-path:inset(0)}}
+@media(min-width:1600px){.page-borders{--margin-width:clamp(110px,calc((100vw - 1360px)/2 - 20px),190px)}}
+@media(max-width:1320px){.botanical-tile>path,.botanical-tile>.vine-leaves{display:none}.botanical-tile .mobile-vine{display:block}}
+@media(max-width:1000px){.feature-action,.feature-action:first-child,.feature-action:last-child{padding-inline:22px}.feature-action:first-child{padding-left:0}.feature-action:last-child{padding-right:0}.feature-action h3{font-size:28px}.feature-action p{font-size:14px}.feature-action .feature-link{font-size:13px}}
 @media(max-width:760px){
- .heritage-edge{width:135px;height:175px;--ornament-opacity:.24}.edge-left{left:-93px;top:5%}.edge-right{left:auto;right:-93px;bottom:12%}
- .heritage-watermark{width:170px;height:160px;left:-55px;--ornament-opacity:.055}
- [data-ornament-section]:nth-of-type(even) .heritage-watermark{right:-55px}
- .heritage-divider{width:120px;height:42px;left:calc(50% - 60px);bottom:4px;--ornament-opacity:.5}
- .hero .heritage-scroll{top:135px;width:120px;--ornament-opacity:.44}.hero .heritage-left{left:-48px}.hero .heritage-right{right:-48px}
- .hero-crown{width:130px;height:47px;left:calc(50% - 65px)}.hero-fan-left,.hero-fan-right{top:290px;width:62px;height:44px}
- .hero-fan-left{left:2%}.hero-fan-right{right:2%}.hero-heading-ornament{height:42px}
- .page-heading{padding-bottom:62px}
- .feature-intro,.collection-section,.story-teaser,.store-teaser,.related-products,.article-section,.business-row,.contact-band,.catalog-section,.stores-section,.plain-article,.stm-section,.inside-section,.partner-teaser,.heritage-section,.contacts-grid,.product-detail{padding-bottom:65px}
- .feature-actions{gap:0}
- .feature-action,.feature-action:first-child,.feature-action:last-child{display:flex;flex-direction:column;align-items:stretch;padding:30px 0 32px;gap:0}
- .feature-symbol{height:230px;width:100%;margin:0 0 22px;align-self:center}
- .feature-symbol img{width:86%;height:90%}
- .feature-symbol .miniature-frame{width:100%;height:100%}
- .feature-action h3{font-size:31px;margin-bottom:10px}.feature-action p{font-size:15px;margin:0 0 20px}.feature-action>.button{width:fit-content;font-size:13px;padding-inline:22px}
- .feature-action+.feature-action{border-top:3px double #aa88513d}
- .product-image:after{inset:4px;opacity:.3}.product-image img{padding:0}
- .detail-main-image img{padding:12px}.detail-main-image:after{inset:2px}
- .store-card{padding:27px 20px 23px}.filter-form{padding:18px 14px}
- .story-visual{padding:50px 28px}.story-word{font-size:42px}
- .contact-primary{padding:25px 18px}.contact-email{font-size:17px;overflow-wrap:anywhere}
- .site-footer .footer-main{padding-inline:14px}.site-footer{padding-top:82px}
- .engraved-loader-art{width:290px;height:215px;margin-bottom:14px}.pastila-loader-title{font-size:31px}
- .stm-grid>img{padding:8px;border-width:3px}
+ .page-borders{--margin-width:12px}.botanical-tile{width:12px;left:0;opacity:.4;--ornament-opacity:.4}
+ .botanical-tile>path,.botanical-tile>.vine-leaves{display:none}.botanical-tile .mobile-vine{display:block}
+ .hero{padding-top:27px;padding-bottom:40px}.hero-photo{margin-bottom:21px}.hero h1{font-size:clamp(34px,8.7vw,56px)}.hero h1 span{font-size:.73em}.hero-heading p{margin-top:19px}
+ .feature-intro{padding-block:32px 45px}.feature-intro-heading{padding-bottom:24px;gap:16px}.feature-intro-heading h2{font-size:35px}
+ .feature-actions{grid-template-columns:1fr;gap:0;padding-block:4px 0}
+ .feature-action,.feature-action:first-child,.feature-action:last-child{display:grid;grid-template-columns:54px minmax(0,1fr);gap:0 22px;padding:28px 0;align-items:start;border:0}
+ .feature-action+.feature-action{border-left:0;border-top:1px solid var(--engraving-rule)}
+ .feature-seal{grid-column:1;grid-row:1/span 3;width:42px;height:52px;margin:6px 0 0 5px;outline-offset:4px}.feature-seal .icon{width:24px;height:24px}
+ .feature-action h3,.feature-action p,.feature-action .feature-link{grid-column:2}.feature-action h3{font-size:28px;margin-bottom:12px}.feature-action p{font-size:14px;margin-bottom:13px}.feature-action .feature-link{font-size:13px;line-height:1.5;min-height:44px}
+ .collection-section,.story-teaser,.store-teaser,.related-products,.article-section,.business-row,.contact-band,.catalog-section,.stores-section,.plain-article,.stm-section,.inside-section,.partner-teaser,.heritage-section,.contacts-grid,.product-detail{padding-bottom:50px}
+ .page-heading{padding-bottom:35px}.filter-form{padding:20px 14px}.store-card{padding:25px 20px}.product-card-copy{padding-inline:2px}
+ .detail-copy{width:100%}.detail-copy h1{font-size:clamp(28px,8.3vw,36px);line-height:1.14}
+ .story-visual{padding:0}.story-word{font-size:42px}.story-visual img{margin-top:18px}
+ .contact-primary{padding:25px 17px}.contact-email{font-size:17px;overflow-wrap:anywhere}
+ .site-footer{padding-top:44px}.loader-print{min-height:410px;padding:62px 32px}.pastila-loader-title{font-size:29px}.loader-brand-mark{width:78px;height:78px;margin-bottom:25px}
 }
-@media(prefers-reduced-motion:reduce){.engraved-loader-art img,.loader-intaglio-frame path{animation:none!important;opacity:1;clip-path:none;stroke-dashoffset:0}}
-
-@media(max-width:430px){
- .contact-phone{font-size:clamp(22px,6.8vw,28px);white-space:nowrap}
- #catalog-filters{grid-template-columns:1fr}
- #catalog-filters>div{grid-column:1/-1}
- #catalog-filters .filter-reset{justify-self:start}
-}
+@media(max-width:430px){.contact-phone{font-size:clamp(22px,6.8vw,28px);white-space:nowrap}#catalog-filters{grid-template-columns:1fr}#catalog-filters>div{grid-column:1/-1}#catalog-filters .filter-reset{justify-self:start}}
+@media(prefers-reduced-motion:reduce){.loader-print *, .botanical-tile{animation:none!important;opacity:1;transform:none}.product-card,.product-card .product-image img,.store-card,.quick-city{transition:none}.product-card:is(:hover,:focus-within) .product-image img{transform:none}}

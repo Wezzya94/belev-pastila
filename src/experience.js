@@ -1,4 +1,4 @@
-import {heritageSVG} from './heritage.mjs';
+import {botanicalBorder} from './borders.mjs';
 /* Optional motion layer. The page is complete and visible without this module. */
 const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 const finePointer = window.matchMedia('(pointer: fine) and (hover: hover)');
@@ -51,13 +51,12 @@ function prepareLoader() {
   overlay.setAttribute('aria-live', 'polite');
   overlay.setAttribute('aria-label', 'Белёвская мануфактура. Слой за слоем.');
   overlay.innerHTML = `<div class="pastila-loader-body">
-    <div class="engraved-loader-art" aria-hidden="true">
-      ${heritageSVG('buckle','loader-intaglio-frame')}
-      <img src="${document.body.dataset.base||'./'}assets/editorial/heritage/pastila — engraving — 2026-10-13 — review.webp" width="1100" height="825" alt="" decoding="async"/>
+    <div class="loader-print" aria-hidden="true">
+      <img class="loader-brand-mark" src="${document.body.dataset.base||'./'}assets/brand/logo-small.svg" width="120" height="120" alt=""/>
+      <p class="pastila-loader-title">Белёвская<br>мануфактура</p>
+      <p class="pastila-loader-caption">Слой за слоем</p>
+      <span class="pastila-loader-rule"></span>
     </div>
-    <p class="pastila-loader-title" aria-hidden="true">Белёвская<br>мануфактура</p>
-    <p class="pastila-loader-caption" aria-hidden="true">Слой за слоем</p>
-    ${heritageSVG("flourish","loader-ribbon")}<span class="pastila-loader-rule" aria-hidden="true"></span>
   </div>`;
   document.body.append(overlay);
   html.classList.add('pastila-loading');
@@ -87,7 +86,7 @@ function prepareLoader() {
       if (immediate || motionPreference.matches || document.visibilityState === 'hidden') remove();
       else {
         overlay.classList.add('is-leaving');
-        exitTimer = setTimeout(remove, 240);
+        exitTimer = setTimeout(remove, 420);
       }
     };
     const onInteraction = () => release(true);
@@ -191,14 +190,14 @@ function setupReveals() {
   if(motionPreference.matches||!window.IntersectionObserver||!Element.prototype.animate)return;
   const states=new Map(),running=new Map();let stopped=false;
   const final={opacity:1,transform:'none',filter:'none'};
-  const hiddenFor=(mode,above=false)=>({opacity:0,transform:mode==='plate'?`translateY(${above?-28:48}px) scale(.95)`:mode==='side'?`translateX(${above?18:-24}px)`:mode==='image'?`translateY(${above?-18:24}px) scale(.96)`:`translateY(${above?-18:24}px)`,filter:'none'});
+  const hiddenFor=(mode,above=false)=>({opacity:0,transform:mode==='plate'?`translateY(${above?-28:48}px) scale(.95)`:mode==='side'?`translateX(${above?18:-24}px)`:mode==='image'?`translateY(${above?-12:18}px) scale(.985)`:`translateY(${above?-12:18}px)`,filter:'none'});
   const cancel=element=>{running.get(element)?.cancel();running.delete(element);};
   const transition=(element,enter,above,initial=false)=>{
     const state=states.get(element);if(!state||stopped)return;
     const current=getComputedStyle(element);const from={opacity:current.opacity,transform:current.transform,filter:current.filter};
     cancel(element);state.inside=enter;element.dataset.motionState=enter?'enter':'exit';
     const start=initial&&enter?hiddenFor(state.mode,above):from;
-    const animation=element.animate([start,enter?final:hiddenFor(state.mode,above)],{duration:initial&&!enter?1:enter?(state.mode==='plate'?2800:(!finePointer.matches?1450:1250)):800,easing:state.mode==='plate'?'cubic-bezier(.22,.5,.25,1)':'cubic-bezier(.2,.75,.2,1)',fill:'both'});
+    const animation=element.animate([start,enter?final:hiddenFor(state.mode,above)],{duration:initial&&!enter?1:enter?(state.mode==='plate'?2800:(!finePointer.matches?1100:1050)):650,easing:state.mode==='plate'?'cubic-bezier(.22,.5,.25,1)':'cubic-bezier(.2,.75,.2,1)',fill:'both'});
     running.set(element,animation);
     animation.finished.then(()=>{if(running.get(element)!==animation)return;if(enter){cancel(element);element.dataset.motionState='visible';}},()=>{});
   };
@@ -217,7 +216,7 @@ function setupReveals() {
     ['.hero-heading, .hero-bottom, .page-heading, .detail-copy h1, .manufactory-opening h1, .partner-opening h1, .section-heading, .feature-intro-heading','title'],
     ['.product-card,.store-card,.stm-grid>img,.gallery-thumbs>button','image'],
     ['.inside-copy,.inside-photo,.story-copy,.story-visual,.store-teaser>div,.quick-city,.partner-composition,.partner-teaser h2,.partner-teaser p,.partner-steps,.partner-teaser .button','side'],
-    ['.feature-action h3,.feature-action>p,.feature-action>.button,.taste-shortcuts,.category-links,.filter-form,.catalog-status,.store-results-heading,.detail-tags,.detail-actions,.detail-main-image,.product-facts,.article-title,.article-copy,.heritage-story,.heritage-section .wrap>h2,.contact-primary,.contact-address,.contact-band,.business-row,.stm-group summary,.plain-article h2,.plain-article p,.footer-main>* ,.footer-bottom','copy']
+    ['.feature-action,.taste-shortcuts,.category-links,.filter-form,.catalog-status,.store-results-heading,.detail-tags,.detail-actions,.detail-main-image,.product-facts,.article-title,.article-copy,.heritage-story,.heritage-section .wrap>h2,.contact-primary,.contact-address,.contact-band,.business-row,.stm-group summary,.plain-article h2,.plain-article p,.footer-main>* ,.footer-bottom','copy']
   ];
   specs.forEach(([selector,mode])=>select(selector).forEach(element=>{if(states.has(element)||element.matches('.section-ornaments'))return;states.set(element,{mode,inside:null});observer.observe(element);}));
   // Arm the opening pose before releasing the synchronous first-paint guard.
@@ -246,30 +245,45 @@ function setupOrnaments(){
    const opacity=getComputedStyle(element).opacity;
    state.animations.forEach(a=>a.cancel());state.animations=[];state.inside=enter;
    element.dataset.ornamentState=enter?'drawing':'exit';
-   const envelope=element.animate([{opacity},{opacity:enter?state.opacity:0}],{duration:enter?1600:650,easing:'ease',fill:'both'});
+   const envelope=element.animate([{opacity},{opacity:enter?state.opacity:0}],{duration:enter?1800:650,easing:'ease',fill:'both'});
    state.animations.push(envelope);
    state.paths.forEach((path,i)=>{
      const fill=state.fills[i];
-     state.animations.push(path.animate(enter?[{strokeDashoffset:1,fillOpacity:0},{strokeDashoffset:0,fillOpacity:fill}]:[{strokeDashoffset:getComputedStyle(path).strokeDashoffset,fillOpacity:fill},{strokeDashoffset:1,fillOpacity:0}],{duration:enter?2100:700,delay:enter?Math.min(i*60,240):0,easing:'cubic-bezier(.22,.65,.25,1)',fill:'both'}));
+     state.animations.push(path.animate(enter?[{strokeDashoffset:1,fillOpacity:0},{strokeDashoffset:0,fillOpacity:fill}]:[{strokeDashoffset:getComputedStyle(path).strokeDashoffset,fillOpacity:fill},{strokeDashoffset:1,fillOpacity:0}],{duration:enter?3200:700,delay:enter?Math.min(i*90,360):0,easing:'cubic-bezier(.22,.65,.25,1)',fill:'both'}));
    });
    envelope.finished.then(()=>{if(state.inside===enter&&enter)element.dataset.ornamentState='visible';},()=>{});
  };
- document.querySelectorAll('.scroll-ornament,.hero-linework,.hero-engraving,.unbox-contours,.partner-orbits').forEach(element=>{
+ document.querySelectorAll('.botanical-tile').forEach(element=>{
    const style=getComputedStyle(element),opacity=parseFloat(style.getPropertyValue('--ornament-opacity'))||parseFloat(style.opacity)||.5;
-   const paths=[...element.querySelectorAll('path,circle,ellipse')];
+   const paths=[...element.querySelectorAll('path,circle,ellipse')].filter(path=>getComputedStyle(path).display!=='none'&&getComputedStyle(path.parentElement).display!=='none');
    const fills=paths.map(path=>getComputedStyle(path).fillOpacity);
    paths.forEach(path=>{path.setAttribute('pathLength','1');path.style.strokeDasharray='1';});
    states.set(element,{inside:null,paths,fills,opacity,animations:[]});element.style.opacity='0';
-   const rect=element.getBoundingClientRect();play(element,rect.bottom>20&&rect.top<innerHeight-20);
+   const rect=element.getBoundingClientRect();
+   if(rect.bottom>20&&rect.top<innerHeight-20)play(element,true);
+   else{states.get(element).inside=false;element.dataset.ornamentState='exit';}
    observer.observe(element);
  });
  stopOrnaments=()=>{observer.disconnect();for(const [element,state]of states){state.animations.forEach(a=>a.cancel());element.style.removeProperty('opacity');state.paths.forEach(path=>path.style.removeProperty('stroke-dasharray'));delete element.dataset.ornamentState;}};
+}
+
+let borderResize;
+function mountBorders(){
+ const main=document.querySelector('main'),rails=select('.border-rail');if(!main||!rails.length)return;
+ let lastCount=0;
+ const fill=()=>{
+  const count=Math.ceil(main.offsetHeight/558)+1;if(count===lastCount)return;const updating=lastCount>0;lastCount=count;
+  rails.forEach(rail=>{rail.innerHTML=Array.from({length:count},()=>botanicalBorder()).join('');});
+  if(updating&&html.dataset.pastilaExperience==='ready'&&!html.classList.contains('pastila-loading'))setupOrnaments();
+ };
+ fill();borderResize=new ResizeObserver(fill);borderResize.observe(main);
 }
 
 async function boot() {
   if (html.dataset.pastilaExperience) return;
   html.dataset.pastilaExperience = 'ready';
   try {
+    mountBorders();
     setupCursor();
     if(window.heroFallback)return;
     const photo=document.querySelector('.hero-photo img');
