@@ -33,3 +33,64 @@ main{background:#fff url('./decoration/classic-paper.svg') center top/100% auto 
  .story-visual:before{width:120px;margin-bottom:16px}
 }
 @media(prefers-reduced-motion:reduce){.heritage-scroll path{animation:none!important}}
+
+/* A family of engraved details, shared across the entire catalogue and editorial pages. */
+main{background-image:url('./decoration/engraving-paper.svg')}
+.hero-engraving{position:absolute;pointer-events:none;color:var(--gold);z-index:0;opacity:.46}
+.hero-crown{width:190px;height:48px;top:5px;left:calc(50% - 95px)}
+.hero-fan-left,.hero-fan-right{width:100px;height:46px;top:530px}
+.hero-fan-left{left:8%;transform:rotate(-12deg)}
+.hero-fan-right{right:8%;transform:rotate(12deg)}
+.hero-heading:before{width:210px;height:42px}
+.feature-intro-heading{position:relative}
+.feature-intro-heading:after{content:"";position:absolute;bottom:-12px;left:calc(50% - 48px);width:96px;height:25px;background:#fff url('./decoration/engraving-ribbon.svg') center/contain no-repeat;pointer-events:none}
+.feature-symbol svg{stroke-width:1.2}
+.feature-symbol .tool-engraved-frame{color:var(--gold);opacity:.75}
+.feature-symbol .tool-texture,.feature-symbol .tool-accent{stroke:var(--wine)}
+.feature-symbol-layers .tool-top{fill:#fcf6e8;fill-opacity:.65}
+.feature-symbol .tool-scale{stroke:var(--gold)}
+.inside-copy:before{content:"";display:block;width:96px;height:44px;margin-bottom:18px;background:url('./decoration/engraving-fan.svg') left center/contain no-repeat;opacity:.7}
+.story-visual:before{background-image:url('./decoration/engraving-ribbon.svg');width:170px;height:42px}
+.partner-label{background:#fffdf8;border-block:1px solid #a2783d40;font-family:var(--serif);font-size:14px;padding:6px 14px}
+.partner-composition:after{content:"";position:absolute;top:6px;left:calc(50% - 24px);width:48px;height:48px;background:url('./decoration/engraving-rosette.svg') center/contain no-repeat;opacity:.42;pointer-events:none}
+.page-heading:after,.manufactory-opening:after,.partner-opening>.wrap:after{content:"";display:block;width:170px;height:42px;margin-top:24px;background:url('./decoration/engraving-ribbon.svg') left center/contain no-repeat;opacity:.7;pointer-events:none}
+.article-title:before{content:"";display:block;width:70px;height:34px;background:url('./decoration/engraving-fan.svg') left center/contain no-repeat;margin-bottom:16px;opacity:.7}
+.contact-primary{background-image:url('./decoration/engraving-corner.svg');background-repeat:no-repeat;background-position:right top;background-size:80px}
+.quick-city{border:1px solid #a2783d30;border-radius:3px}
+.store-card{border-radius:3px}
+.site-footer{background-image:url('./decoration/engraving-ribbon.svg');background-size:180px 45px;background-position:center top 20px}
+.site-header .mobile-menu{background-image:url('./decoration/engraving-ribbon.svg');background-size:150px auto}
+.cursor-sprout path{stroke:var(--gold);stroke-width:1.1;fill:#a2783d14}
+
+/* The same confectionery engraving assembles during the timed introduction. */
+.pastila-loader{background:#fff url('./decoration/engraving-paper.svg') center/cover no-repeat}
+.pastila-loader-body{width:min(100%,380px)}
+.engraved-loader-symbol{width:220px;height:220px;position:relative;margin:0 auto 20px}
+.loader-laurel{position:absolute;inset:0;width:100%;height:100%;color:var(--gold)}
+.loader-confection{position:absolute;width:144px;height:136px;left:38px;top:37px;color:var(--green)}
+.loader-rosette{position:absolute;width:31px;height:31px;top:0;left:94px;color:var(--wine)}
+.engraved-loader-symbol path{stroke-dasharray:1;stroke-dashoffset:1;animation:pastila-draw 1.45s .05s var(--pastila-ease) forwards}
+.loader-confection path{animation-delay:.28s;animation-duration:1.3s}
+.loader-confection .loader-top-layer{animation-delay:.46s}
+.loader-confection .loader-fruit{animation-delay:.6s}
+.loader-rosette{opacity:0;animation:pastila-soft-appear .7s .3s forwards}
+.pastila-loader-title{color:var(--wine);font-weight:400;font-size:38px;animation-delay:.45s}
+.pastila-loader-caption{font:italic 20px/1.5 var(--serif);letter-spacing:0;margin-top:14px;animation-delay:.8s}
+.loader-ribbon{display:block;width:150px;height:38px;margin:12px auto 0;color:var(--gold);opacity:0;animation:pastila-soft-appear .6s 1s forwards}
+.pastila-loader-rule{width:90px;background:var(--gold);margin-top:14px}
+@media(min-width:1600px){.hero-fan-left,.hero-fan-right{top:590px;width:120px;height:54px}.hero-fan-left{left:13%}.hero-fan-right{right:13%}}
+@media(max-width:760px){
+ main{background-image:url('./decoration/engraving-paper-mobile.svg')}
+ .hero-crown{width:130px;height:33px;left:calc(50% - 65px);top:3px;opacity:.36}
+ .hero-fan-left,.hero-fan-right{width:50px;height:26px;top:365px;opacity:.32}
+ .hero-fan-left{left:0;transform:rotate(-60deg)}.hero-fan-right{right:0;transform:rotate(60deg)}
+ .hero-heading:before{width:160px;height:32px}
+ .feature-intro-heading:after{left:0;width:76px;height:22px;bottom:-11px}
+ .inside-copy:before{width:80px;height:36px;margin-bottom:12px}
+ .contact-primary{background-size:52px}
+ .engraved-loader-symbol{width:190px;height:190px}
+ .loader-confection{width:126px;height:119px;left:32px;top:31px}.loader-rosette{left:81px;width:28px;height:28px}
+ .pastila-loader-title{font-size:32px}.pastila-loader-caption{font-size:18px}
+ .pastila-loader{background-image:url('./decoration/engraving-paper-mobile.svg')}
+}
+@media(prefers-reduced-motion:reduce){.engraved-loader-symbol path,.loader-rosette,.loader-ribbon{animation:none;stroke-dashoffset:0;opacity:1}}

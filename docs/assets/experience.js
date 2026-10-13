@@ -1,3 +1,4 @@
+import {ornamentalSVG} from './ornaments.mjs';
 /* Optional motion layer. The page is complete and visible without this module. */
 const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 const finePointer = window.matchMedia('(pointer: fine) and (hover: hover)');
@@ -35,19 +36,18 @@ function prepareLoader() {
   overlay.setAttribute('aria-live', 'polite');
   overlay.setAttribute('aria-label', 'Белёвская мануфактура. Слой за слоем.');
   overlay.innerHTML = `<div class="pastila-loader-body">
-    <div class="pastila-loader-symbol" aria-hidden="true">
-      <svg class="pastila-loader-apple" viewBox="0 0 160 170" fill="none">
-        <path class="pastila-apple-outline" pathLength="1" d="M80 39C48 17 17 49 27 84c7 29 19 55 39 60 11 3 17-4 24-2 27 10 44-26 47-55 5-36-26-63-57-48Z"/>
-        <path class="pastila-apple-stem" pathLength="1" d="M80 39c0-15 6-28 16-34"/>
-        <path class="pastila-apple-leaf" d="M81 27C61 27 51 17 53 7c18-2 31 5 33 18"/>
-        <g class="pastila-apple-details"><path d="m14 51-8-5m6 29H3m143-22 8-5m-6 32h9M47 155l-8 5m79-9 8 5"/><path class="pastila-apple-seed" d="M71 61c-5 1-8 6-5 9 4 2 7-5 5-9Zm24 5c-4-1-8 2-7 5 3 3 9-2 7-5Z"/></g>
+    <div class="engraved-loader-symbol" aria-hidden="true">
+      ${ornamentalSVG('laurel','loader-laurel')}
+      <svg class="loader-confection" viewBox="0 0 180 170" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+        <path pathLength="1" d="M39 114Q90 131 141 114L134 124Q90 140 46 124ZM64 132l-5 9h62l-5-9M47 88l74-5 13 12-74 8-13-7ZM47 99l74-5 13 12-74 8-13-7M59 103v11m75-19v11"/>
+        <path class="loader-top-layer" pathLength="1" d="m47 68 74-6 13 12-74 9-13-8ZM47 75l13 8 74-9v11l-74 9-13-8ZM60 83v11"/>
+        <path class="loader-fruit" pathLength="1" d="M90 43C68 27 58 46 66 59M90 43C110 28 125 43 118 59M90 43q-2-18 10-25M91 32Q73 33 75 20Q90 18 91 32"/>
       </svg>
-      <span class="pastila-loader-layer"></span><span class="pastila-loader-layer"></span><span class="pastila-loader-layer"></span>
-      <span class="pastila-loader-grain pastila-loader-grain-one"></span><span class="pastila-loader-grain pastila-loader-grain-two"></span><span class="pastila-loader-grain pastila-loader-grain-three"></span>
+      ${ornamentalSVG('rosette','loader-rosette')}
     </div>
     <p class="pastila-loader-title" aria-hidden="true">Белёвская<br>мануфактура</p>
     <p class="pastila-loader-caption" aria-hidden="true">Слой за слоем</p>
-    <span class="pastila-loader-rule" aria-hidden="true"></span>
+    ${ornamentalSVG("ribbon","loader-ribbon")}<span class="pastila-loader-rule" aria-hidden="true"></span>
   </div>`;
   document.body.append(overlay);
   html.classList.add('pastila-loading');
@@ -95,14 +95,16 @@ function setupCursor() {
   stopCursor(); nativeFallback();
   if (!finePointer.matches || motionPreference.matches) return;
   const cursor=document.createElement('div');cursor.className='pastila-cursor';cursor.setAttribute('aria-hidden','true');
-  cursor.innerHTML=`<svg class="pastila-cursor-trail" xmlns="http://www.w3.org/2000/svg"><path/></svg><span class="pastila-cursor-dot"><svg class="pastila-cursor-arrow" viewBox="0 0 32 38"><path d="M3 3v27l7-7 6 12 6-3-6-12 11-1Z"/></svg><svg class="pastila-cursor-ibeam" viewBox="0 0 28 36"><path class="pastila-cursor-text-outline" d="M14 4v28M9 4h10M9 32h10"/><path d="M14 4v28M9 4h10M9 32h10"/></svg></span>`;
+  cursor.innerHTML=`<svg class="pastila-cursor-trail" xmlns="http://www.w3.org/2000/svg"><path class="cursor-stem"/><g class="cursor-botanicals">${Array.from({length:7},(_,i)=>`<g class="cursor-sprout" opacity="0"><path d="${i%2?'M0 0C3-7 11-12 17-10C14-3 7 1 0 0ZM0 0Q9-6 16-10M0 0C-5-5-4-12 1-14C6-16 9-10 5-8':'M0 0C4-10 12-15 18-13C17-5 8 1 0 0ZM0 0L17-12M0 0C-7 2-12-3-10-8C-8-13-2-11-3-7'}"/></g>`).join('')}</g></svg><span class="pastila-cursor-dot"><svg class="pastila-cursor-arrow" viewBox="0 0 32 38"><path d="M3 3v27l7-7 6 12 6-3-6-12 11-1Z"/></svg><svg class="pastila-cursor-ibeam" viewBox="0 0 28 36"><path class="pastila-cursor-text-outline" d="M14 4v28M9 4h10M9 32h10"/><path d="M14 4v28M9 4h10M9 32h10"/></svg></span>`;
   document.body.append(cursor);
   // A non-interactive top-layer surface stays above native modal dialogs.
   if(typeof cursor.showPopover==='function'){cursor.setAttribute('popover','manual');cursor.showPopover();}
   const dot=cursor.querySelector('.pastila-cursor-dot'),ink=cursor.querySelector('.pastila-cursor-trail path');
   if(getComputedStyle(cursor).position!=='fixed'||!dot.getBoundingClientRect().width){cursor.remove();return;}
-  const lifetime=680;let points=[],frame=0,visible=false,dead=false,pending=null,lastTarget=null,lastTime=0;
-  const hide=()=>{visible=false;cursor.classList.remove('is-visible','is-pressed');html.classList.remove('pastila-cursor-on');cancelAnimationFrame(frame);frame=0;points=[];pending=null;ink.setAttribute('d','');};
+  const sprouts=[...cursor.querySelectorAll('.cursor-sprout')];
+  const lifetime=950;let points=[],buds=[],travel=0,lastBud=0,budIndex=0,frame=0,visible=false,dead=false,pending=null,lastTarget=null,lastTime=0;
+  const clearBuds=()=>{buds=[];travel=0;lastBud=0;sprouts.forEach(node=>node.setAttribute('opacity','0'));};
+  const hide=()=>{visible=false;cursor.classList.remove('is-visible','is-pressed');html.classList.remove('pastila-cursor-on');cancelAnimationFrame(frame);frame=0;points=[];pending=null;ink.setAttribute('d','');clearBuds();};
   const targetMode=target=>{
     if(target===lastTarget)return;lastTarget=target;
     const field=!!target?.closest('textarea,[contenteditable="true"],input:not([type="range"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"])');
@@ -113,7 +115,15 @@ function setupCursor() {
     frame=0;if(!visible||dead)return;
     if(pending){
       const {x,y}=pending,prev=points.at(-1);pending=null;
-      if(prev&&Math.hypot(x-prev.x,y-prev.y)>650)points=[];
+      if(prev&&Math.hypot(x-prev.x,y-prev.y)>650){points=[];clearBuds();}
+      else if(prev){
+        travel+=Math.hypot(x-prev.x,y-prev.y);
+        if(travel-lastBud>=42){
+          lastBud=travel;const slot=budIndex++%sprouts.length;
+          buds=buds.filter(b=>b.slot!==slot);
+          buds.push({slot,x,y,time,travel,angle:Math.atan2(y-prev.y,x-prev.x)*180/Math.PI,side:budIndex%2?1:-1});
+        }
+      }
       if(!points.length||Math.hypot(x-points.at(-1).x,y-points.at(-1).y)>1){points.push({x,y,time});lastTime=time;}
       if(points.length>48)points.splice(0,points.length-48);
     }
@@ -121,12 +131,20 @@ function setupCursor() {
     let length=0;
     for(let i=points.length-1;i>0;i--){
       const a=points[i],b=points[i-1],segment=Math.hypot(a.x-b.x,a.y-b.y);
-      if(length+segment>170){
-        const ratio=(170-length)/segment;
+      if(length+segment>210){
+        const ratio=(210-length)/segment;
         points.splice(0,i,{x:a.x+(b.x-a.x)*ratio,y:a.y+(b.y-a.y)*ratio,time:a.time+(b.time-a.time)*ratio});
         break;
       }
       length+=segment;
+    }
+    buds=buds.filter(b=>time-b.time<lifetime&&travel-b.travel<210);
+    sprouts.forEach(node=>node.setAttribute('opacity','0'));
+    for(const bud of buds){
+      const age=time-bud.time,growth=Math.min(1,age/170),alpha=.65*Math.max(0,Math.min(1,(lifetime-age)/360,(210-(travel-bud.travel))/42));
+      const node=sprouts[bud.slot];
+      node.setAttribute('transform',`translate(${bud.x.toFixed(1)} ${bud.y.toFixed(1)}) rotate(${bud.angle.toFixed(1)}) scale(${(.8*growth).toFixed(2)} ${(.8*growth*bud.side).toFixed(2)})`);
+      node.setAttribute('opacity',String(alpha));
     }
     // Retain one point across the age boundary and interpolate it for a smooth tail.
     while(points.length>2&&time-points[1].time>lifetime)points.shift();
@@ -137,7 +155,7 @@ function setupCursor() {
       for(let i=1;i<points.length-1;i++){const a=points[i],b=points[i+1];d+=`Q${a.x.toFixed(1)} ${a.y.toFixed(1)} ${((a.x+b.x)/2).toFixed(1)} ${((a.y+b.y)/2).toFixed(1)}`;}
       const end=points.at(-1);d+=`L${end.x.toFixed(1)} ${end.y.toFixed(1)}`;ink.setAttribute('d',d);
       ink.style.opacity=String(.55*Math.min(1,(lifetime-(time-lastTime))/360));frame=requestAnimationFrame(draw);
-    }else{ink.setAttribute('d','');if(time-lastTime>=lifetime)points=[];}
+    }else{ink.setAttribute('d','');if(time-lastTime>=lifetime){points=[];clearBuds();}}
   };
   const move=event=>{
     if(dead||event.pointerType==='touch'||document.visibilityState==='hidden')return;
@@ -207,7 +225,7 @@ function setupReveals() {
 
 function revealHeroLines(){
  const lines=document.querySelector('.hero-linework');if(!lines||motionPreference.matches)return;
- document.querySelectorAll('.hero-linework path,.hero-botanical path').forEach((path,index)=>path.animate([{strokeDashoffset:1,opacity:0},{strokeDashoffset:0,opacity:1}],{duration:3200,delay:Math.min(index*130,1000),easing:'cubic-bezier(.2,.65,.2,1)',fill:'backwards'}));
+ document.querySelectorAll('.hero-linework path,.hero-engraving path').forEach((path,index)=>path.animate([{strokeDashoffset:1,opacity:0},{strokeDashoffset:0,opacity:1}],{duration:3200,delay:Math.min(index*130,1000),easing:'cubic-bezier(.2,.65,.2,1)',fill:'backwards'}));
 }
 
 async function boot() {
