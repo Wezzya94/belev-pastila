@@ -197,7 +197,13 @@ function setupReveals() {
     const current=getComputedStyle(element);const from={opacity:current.opacity,transform:current.transform,filter:current.filter};
     cancel(element);state.inside=enter;element.dataset.motionState=enter?'enter':'exit';
     const start=initial&&enter?hiddenFor(state.mode,above):from;
-    const animation=element.animate([start,enter?final:hiddenFor(state.mode,above)],{duration:initial&&!enter?1:enter?(state.mode==='plate'?2800:(!finePointer.matches?1100:1050)):650,easing:state.mode==='plate'?'cubic-bezier(.22,.5,.25,1)':'cubic-bezier(.2,.75,.2,1)',fill:'both'});
+    const plateEntrance=enter&&state.mode==='plate';
+    const frames=plateEntrance?[
+      initial?{opacity:0,transform:'translate(-12px,52px) rotate(-4deg) scale(.88)',filter:'blur(3px)'}:start,
+      {opacity:.85,transform:'translate(3px,10px) rotate(.65deg) scale(.985)',filter:'blur(0px)',offset:.58},
+      final
+    ]:[start,enter?final:hiddenFor(state.mode,above)];
+    const animation=element.animate(frames,{duration:initial&&!enter?1:enter?(state.mode==='plate'?3200:(!finePointer.matches?1100:1050)):650,easing:state.mode==='plate'?'cubic-bezier(.22,.5,.25,1)':'cubic-bezier(.2,.75,.2,1)',fill:'both'});
     running.set(element,animation);
     animation.finished.then(()=>{if(running.get(element)!==animation)return;if(enter){cancel(element);element.dataset.motionState='visible';}},()=>{});
   };
@@ -213,10 +219,10 @@ function setupReveals() {
   },{rootMargin:'-48px 0px -28px 0px',threshold:[0,.08]});
   const specs=[
     ['.hero-photo','plate'],
-    ['.hero-heading, .hero-bottom, .page-heading, .detail-copy h1, .manufactory-opening h1, .partner-opening h1, .section-heading, .feature-intro-heading','title'],
-    ['.product-card,.store-card,.stm-grid>img,.gallery-thumbs>button','image'],
+    ['.hero-heading, .hero-bottom, .page-heading, .detail-copy h1, .section-heading, .feature-intro-heading','title'],
+    ['.product-card,.store-card,.stm-item,.gallery-thumbs>button','image'],
     ['.inside-copy,.inside-photo,.story-copy,.story-visual,.store-teaser>div,.quick-city,.partner-composition,.partner-teaser h2,.partner-teaser p,.partner-steps,.partner-teaser .button','side'],
-    ['.feature-action,.taste-shortcuts,.category-links,.filter-form,.catalog-status,.store-results-heading,.detail-tags,.detail-actions,.detail-main-image,.product-facts,.article-title,.article-copy,.heritage-story,.heritage-section .wrap>h2,.contact-primary,.contact-address,.contact-band,.business-row,.stm-group summary,.plain-article h2,.plain-article p,.footer-main>* ,.footer-bottom','copy']
+    ['.partner-opening>.wrap,.manufactory-opening>div,.feature-action,.taste-shortcuts,.category-links,.filter-form,.catalog-status,.store-results-heading,.detail-tags,.detail-actions,.detail-main-image,.product-facts,.article-title,.article-copy,.heritage-story,.heritage-section .wrap>h2,.contact-primary,.contact-address,.contact-band,.business-row,.stm-group summary,.plain-article h2,.plain-article p,.footer-main>* ,.footer-bottom','copy']
   ];
   specs.forEach(([selector,mode])=>select(selector).forEach(element=>{if(states.has(element)||element.matches('.section-ornaments'))return;states.set(element,{mode,inside:null});observer.observe(element);}));
   // Arm the opening pose before releasing the synchronous first-paint guard.
@@ -227,7 +233,7 @@ function setupReveals() {
   html.classList.remove('hero-pending');clearTimeout(window.heroSafety);
   const onFocus=event=>{for(const [element,state] of states){if(element.contains(event.target)){cancel(element);state.inside=true;element.dataset.motionState='visible';}}};
   const onFilter=event=>{if(!event.target.closest?.('#catalog-filters,#store-filters'))return;for(const [element,state]of states){if(element.matches('.product-card,.store-card')){cancel(element);state.inside=null;observer.unobserve(element);observer.observe(element);}}};
-  const onToggle=event=>{if(!event.target.matches?.('.stm-group'))return;event.target.querySelectorAll('.stm-grid>img').forEach(element=>{cancel(element);states.get(element).inside=null;observer.unobserve(element);observer.observe(element);});};
+  const onToggle=event=>{if(!event.target.matches?.('.stm-group'))return;event.target.querySelectorAll('.stm-item').forEach(element=>{cancel(element);states.get(element).inside=null;observer.unobserve(element);observer.observe(element);});};
   document.addEventListener('focusin',onFocus);document.addEventListener('input',onFilter,true);document.addEventListener('reset',onFilter,true);document.addEventListener('toggle',onToggle,true);
   stopReveals=()=>{stopped=true;observer.disconnect();for(const element of running.keys())cancel(element);document.removeEventListener('focusin',onFocus);document.removeEventListener('input',onFilter,true);document.removeEventListener('reset',onFilter,true);document.removeEventListener('toggle',onToggle,true);};
 }
@@ -270,10 +276,14 @@ function setupOrnaments(){
 let borderResize;
 function mountBorders(){
  const main=document.querySelector('main'),rails=select('.border-rail');if(!main||!rails.length)return;
- let lastCount=0;
+  let lastKey='';
  const fill=()=>{
-  const count=Math.ceil(main.offsetHeight/558)+1;if(count===lastCount)return;const updating=lastCount>0;lastCount=count;
-  rails.forEach(rail=>{rail.innerHTML=Array.from({length:count},()=>botanicalBorder()).join('');});
+  const compact=matchMedia('(max-width:760px)').matches;
+  const width=Math.min(compact?14:76,rails[0].getBoundingClientRect().width);
+  const tileHeight=width*(compact?10:6.2);
+  const count=Math.ceil(main.offsetHeight/Math.max(1,tileHeight))+1,key=`${compact}-${width}-${count}`;
+  if(key===lastKey)return;const updating=!!lastKey;lastKey=key;
+  rails.forEach(rail=>{rail.innerHTML=Array.from({length:count},()=>botanicalBorder('',compact)).join('');});
   if(updating&&html.dataset.pastilaExperience==='ready'&&!html.classList.contains('pastila-loading'))setupOrnaments();
  };
  fill();borderResize=new ResizeObserver(fill);borderResize.observe(main);

@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-13",
+  "purpose": "Classical frames only; actual product photography unchanged",
+  "assets": [
+    {
+      "key": "landscape",
+      "prompt": "Use case: logo-brand. Create ONLY an empty wide rectangular ornamental frame, landscape 3:2 proportion, transparent background and completely transparent large central area. Russian confectionery packaging circa 1880, refined copperplate botanical engraving: connected acanthus scrolls and little apple leaves, antique muted gold #a58349, deep olive green #49694e fine accents, detailed light stipple shading. Thin double rules connecting intricate corner flourishes, subtle symmetrical center crest of leaves top and bottom, no shield. Border occupies only outer 9 percent; absolutely no ornaments in central 75 percent. Entire frame within canvas with 3 percent outer transparent margin. Beautiful delicate but legible linework for framing a real food photograph on white website. Flat print, NOT photoreal metallic 3D. No food, no objects, no lettering, no animals, no emblems, no background paper.",
+      "mode": "built-in image_gen",
+      "source": "assets/editorial/heritage/landscape-frame — ornament — 2026-10-13 — review.png",
+      "web": "assets/editorial/heritage/landscape-frame — ornament — 2026-10-13 — review.webp"
+    },
+    {
+      "key": "square",
+      "prompt": "Use case: logo-brand. Create ONLY an empty square botanical ornamental frame with authentic transparent background, empty transparent center. Late nineteenth-century Russian luxury confectionery label engraving, matching muted antique gold #a58349 with deep olive green #49694e leaf accents. Four highly detailed acanthus scroll corners connected by delicate double rules, pairs of small apple leaves growing from scrolls, elegant sparse tiny floral accents. A quiet symmetrical flourish at middle top and middle bottom. Keep border within outer 9 percent so center 78 percent completely empty for actual packaging photo. 3 percent empty outer canvas margin. Flat copperplate ink engraving with fine hatch detail, crisp graceful curves, no painted objects, no food, no words, no shield, no coat of arms, no paper, no 3D shiny gold.",
+      "mode": "built-in image_gen",
+      "source": "assets/editorial/heritage/square-frame — ornament — 2026-10-13 — review.png",
+      "web": "assets/editorial/heritage/square-frame — ornament — 2026-10-13 — review.webp"
+    },
+    {
+      "key": "cartouche",
+      "prompt": "Use case: logo-brand. Create ONLY a wide horizontal empty botanical cartouche frame, landscape 3:2 canvas, transparent background and transparent large central field. Refined Russian confectionery printing circa 1880, ornamental engraving in muted antique gold #a58349 and dark olive green #49694e. Slender double-line rectangular body with gently curved shoulders, detailed connected acanthus scrollwork concentrated in four corners and restrained upper/lower center floral flourishes. Continuous connected ornaments, no disconnected flecks. The empty center takes 76 percent width and 68 percent height to hold real web typography. All frame fits inside canvas with 3 percent margin. Visually harmonious quiet frame, delicate hatchwork and restrained ink shading, not heavy metallic. No text, no objects, no food, no emblem, no shield, no paper or background fill.",
+      "mode": "built-in image_gen",
+      "source": "assets/editorial/heritage/cartouche-frame — ornament — 2026-10-13 — review.png",
+      "web": "assets/editorial/heritage/cartouche-frame — ornament — 2026-10-13 — review.webp"
+    }
+  ]
+}
