@@ -219,9 +219,9 @@ function setupReveals() {
   },{rootMargin:'-48px 0px -28px 0px',threshold:[0,.08]});
   const specs=[
     ['.hero-photo','plate'],
-    ['.hero-heading, .hero-bottom, .page-heading, .detail-copy h1, .section-heading, .feature-intro-heading','title'],
+    ['.hero-heading, .hero-bottom, .hero-taste, .page-heading, .detail-heading, .section-heading, .feature-intro-heading','title'],
     ['.product-card,.store-card,.stm-item,.gallery-thumbs>button','image'],
-    ['.inside-copy,.inside-photo,.story-copy,.story-visual,.store-teaser>div,.quick-city,.partner-composition,.partner-teaser h2,.partner-teaser p,.partner-steps,.partner-teaser .button','side'],
+    ['.inside-copy,.inside-photo,.discovery-compare,.discovery-city,.story-copy,.story-visual,.store-teaser>div,.quick-city,.partner-composition,.partner-teaser h2,.partner-teaser p,.partner-steps,.partner-teaser .button','side'],
     ['.partner-opening>.wrap,.manufactory-opening>div,.feature-action,.taste-shortcuts,.category-links,.filter-form,.catalog-status,.store-results-heading,.detail-tags,.detail-actions,.detail-main-image,.product-facts,.article-title,.article-copy,.heritage-story,.heritage-section .wrap>h2,.contact-primary,.contact-address,.contact-band,.business-row,.stm-group summary,.plain-article h2,.plain-article p,.footer-main>* ,.footer-bottom','copy']
   ];
   specs.forEach(([selector,mode])=>select(selector).forEach(element=>{if(states.has(element)||element.matches('.section-ornaments'))return;states.set(element,{mode,inside:null});observer.observe(element);}));
