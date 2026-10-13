@@ -89,7 +89,7 @@
   color: var(--green);
 }
 .pastila-cursor-trail{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;pointer-events:none}
-.pastila-cursor-trail path{fill:none;stroke:url('#pastila-ink');stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round}
+.pastila-cursor-trail path{fill:none;stroke:currentColor;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round}
 .pastila-cursor-trail stop{stop-color:var(--green)}
 .pastila-cursor.is-interactive .pastila-cursor-trail stop{stop-color:var(--wine)}
 .pastila-cursor-dot{position:absolute;top:0;left:0;width:13px;height:16px;pointer-events:none}
@@ -102,7 +102,7 @@
 .pastila-cursor.is-interactive .pastila-cursor-arrow{color:var(--wine);transform:scale(1.1)}
 .pastila-cursor.is-text .pastila-cursor-arrow{opacity:0}
 .pastila-cursor.is-text .pastila-cursor-ibeam{opacity:1}
-.pastila-cursor.is-choice .pastila-cursor-dot{visibility:hidden}
+
 .pastila-cursor.is-pressed .pastila-cursor-arrow{transform:scale(.94)}
 
 /* Quiet material feedback supports the stronger entrance sequences. */
@@ -146,15 +146,8 @@ a:not(.button):not(.product-image):not(.brand-link):not(.footer-brand) {
 @media (pointer: fine) and (hover: hover) and (prefers-reduced-motion: no-preference) {
   .pastila-cursor { display: block; }
   html.pastila-cursor-on, html.pastila-cursor-on body, html.pastila-cursor-on body * { cursor: none !important; }
-  /* Native select menus and the dialog top layer use the same authored shapes. */
-  select, html.pastila-cursor-on body select { cursor: var(--pastila-native-choice) !important; }
-  html.pastila-cursor-on:has(dialog[open]), html.pastila-cursor-on:has(dialog[open]) body, html.pastila-cursor-on:has(dialog[open]) body * { cursor: var(--pastila-native-arrow) !important; }
-  dialog[open], dialog[open] * { cursor: var(--pastila-native-arrow) !important; }
-  dialog[open] :is(a, button, summary, [role="button"]), html.pastila-cursor-on dialog[open] :is(a, button, summary, [role="button"]) { cursor: var(--pastila-native-active) !important; }
-  dialog[open] :is(h1, h2, h3, p, label, td, th, textarea, [contenteditable]:not([contenteditable="false"]), input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="range"]):not([type="color"])), html.pastila-cursor-on dialog[open] :is(h1, h2, h3, p, label, td, th, textarea, [contenteditable]:not([contenteditable="false"]), input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="range"]):not([type="color"])) { cursor: var(--pastila-native-text) !important; }
-  dialog[open] :is(a, button, summary, [role="button"]) *, html.pastila-cursor-on dialog[open] :is(a, button, summary, [role="button"]) * { cursor: var(--pastila-native-active) !important; }
-  html.pastila-cursor-on:has(dialog[open]) .pastila-cursor { opacity: 0; visibility: hidden; }
-  dialog[open]::backdrop { cursor: var(--pastila-native-arrow) !important; }
+  select option { cursor: var(--pastila-native-arrow); }
+
 }
 
 @media (prefers-reduced-motion: reduce) {
