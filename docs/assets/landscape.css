@@ -1,0 +1,47 @@
+/* The manufacturer's burgundy and orchard green carry across the entire site. */
+:root { --orchard-red: #8e2c38; --orchard-green: #6e9855; --orchard-wine: #653237; }
+main {
+  background: #fff url('./decoration/orchard-landscape.svg') center top / 100% auto repeat-y;
+}
+.hero, .inside-section, .partner-teaser, .partner-opening, .heritage-section {
+  background-color: transparent;
+}
+.site-footer {
+  background: #fff url('./decoration/orchard-landscape.svg') center bottom / 100% auto no-repeat;
+}
+.taste-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+  margin: 0 0 28px;
+}
+.taste-shortcuts > span { margin-right: 4px; font-size: 13px; color: var(--muted); }
+.taste-shortcuts a {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  padding: 10px 14px;
+  min-height: 44px;
+  border: 1px solid #d6dfd0;
+  border-radius: 5px;
+  background: #fff;
+  color: var(--green);
+  font-size: 14px;
+  transition: background 400ms ease, border-color 400ms ease, color 400ms ease, box-shadow 400ms ease;
+}
+.taste-shortcuts .icon { width: 17px; height: 17px; transition: transform 450ms var(--pastila-ease); }
+.taste-shortcuts a:is(:hover, :focus-visible) { background: #f5f8f3; border-color: var(--orchard-green); box-shadow: 0 5px 16px #1f54390b; }
+.taste-shortcuts a:is(:hover, :focus-visible) .icon { transform: translateX(3px); }
+.plain-article p a { color: var(--green); font-weight: 500; }
+.text-link:hover, .footer-main a:hover, .footer-bottom a:hover, .breadcrumbs a:hover, .store-actions a:hover, .plain-article p a:hover { color: var(--wine); }
+@media (max-width: 700px) {
+  main, .site-footer { background-image: url('./decoration/orchard-landscape-mobile.svg'); }
+  .taste-shortcuts { gap: 9px; margin-bottom: 23px; }
+  .taste-shortcuts > span { flex-basis: 100%; margin: 0 0 3px; }
+  .taste-shortcuts a { font-size: 13px; gap: 12px; padding-inline: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .taste-shortcuts a, .taste-shortcuts .icon { transition: none; }
+  .taste-shortcuts a:is(:hover, :focus-visible) .icon { transform: none; }
+}

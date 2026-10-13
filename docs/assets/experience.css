@@ -1,10 +1,10 @@
 /* All page content is visible by default. Motion begins only inside the module. */
 :root {
   --pastila-ease: cubic-bezier(.19, 1, .22, 1);
-  --pastila-native-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='38' viewBox='0 0 32 38'%3E%3Cpath d='M3 3v27l7-7 6 12 6-3-6-12 11-1Z' fill='%231f5439' stroke='white' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, default;
-  --pastila-native-active: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='38' viewBox='0 0 32 38'%3E%3Cpath d='M3 3v27l7-7 6 12 6-3-6-12 11-1Z' fill='%23572530' stroke='white' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, pointer;
-  --pastila-native-choice: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='46' height='38' viewBox='0 0 46 38'%3E%3Cpath d='M3 3v27l7-7 6 12 6-3-6-12 11-1Z' fill='%23572530' stroke='white' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpath d='m34 13 4-4 4 4m-8 10 4 4 4-4' fill='none' stroke='%23572530' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, pointer;
-  --pastila-native-text: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='36' viewBox='0 0 28 36'%3E%3Cpath d='M14 4v28M9 4h10M9 32h10' fill='none' stroke='white' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M14 4v28M9 4h10M9 32h10' fill='none' stroke='%23572530' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 14 18, text;
+  --pastila-native-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='16' viewBox='0 0 32 38'%3E%3Cpath d='M3 3v27l7-7 6 12 6-3-6-12 11-1Z' fill='%231f5439' stroke='white' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 1 1, default;
+  --pastila-native-active: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='16' viewBox='0 0 32 38'%3E%3Cpath d='M3 3v27l7-7 6 12 6-3-6-12 11-1Z' fill='%23572530' stroke='white' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 1 1, pointer;
+  --pastila-native-choice: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='17' viewBox='0 0 46 38'%3E%3Cpath d='M3 3v27l7-7 6 12 6-3-6-12 11-1Z' fill='%23572530' stroke='white' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpath d='m34 13 4-4 4 4m-8 10 4 4 4-4' fill='none' stroke='%23572530' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") 1 1, pointer;
+  --pastila-native-text: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='18' viewBox='0 0 28 36'%3E%3Cpath d='M14 4v28M9 4h10M9 32h10' fill='none' stroke='white' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M14 4v28M9 4h10M9 32h10' fill='none' stroke='%23572530' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 6 9, text;
 }
 
 .pastila-loader {
@@ -88,48 +88,22 @@
   pointer-events: none;
   color: var(--green);
 }
-.pastila-cursor-particle, .pastila-cursor-dot { position: absolute; top: 0; left: 0; pointer-events: none; }
-.pastila-cursor-dot { width: 32px; height: 38px; }
-.pastila-cursor-dot svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 2px 2px #382e2928); }
-.pastila-cursor-arrow { fill: currentColor; stroke: white; stroke-width: 1.5; stroke-linejoin: round; transform-origin: 3px 3px; transition: transform 240ms var(--pastila-ease), color 240ms ease, opacity 140ms ease; }
-.pastila-cursor-arrow-detail { fill: none; stroke: white; stroke-width: .8; opacity: .45; }
-.pastila-cursor-dot .pastila-cursor-ibeam { width: 28px; height: 36px; transform: translate(-11px, -15px); fill: none; stroke: var(--wine); stroke-width: 2; stroke-linecap: round; opacity: 0; transition: opacity 140ms ease; }
-.pastila-cursor-text-outline { stroke: white; stroke-width: 5; }
-.pastila-cursor-dot .pastila-cursor-choice { left: 29px; top: 5px; width: 16px; height: 25px; fill: none; stroke: var(--wine); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; opacity: 0; transition: opacity 160ms ease; }
-.pastila-cursor-particle svg { width: 100%; height: 100%; overflow: visible; fill: currentColor; stroke: white; stroke-width: 1; }
-.pastila-cursor-leaf { fill: none; stroke: currentColor; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
-.pastila-cursor-particle { width: 16px; height: 18px; opacity: 0; }
-.pastila-cursor-particle svg { stroke-width: .7; }
-.pastila-cursor.is-visible { opacity: 1; }
-.pastila-cursor.is-interactive .pastila-cursor-arrow { color: var(--wine); transform: scale(1.17); }
-.pastila-cursor.is-text .pastila-cursor-arrow { opacity: 0; }
-.pastila-cursor.is-text .pastila-cursor-ibeam { opacity: 1; }
-.pastila-cursor.is-choice .pastila-cursor-dot { visibility: hidden; }
-.pastila-cursor.is-pressed .pastila-cursor-arrow { transform: scale(.94); }
-
-.pastila-has-ornament { position: relative; isolation: isolate; }
-.pastila-ornament {
-  position: absolute;
-  right: 0;
-  top: 7px;
-  z-index: -1;
-  width: min(26%, 280px);
-  color: var(--green);
-  opacity: .1;
-  overflow: hidden;
-  overflow: clip;
-  pointer-events: none;
-  user-select: none;
-}
-.pastila-ornament svg { display: block; width: 100%; height: auto; }
-.pastila-ornament path { stroke: currentColor; stroke-width: .7; stroke-linecap: round; }
-.pastila-ornament-orchard { top: 20px; right: 0; width: min(17%, 145px); }
-.pastila-ornament-orchard svg { transform: rotate(9deg); }
-.pastila-ornament-imprint { right: 1%; top: 16%; width: min(41%, 350px); color: var(--wine); opacity: .08; }
-.pastila-ornament-imprint svg { transform: rotate(-8deg); }
-.pastila-ornament-ribbon { top: auto; bottom: 8px; width: min(36%, 380px); color: inherit; opacity: .16; }
-.pastila-ornament-address { top: auto; bottom: 0; width: min(42%, 350px); opacity: .12; }
-.pastila-ornament-address svg { transform: rotate(-12deg); }
+.pastila-cursor-trail{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;pointer-events:none}
+.pastila-cursor-trail path{fill:none;stroke:url('#pastila-ink');stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round}
+.pastila-cursor-trail stop{stop-color:var(--green)}
+.pastila-cursor.is-interactive .pastila-cursor-trail stop{stop-color:var(--wine)}
+.pastila-cursor-dot{position:absolute;top:0;left:0;width:13px;height:16px;pointer-events:none}
+.pastila-cursor-dot svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 1px 1px #382e2920)}
+.pastila-cursor-arrow{fill:currentColor;stroke:white;stroke-width:2;stroke-linejoin:round;transform-origin:1px 1px;transition:transform 240ms var(--pastila-ease),color 240ms ease,opacity 120ms ease}
+.pastila-cursor-arrow-detail{fill:none;stroke:white;stroke-width:.8;opacity:.45}
+.pastila-cursor-dot .pastila-cursor-ibeam{width:12px;height:18px;transform:translate(-5px,-8px);fill:none;stroke:var(--wine);stroke-width:2;stroke-linecap:round;opacity:0;transition:opacity 120ms ease}
+.pastila-cursor-text-outline{stroke:white;stroke-width:5}
+.pastila-cursor.is-visible{opacity:1}
+.pastila-cursor.is-interactive .pastila-cursor-arrow{color:var(--wine);transform:scale(1.1)}
+.pastila-cursor.is-text .pastila-cursor-arrow{opacity:0}
+.pastila-cursor.is-text .pastila-cursor-ibeam{opacity:1}
+.pastila-cursor.is-choice .pastila-cursor-dot{visibility:hidden}
+.pastila-cursor.is-pressed .pastila-cursor-arrow{transform:scale(.94)}
 
 /* Quiet material feedback supports the stronger entrance sequences. */
 .product-image, .detail-main-image, .stm-grid img, .feature-photo, .partner-photo {
@@ -157,14 +131,14 @@ a:not(.button):not(.product-image):not(.brand-link):not(.footer-brand) {
   .button:hover { box-shadow: var(--shadow-soft, 0 5px 16px #382e2912); transform: translateY(-1px); }
   .text-link:hover .icon, .store-actions a:hover .icon { transform: translateX(3px); }
   .gallery-thumbs button:hover { border-color: var(--green); box-shadow: var(--shadow-soft); transform: translateY(-1px); }
-  a:not(.button):not(.product-image):not(.brand-link):not(.footer-brand):hover { text-decoration-line: underline; text-decoration-color: currentColor; text-underline-offset: .23em; }
+  a:not(.button):not(.product-image):not(.brand-link):not(.footer-brand):hover { text-decoration:none; text-decoration-color: currentColor;  }
   .icon-button:not(:disabled):hover { background: var(--surface-soft, var(--cream)); transform: translateY(-1px); }
   .compare-toggle:not(:disabled):hover, .filter-reset:hover, summary:hover { color: var(--wine); }
   .photo-switch button:not(.active):hover { background: var(--surface-soft, var(--cream)); color: var(--wine); }
   .filter-form select:hover, .filter-form input:hover, .quick-city select:hover { border-color: var(--green); }
   main :is(p, .product-kind, .store-city, .detail-tags span):hover, .site-footer :is(p, span):hover, label:hover { color: var(--wine); }
   main :is(h1, h2, h3):hover, .site-footer h2:hover { color: var(--green); }
-  .hero h1:hover, .partner-opening h1:hover { color: var(--green); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .12em; text-decoration-color: var(--wine); }
+  .hero h1:hover, .partner-opening h1:hover { color: var(--green); text-decoration:none;   text-decoration-color: var(--wine); }
   .feature-action:hover h3, .product-card:hover h3, .store-card:hover h2 { color: var(--wine); }
   .feature-action:hover .feature-photo img, .partner-photo:hover img { transform: scale(1.025); }
   .feature-action:hover .text-link { text-decoration-color: currentColor; }
@@ -182,12 +156,7 @@ a:not(.button):not(.product-image):not(.brand-link):not(.footer-brand) {
   html.pastila-cursor-on:has(dialog[open]) .pastila-cursor { opacity: 0; visibility: hidden; }
   dialog[open]::backdrop { cursor: var(--pastila-native-arrow) !important; }
 }
-@media (max-width: 600px) {
-  .pastila-ornament-orchard { width: 75px; opacity: .08; }
-  .pastila-ornament-imprint { top: 16px; right: 0; width: 150px; }
-  .pastila-ornament-ribbon { width: 180px; opacity: .1; }
-  .pastila-ornament-address { width: 150px; }
-}
+
 @media (prefers-reduced-motion: reduce) {
   .pastila-loader, .pastila-cursor { display: none !important; }
   html.pastila-cursor-on, html.pastila-cursor-on body, html.pastila-cursor-on body * { cursor: auto !important; }

@@ -89,28 +89,6 @@ function prepareLoader() {
   });
 }
 
-function addBackgroundDetails() {
-  const places = [
-    ['.collection-section', 'orchard'],
-    ['.story-teaser', 'imprint'],
-    ['.partner-teaser, .partner-opening', 'ribbon'],
-    ['.contacts-grid', 'address']
-  ];
-  for (const [selector, variant] of places) {
-    select(selector).forEach(section => {
-      if (section.querySelector(':scope > .pastila-ornament')) return;
-      const detail = document.createElement('div');
-      detail.className = `pastila-ornament pastila-ornament-${variant}`;
-      detail.setAttribute('aria-hidden', 'true');
-      detail.innerHTML = variant === 'orchard'
-        ? `<svg viewBox="0 0 180 220" fill="none"><path d="M89 70C50 43 16 83 29 121c9 30 23 55 46 59 13 2 22-6 30-3 31 11 52-29 56-61 6-42-33-69-72-46Z"/><path d="M90 70c1-20 7-32 22-43M91 53C64 48 51 36 55 18c26 0 45 13 40 35"/><path d="M45 111c16-8 35-8 52-3s31 6 44 0m-92 23c17-7 30-5 46-1s29 5 40-1"/></svg>`
-        : `<svg viewBox="0 0 360 180" fill="none"><path d="M9 119C73 76 125 126 188 87s102-33 165-61M9 142c64-43 116 7 179-32s102-33 165-61M9 165c64-43 116 7 179-32s102-33 165-61"/></svg>`;
-      section.classList.add('pastila-has-ornament');
-      section.append(detail);
-    });
-  }
-}
-
 function setupCursor() {
   stopCursor();
   nativeFallback();
@@ -118,19 +96,14 @@ function setupCursor() {
   const cursor = document.createElement('div');
   cursor.className = 'pastila-cursor';
   cursor.setAttribute('aria-hidden', 'true');
-  const apple = '<svg viewBox="0 0 30 32"><path d="M15 8C8 2 2 8 4 16c2 7 5 13 9 13 3 0 4-2 6-1 6 2 10-7 10-13 0-8-8-11-14-7Z"/><path class="pastila-cursor-leaf" d="M15 8c0-4 2-7 5-8M15 5C10 5 8 3 8 1c5 0 8 1 8 4"/></svg>';
-  const arrow = '<svg class="pastila-cursor-arrow" viewBox="0 0 32 38"><path d="M3 3v27l7-7 6 12 6-3-6-12 11-1Z"/><path class="pastila-cursor-arrow-detail" d="m7 11 12 9"/></svg>';
-  const text = '<svg class="pastila-cursor-ibeam" viewBox="0 0 28 36"><path class="pastila-cursor-text-outline" d="M14 4v28M9 4h10M9 32h10"/><path d="M14 4v28M9 4h10M9 32h10"/></svg>';
-  const choice = '<svg class="pastila-cursor-choice" viewBox="0 0 16 25"><path d="m4 8 4-4 4 4m-8 9 4 4 4-4"/></svg>';
-  // Fixed, recycled particles keep even a long trail independent of DOM growth.
-  cursor.innerHTML = `${Array.from({length: 24}, () => `<span class="pastila-cursor-particle">${apple}</span>`).join('')}<span class="pastila-cursor-dot">${arrow}${text}${choice}</span>`;
+  cursor.innerHTML = `<svg class="pastila-cursor-trail" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="pastila-ink" gradientUnits="userSpaceOnUse"><stop offset="0" stop-opacity="0"/><stop offset=".4" stop-opacity=".6"/><stop offset="1" stop-opacity="1"/></linearGradient></defs><path stroke="url(#pastila-ink)"/></svg><span class="pastila-cursor-dot"><svg class="pastila-cursor-arrow" viewBox="0 0 32 38"><path d="M3 3v27l7-7 6 12 6-3-6-12 11-1Z"/><path class="pastila-cursor-arrow-detail" d="m7 11 12 9"/></svg><svg class="pastila-cursor-ibeam" viewBox="0 0 28 36"><path class="pastila-cursor-text-outline" d="M14 4v28M9 4h10M9 32h10"/><path d="M14 4v28M9 4h10M9 32h10"/></svg></span>`;
   document.body.append(cursor);
   const dot = cursor.querySelector('.pastila-cursor-dot');
-  const particles = select('.pastila-cursor-particle', cursor).map(node => ({node, x: 0, y: 0, born: 0, active: false}));
+  const ink = cursor.querySelector('.pastila-cursor-trail path');
+  const gradient = cursor.querySelector('linearGradient');
+  const lifetime = 1150;
+  let points = [];
   let frame = 0;
-  let x = 0, y = 0, trailX = 0, trailY = 0;
-  let poolIndex = 0;
-  let lastEmission = 0;
   let visible = false;
   let dead = false;
 
@@ -140,7 +113,8 @@ function setupCursor() {
     html.classList.remove('pastila-cursor-on');
     cancelAnimationFrame(frame);
     frame = 0;
-    particles.forEach(particle => { particle.active = false; particle.node.style.opacity = '0'; });
+    points = [];
+    ink.setAttribute('d', '');
   };
   const destroy = () => {
     if (dead) return;
@@ -155,26 +129,33 @@ function setupCursor() {
     document.removeEventListener('pointerleave', hide);
     cursor.remove();
   };
-  const tick = time => {
+  // Rounded quadratic segments follow the real hand movement; no repeated stamps.
+  const draw = time => {
     frame = 0;
     if (!visible || dead || !cursor.isConnected) { hide(); return; }
     try {
-      let active = false;
-      for (const particle of particles) {
-        if (!particle.active) continue;
-        const age = Math.min(1, Math.max(0, (time - particle.born) / 1150));
-        particle.node.style.opacity = String(.7 * Math.pow(1 - age, 1.4));
-        particle.node.style.transform = `translate(${particle.x - 8}px, ${particle.y - 9 + age * 4}px) rotate(${particle.tilt || 0}deg) scale(${1 - age * .38})`;
-        if (age === 1) particle.active = false;
-        else active = true;
+      points = points.filter(point => time - point.time < lifetime);
+      if (points.length < 2) { ink.setAttribute('d', ''); return; }
+      const first = points[0], last = points.at(-1);
+      let path = `M${first.x.toFixed(1)} ${first.y.toFixed(1)}`;
+      for (let i = 1; i < points.length - 1; i++) {
+        const point = points[i], next = points[i + 1];
+        path += `Q${point.x.toFixed(1)} ${point.y.toFixed(1)} ${((point.x + next.x) / 2).toFixed(1)} ${((point.y + next.y) / 2).toFixed(1)}`;
       }
-      if (active) frame = requestAnimationFrame(tick);
+      path += `L${last.x.toFixed(1)} ${last.y.toFixed(1)}`;
+      ink.setAttribute('d', path);
+      gradient.setAttribute('x1', first.x);
+      gradient.setAttribute('y1', first.y);
+      gradient.setAttribute('x2', last.x === first.x && last.y === first.y ? last.x + 1 : last.x);
+      gradient.setAttribute('y2', last.y);
+      ink.style.opacity = String(.72 * Math.min(1, (lifetime - (time - last.time)) / 400));
+      frame = requestAnimationFrame(draw);
     } catch { destroy(); }
   };
-  const textField = target => target?.closest('textarea, [contenteditable]:not([contenteditable="false"]), input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="range"]):not([type="color"])');
   const updateTarget = target => {
     const interactive = !!target?.closest('a, button, summary, select, [role="button"], input[type="checkbox"], input[type="radio"], input[type="range"], input[type="color"]');
-    const text = !!textField(target) || (!interactive && !!target?.closest('h1, h2, h3, p, label, .product-kind, .store-city, .detail-tags, .showcase-caption, .story-word, .article-copy, .product-facts, .plain-article'));
+    const field = target?.closest('textarea, [contenteditable]:not([contenteditable="false"]), input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="range"]):not([type="color"])');
+    const text = !!field || (!interactive && !!target?.closest('h1, h2, h3, p, label, .product-kind, .store-city, .detail-tags, .showcase-caption, .story-word, .article-copy, .product-facts, .plain-article'));
     cursor.classList.toggle('is-interactive', interactive && !text);
     cursor.classList.toggle('is-text', text);
     cursor.classList.toggle('is-choice', !!target?.closest('select'));
@@ -188,34 +169,22 @@ function setupCursor() {
     if (dead || event.pointerType === 'touch') return;
     try {
       if (!cursor.isConnected || document.visibilityState === 'hidden' || document.querySelector('dialog[open]')) { hide(); return; }
-      // Never suppress the native cursor if the accompanying stylesheet failed.
+      // Keep the native cursor available if the optional stylesheet fails.
       if (getComputedStyle(cursor).position !== 'fixed' || !dot.getBoundingClientRect().width) { hide(); return; }
-      x = event.clientX;
-      y = event.clientY;
-      const time = performance.now();
-      if (!visible) { trailX = x; trailY = y; }
-      const dx = x - trailX, dy = y - trailY;
-      const distance = Math.hypot(dx, dy);
-      if (distance > 420) particles.forEach(particle => { particle.active = false; particle.node.style.opacity = '0'; });
-      if (distance >= 18 && time - lastEmission >= 48) {
-        const particle = particles[poolIndex++ % particles.length];
-        const behind = Math.min(distance, 22);
-        particle.x = x - dx / distance * behind;
-        particle.y = y - dy / distance * behind;
-        particle.born = time;
-        particle.tilt = (poolIndex % 3 - 1) * 9;
-        particle.active = true;
-        trailX = x;
-        trailY = y;
-        lastEmission = time;
+      const x = event.clientX, y = event.clientY, time = performance.now();
+      const previous = points.at(-1);
+      const distance = previous ? Math.hypot(x - previous.x, y - previous.y) : 0;
+      if (previous && distance > 420) points = [];
+      if (!points.length || distance >= 3) {
+        points.push({x, y, time});
+        if (points.length > 96) points.shift();
       }
-      // The arrow's tip stays at the true pointer coordinates, without lag.
-      dot.style.transform = `translate(${x - 3}px, ${y - 3}px)`;
+      dot.style.transform = `translate(${x - 1.2}px, ${y - 1.2}px)`;
       updateTarget(event.target);
       visible = true;
       cursor.classList.add('is-visible');
       html.classList.add('pastila-cursor-on');
-      if (!frame && particles.some(particle => particle.active)) frame = requestAnimationFrame(tick);
+      if (!frame) frame = requestAnimationFrame(draw);
     } catch { destroy(); }
   };
   const press = () => { if (visible) cursor.classList.add('is-pressed'); };
@@ -230,6 +199,7 @@ function setupCursor() {
   document.addEventListener('pointerleave', hide);
   stopCursor = destroy;
 }
+
 
 function setupReveals() {
   stopReveals();
@@ -320,7 +290,7 @@ function setupReveals() {
     ['.hero-photo img, .story-visual img', 'layer'],
     ['.hero-heading p, .page-heading p, .hero-bottom, .detail-copy > .product-kind, .manufactory-opening p, .partner-opening p', 'copy'],
     ['.collection-section .section-heading h2, .related-products .section-heading h2, .inside-copy h2, .story-copy h2, .product-facts h2, .stm-section .section-heading h2, .feature-intro-heading h2', 'line'],
-    ['.category-links, .detail-tags, .partner-teaser h2, .partner-opening .button', 'ribbon'],
+    ['.taste-shortcuts, .category-links, .detail-tags, .partner-teaser h2, .partner-opening .button', 'ribbon'],
     ['.product-card', 'card'],
     ['.inside-photo img, .detail-main-image, .manufactory-opening > img, .feature-photo img, .partner-photo img', 'opening'],
     ['.inside-copy p, .inside-copy .photo-switch, .inside-copy .text-link, .showcase-caption, .story-copy p, .story-copy .text-link, .product-facts p, .product-facts dl, .upcoming-note, .stm-section > p, .plain-article p', 'copy'],
@@ -399,7 +369,6 @@ async function boot() {
   if (html.dataset.pastilaExperience) return;
   html.dataset.pastilaExperience = 'ready';
   try {
-    addBackgroundDetails();
     setupCursor();
     await prepareLoader();
     if (document.visibilityState !== 'hidden') setupReveals();

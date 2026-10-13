@@ -100,28 +100,15 @@ body:has(dialog[open]) .site-header.header-is-hidden {
   transform-origin: left center;
   transition: opacity 280ms ease, transform 500ms var(--header-ease);
 }
-.site-header .desktop-nav a::after {
-  content: '';
-  position: absolute;
-  left: 11px;
-  right: 11px;
-  bottom: 7px;
-  height: 1px;
-  background: var(--nav-accent);
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 550ms var(--header-ease);
-}
 .site-header .desktop-nav a:is(:hover, :focus-visible, [aria-current="page"]) {
   color: var(--nav-accent);
   opacity: 1;
 }
 .site-header .desktop-nav a:is(:hover, :focus-visible) { transform: translateY(-1px); }
-.site-header .desktop-nav a:is(:hover, :focus-visible)::before {
+.site-header .desktop-nav a:is(:hover, :focus-visible, [aria-current="page"])::before {
   opacity: 1;
   transform: scaleX(1);
 }
-.site-header .desktop-nav a:is(:hover, :focus-visible, [aria-current="page"])::after { transform: scaleX(1); }
 .site-header .header-actions {
   display: flex;
   align-items: center;
